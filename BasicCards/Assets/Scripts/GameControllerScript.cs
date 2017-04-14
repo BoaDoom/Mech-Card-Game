@@ -121,7 +121,7 @@ public class GameControllerScript : MonoBehaviour {
 		foreach (BPartGenericScript bodyPartObject in opposingPlayer.getWholeBodyOfParts().listOfAllParts){
 
 			if (bodyPartObject.getIfUnderThreat ()) {
-				print ("body part run though");
+				//print ("body part run though");
 				bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
 				opposingPlayer.updateHealthDisplay ();
 			}

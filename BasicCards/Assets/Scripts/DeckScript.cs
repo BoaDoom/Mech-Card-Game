@@ -7,6 +7,7 @@ using UnityEngine;
 
 
 public class DeckScript : MonoBehaviour {
+	private int maxCardsOnBoard = 3;
 	
 	public Sprite[] cardsFaces;		//all of the sprites to use for dealing cards
 	public Sprite cardBack;			//the image for the back of the cards
@@ -88,9 +89,9 @@ public class DeckScript : MonoBehaviour {
 
 	}
 	public void DealCard(){
-		print (controllerParentIDtag);
+		//print (controllerParentIDtag);
 		for (int i=0; i < 1; i++){
-			if (drawnCards.Count < 5 && orderOfDrawPile.Count > 0) {								//does not allow a dealt card if there are more than 5 cards out and active, or if the draw pile is empty
+			if (drawnCards.Count < maxCardsOnBoard && orderOfDrawPile.Count > 0) {								//does not allow a dealt card if there are more than 5 cards out and active, or if the draw pile is empty
 				createCard();
 				relocateDrawnCards();	
 			} 
@@ -115,7 +116,7 @@ public class DeckScript : MonoBehaviour {
 	}
 
 	private void relocateDrawnCards(){
-		print (cardStartPosition.transform.position);
+//		print (cardStartPosition.transform.position);
 		int tempCount = drawnCards.Count;
 		for (int i = 0; i < tempCount; i++) {
 			float cardXPosition = cardStartPosition.transform.position.x + (cardWidthX + cardGapX) * i;
