@@ -149,9 +149,9 @@ public class PlayAreaScript: MonoBehaviour {
 			}
 		}
 	}
-	public void takeAHit(PlayerScript playerScript, CurrentWeaponHitBox incomingWeaponHitBox, int incomingX, int incomingY){
-		grid [incomingX] [incomingY].takeOneSquareDamage (incomingWeaponHitBox.weaponDamage);		//sends damage to the grid square occuppying the incoming location
-	}
+//	public void takeAHit(PlayerScript playerScript, CurrentWeaponHitBox incomingWeaponHitBox, int incomingX, int incomingY){
+//		grid [incomingX] [incomingY].takeOneSquareDamage (incomingWeaponHitBox.weaponDamage);		//sends damage to the grid square occuppying the incoming location
+//	}
 	public string getControllerParentIdTag(){
 		return controllerParentIDtag;
 	}
@@ -160,8 +160,8 @@ public class TargetSquareState{
 	bool occupied = false;
 	bool hardTargeted = false;
 	bool softTargeted = false;
-	bool hardBPTargeted = false;
-	bool softBPTargeted = false;
+//	bool hardBPTargeted = false;
+//	bool softBPTargeted = false;
 	public TargetSquareState(){
 	}
 	public bool getOccupiedState(){

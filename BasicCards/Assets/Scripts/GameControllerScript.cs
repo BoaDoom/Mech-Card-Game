@@ -118,15 +118,25 @@ public class GameControllerScript : MonoBehaviour {
 //		Debug.Log("target: " +playAreaController.getActiveSquareStateSoftTarget(0,0));
 //		Debug.Log("occupied: " +playAreaController.getActiveSquareStateOccupied(0,0));
 		//incomingPlayerScript.takeDamage (currentClickedOnCardWeaponMatrix);
-		Vector2 gridDimensions = opposingPlayer.getPlayAreaOfPlayer().getGridDimensions();
-		for (int x = 0; x < gridDimensions.x; x++) {
-			for (int y = 0; y < gridDimensions.y; y++) {
-				if (opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateSoftTarget(x,y) && opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateOccupied(x,y)){	//gets the area that was 'highlighted' and check to see if it is occupied by a body part
-					opposingPlayer.getPlayAreaOfPlayer().takeAHit (opposingPlayer, currentClickedOnCardWeaponMatrix, x, y);	//sends who is getting hit and shape of hit one square at a time
-					opposingPlayer.updateHealthDisplay ();
-				}
+		foreach (BPartGenericScript bodyPartObject in opposingPlayer.getWholeBodyOfParts().listOfAllParts){
+
+			if (bodyPartObject.getIfUnderThreat ()) {
+				print ("body part run though");
+				bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
+				opposingPlayer.updateHealthDisplay ();
 			}
 		}
+////////////////obsolete after changing damage from per square to per body part
+//		Vector2 gridDimensions = opposingPlayer.getPlayAreaOfPlayer().getGridDimensions();
+//		for (int x = 0; x < gridDimensions.x; x++) {
+//			for (int y = 0; y < gridDimensions.y; y++) {
+//				if (opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateSoftTarget(x,y) && opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateOccupied(x,y)){	//gets the area that was 'highlighted' and check to see if it is occupied by a body part
+//					opposingPlayer.getPlayAreaOfPlayer().takeAHit (opposingPlayer, currentClickedOnCardWeaponMatrix, x, y);	//sends who is getting hit and shape of hit one square at a time
+//					opposingPlayer.updateHealthDisplay ();
+//				}
+//			}
+//		}
+///////////////////////////
 		cardClickedOff ();
 	}
 //	public DeckScript getEnemyDeckController(){

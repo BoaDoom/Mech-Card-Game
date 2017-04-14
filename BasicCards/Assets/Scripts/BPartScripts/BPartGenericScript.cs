@@ -29,13 +29,23 @@ public class BPartGenericScript : MonoBehaviour {
 
 	private PlayerScript playerScript;
 
-	public void takeDamage(float incomingDamage){
-		currentHealth -= incomingDamage;
-		if (currentHealth <= 0) {
-			playerScript.outgoingBrokenPartNodes (internalGlobalCords);
-//			playerScript.flagABrokenPart ();
-		}
+////////////////obsolete after changing damage from per square to per body part
+//	public void takeDamage(float incomingDamage){
+//		currentHealth -= incomingDamage;
+//		if (currentHealth <= 0) {
+//			playerScript.outgoingBrokenPartNodes (internalGlobalCords);
+////			playerScript.flagABrokenPart ();
+//		}
+//	}
+////////////////////
+	public void takeDamage(CurrentWeaponHitBox incomingWeaponHitData){
+		currentHealth -= incomingWeaponHitData.weaponDamage;
+		print (incomingWeaponHitData.weaponDamage);
+			if (currentHealth <= 0) {
+				playerScript.outgoingBrokenPartNodes (internalGlobalCords);
+			}
 	}
+	/// 
 	public void setBPartThreatenedOn(){
 		underThreat = true;
 		PlayAreaScript playerAreaTemp = playerScript.getPlayAreaOfPlayer ();

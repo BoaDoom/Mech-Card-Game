@@ -25,7 +25,7 @@ public class TargetSquareScript : MonoBehaviour {
 	BPartGenericScript bodyPartReference;
 	//PlayAreaScript playAreaScript;
 
-	private bool bPUnderThreat = false;
+//	private bool bPUnderThreat = false;
 
 	public IEnumerator ManualStart(PlayAreaScript parentPlayAreaScript){
 		playArea = parentPlayAreaScript;
@@ -117,12 +117,12 @@ public class TargetSquareScript : MonoBehaviour {
 	}
 
 	public void setBPartUnderThreat(){
-		Vector2 tempVector2 = new Vector2 (gridCordX, gridCordY);
+//		Vector2 tempVector2 = new Vector2 (gridCordX, gridCordY);
 		if (activeSquareState.getOccupiedState () && 	//if its occupied by a bpart
 			!activeSquareState.getSoftTargetedState () && 	//if its getting targetted by a weapon don't activate, so it doesn't override the weapon
 			!activeSquareState.getHardTargetedState () && 	//
 			bodyPartReference.getIfUnderThreat()) {			//checks to see if the body part is actually being targetted/under threat
-			spriteRenderer.sprite = limbUnderThreatSprite;	//swaps to limbunder threat sprite
+				spriteRenderer.sprite = limbUnderThreatSprite;	//goal of the whole method, to swap to limbUnderThreat sprite
 		}
 //		bPUnderThreat = true;
 	}
@@ -141,9 +141,9 @@ public class TargetSquareScript : MonoBehaviour {
 //	}
 
 
-	public void takeOneSquareDamage(float incomingWeaponDamage){
-		bodyPartReference.takeDamage (incomingWeaponDamage);
-	}
+//	public void takeOneSquareDamage(float incomingWeaponDamage){
+//		bodyPartReference.takeDamage (incomingWeaponDamage);
+//	}
 
 	public void OccupiedSquare(BPartGenericScript incomingBodyPartReference){	//used by playerScript to turn on and off if the body part occupies the space
 		bodyPartReference = incomingBodyPartReference;
