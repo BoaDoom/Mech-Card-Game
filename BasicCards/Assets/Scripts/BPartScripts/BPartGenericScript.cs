@@ -25,6 +25,8 @@ public class BPartGenericScript : MonoBehaviour {
 	private bool active;
 	private bool fullyDeactivated;
 
+	private bool underThreat = false;
+
 	private PlayerScript playerScript;
 
 	public void takeDamage(float incomingDamage){
@@ -33,6 +35,36 @@ public class BPartGenericScript : MonoBehaviour {
 			playerScript.outgoingBrokenPartNodes (internalGlobalCords);
 //			playerScript.flagABrokenPart ();
 		}
+	}
+	public void setBPartThreatenedOn(){
+		underThreat = true;
+		PlayAreaScript playerAreaTemp = playerScript.getPlayAreaOfPlayer ();
+		int x = 0;
+		foreach(BodyPartNode[] bodyPartCollum in nodesOfBP){
+			
+			int y = 0;
+			foreach(BodyPartNode bodyPartSquare in bodyPartCollum){
+				playerAreaTemp.getSmallSquare((int)internalGlobalCords[x][y].x, (int)internalGlobalCords[x][y].y).setBPartUnderThreat (); //sending cords of the bodypart cords
+				y++;
+			}
+		x++;
+		}
+	}
+	public void setBPartThreatenedOff(){
+		underThreat = false;
+		PlayAreaScript playerAreaTemp = playerScript.getPlayAreaOfPlayer ();
+		int x = 0;
+		foreach(BodyPartNode[] bodyPartCollum in nodesOfBP){
+			x++;
+			int y = 0;
+			foreach(BodyPartNode bodyPartSquare in bodyPartCollum){
+				playerAreaTemp.getSmallSquare (x, y).setBPartNotUnderThreat ();
+				y++;
+			}
+		}
+	}
+	public bool getIfUnderThreat(){
+		return underThreat;
 	}
 
 	public void Start(){

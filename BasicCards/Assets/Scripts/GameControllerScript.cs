@@ -121,8 +121,8 @@ public class GameControllerScript : MonoBehaviour {
 		Vector2 gridDimensions = opposingPlayer.getPlayAreaOfPlayer().getGridDimensions();
 		for (int x = 0; x < gridDimensions.x; x++) {
 			for (int y = 0; y < gridDimensions.y; y++) {
-				if (opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateSoftTarget(x,y) && opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateOccupied(x,y)){
-					opposingPlayer.getPlayAreaOfPlayer().takeAHit (opposingPlayer, currentClickedOnCardWeaponMatrix, x, y);
+				if (opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateSoftTarget(x,y) && opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateOccupied(x,y)){	//gets the area that was 'highlighted' and check to see if it is occupied by a body part
+					opposingPlayer.getPlayAreaOfPlayer().takeAHit (opposingPlayer, currentClickedOnCardWeaponMatrix, x, y);	//sends who is getting hit and shape of hit one square at a time
 					opposingPlayer.updateHealthDisplay ();
 				}
 			}

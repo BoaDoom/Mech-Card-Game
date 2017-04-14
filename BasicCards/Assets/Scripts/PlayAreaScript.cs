@@ -117,7 +117,6 @@ public class PlayAreaScript: MonoBehaviour {
 							&& ((tempStartingPoint.x +x)<boxCountX) && ((tempStartingPoint.y +y)<boxCountY)){		//checks if the grid hit area is outside of the grid target down and to the right
 						grid [(int)tempStartingPoint.x + x] [(int)tempStartingPoint.y + y].TargetSquare ();		//activates the squares inside the area
 					}
-
 				}
 			}
 		}
@@ -151,7 +150,7 @@ public class PlayAreaScript: MonoBehaviour {
 		}
 	}
 	public void takeAHit(PlayerScript playerScript, CurrentWeaponHitBox incomingWeaponHitBox, int incomingX, int incomingY){
-		grid [incomingX] [incomingY].takeOneSquareDamage (incomingWeaponHitBox.weaponDamage);
+		grid [incomingX] [incomingY].takeOneSquareDamage (incomingWeaponHitBox.weaponDamage);		//sends damage to the grid square occuppying the incoming location
 	}
 	public string getControllerParentIdTag(){
 		return controllerParentIDtag;
@@ -161,6 +160,8 @@ public class TargetSquareState{
 	bool occupied = false;
 	bool hardTargeted = false;
 	bool softTargeted = false;
+	bool hardBPTargeted = false;
+	bool softBPTargeted = false;
 	public TargetSquareState(){
 	}
 	public bool getOccupiedState(){
@@ -179,6 +180,19 @@ public class TargetSquareState{
 	public void setSoftTargetedState(bool incomingState){
 		softTargeted = incomingState;
 	}
+
+//	public bool getHardBPTargetedState(){
+//		return hardBPTargeted;}
+//	public void setHardBPTargetedState(bool incomingState){
+//		hardBPTargeted = incomingState;
+//	}
+//
+//	public bool getSoftBPTargetedState(){
+//		return softBPTargeted;}
+//	public void setSoftBPTargetedState(bool incomingState){
+//		softBPTargeted = incomingState;
+//	}
+
 
 }
 //public class activeSquareState
