@@ -15,6 +15,8 @@ public class PlayerScript : MonoBehaviour {
 
 	public Transform healthBarGraphic;
 	private Vector3 healthBarStartingScale;
+	private Vector3 healthBarStartingPosition;
+	private bool isEnemyPlayer;
 
 	private WholeBodyOfParts wholeBodyOfParts = new WholeBodyOfParts();
 	CurrentWeaponHitBox incomingWeaponhitBox;
@@ -24,6 +26,7 @@ public class PlayerScript : MonoBehaviour {
 	private PlayAreaScript playAreaScript;
 	private DeckScript activeDeck;
 	private GameControllerScript gameController;
+
 
 
 	//	bool bodypartIsDone = false;
@@ -40,11 +43,18 @@ public class PlayerScript : MonoBehaviour {
 
 		//		remainingHealth = healthMax;
 		healthBarStartingScale = healthBarGraphic.localScale;
+		healthBarStartingPosition = healthBarGraphic.localPosition;
 		//		updateHealthDisplay ();
 
 		StartCoroutine(BpartMaker.ManualStart());
 		populateBody ();
 		playAreaScript.populateEnemyPlayAreaSquares ();
+
+		if (gameObject.tag == "PlayerController") {
+			isEnemyPlayer = false;
+		} else {
+			isEnemyPlayer = true;
+		}
 		yield return null;
 	}
 	public void setPlayAreaDimensions(Vector2 incomingDimensions){
@@ -58,7 +68,14 @@ public class PlayerScript : MonoBehaviour {
 
 	}
 	public void updateHealthDisplay(){
+		int tempEnemyIntCheck;
+		if (isEnemyPlayer) {
+			tempEnemyIntCheck = -1;
+		} else {
+			tempEnemyIntCheck = 1;
+		}
 		Vector3 tempHealth = healthBarStartingScale;
+		Vector3 tempPositionForHealth = healthBarStartingPosition;
 		float newHealth = 0;
 		//Debug.Log ("Number of body parts: " + wholeBodyOfParts.listOfAllParts.Count);
 		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Count; i++){
@@ -72,7 +89,9 @@ public class PlayerScript : MonoBehaviour {
 		}
 		remainingHealth = newHealth;
 		tempHealth.x = healthBarStartingScale.x * (remainingHealth / healthMax);
+		tempPositionForHealth.x = (healthBarStartingPosition.x - ((healthBarStartingScale.x - tempHealth.x)/2)*tempEnemyIntCheck);
 		healthBarGraphic.localScale = tempHealth;
+		healthBarGraphic.localPosition = tempPositionForHealth;
 		enemyHealthDisplayNumber.text = remainingHealth.ToString() + "/" + healthMax.ToString();
 	}
 	public void populateBody(){				//currently invoked by game controller script on button press
