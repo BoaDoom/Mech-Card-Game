@@ -129,10 +129,13 @@ public class CardScript : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter2D(Collider2D other){
-
+		//print ("");
 		if (other.CompareTag("TargetSquare")){		//does not trigger anything if its colliding with anything else
+//			print ("other tag : "+other.GetComponent<TargetSquareScript>().getPlayerID());
+//			print ("Self tag : "+ getPlayerID());
 			if (active && (hitSquareOverflow<=0) && (other.GetComponent<TargetSquareScript>().getPlayerID() != getPlayerID())){
 				hideCard ();
+//				print ("card hidden");
 //				cardInPlayArea = true;
 			}
 			hitSquareOverflow++;			//the sum of all the small squares the card has entered. If number is 0, its left play area and can becom active again

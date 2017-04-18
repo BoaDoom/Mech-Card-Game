@@ -106,6 +106,7 @@ public class DeckScript : MonoBehaviour {
 		instCard.ManualStart (gameObject.GetComponent<DeckScript>());
 		instCard.transform.SetParent (gameObject.GetComponent<Transform>());
 		instCard.SetPlayerAs (getPlayerScript ().tag);
+		//print (getPlayerScript ().tag);
 		drawnCards.Add(instCard);
 		instCard.CardAttributes = cardData[orderOfDrawPile[0]];
 		instCard.setFace(cardsFaces[(orderOfDrawPile[0])]);
