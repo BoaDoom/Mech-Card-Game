@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\z_Old\XMLBodyLoaderScript.cs" />
      <None Include="Assets\XMLdata\WeaponHitBox.xml" />
      <None Include="Assets\XMLdata\BodyHitBox.xml" />
+     <None Include="Assets\XMLdata\BParts old.xml" />
      <None Include="Assets\XMLdata\Cards.xml" />
      <None Include="Assets\XMLdata\BParts.xml" />
  <Reference Include="UnityEngine.UI">

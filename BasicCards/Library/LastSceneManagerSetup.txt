@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/PartPicker.unity
+- path: Assets/_Main.unity
   isLoaded: 1
   isActive: 1
