@@ -51,18 +51,19 @@ public class BodyPartMakerScript : MonoBehaviour {
 		}
 		if (incomingWholeBodyOfParts.bodyPartCheck ()) {
 
-
-			int halfwayLengthOfBoard = (int)Mathf.Round((incomingDimensionsOfPlayArea.x-1)/2);
-			int halfwayLengthOfTorso = (int)Mathf.Round(incomingWholeBodyOfParts.torso.getDimensionsOfPart().x/2);
-			int heightOfLegAnchorPoint = (int)incomingWholeBodyOfParts.leftLeg.getAnchorPoint ().y;
+			//(int)Mathf.Round(
+			int halfwayLengthOfBoard = (int)Mathf.Round((incomingDimensionsOfPlayArea.x/2) -incomingWholeBodyOfParts.torso.getDimensionsOfPart().x/2);
+			//float halfwayLengthOfTorso = ;
+			int heightOfLegAnchorPoint = (int)incomingWholeBodyOfParts.leftLeg.getAnchorPoint ().y-1;
 						//the far left point that the torso needs to be center, it's origin x point
 //			print("halfwayLengthOfBoard: "+halfwayLengthOfBoard +" halfwayLengthOfTorso: " +halfwayLengthOfTorso+" heightOfLegAnchorPoint: "+heightOfLegAnchorPoint);
-			Vector2 offSetToCenter = new Vector2((halfwayLengthOfBoard-halfwayLengthOfTorso),heightOfLegAnchorPoint);
+			Vector2 offSetToCenter = new Vector2((halfwayLengthOfBoard),heightOfLegAnchorPoint);
 
 			incomingWholeBodyOfParts.torso.setTorsoOriginPosition (offSetToCenter);
+//			print ("offSetToCenter "+offSetToCenter);
 //			incomingWholeBodyOfParts.torso.setInternalGlobalCords ();
 //			print (incomingWholeBodyOfParts.torso.getInternalGlobalCord(new Vector2(0.0f, 0.0f)));
-
+//			print("incomingWholeBodyOfParts.torso.getGlobalAnchorPoint (LeftLegPoint)"+ incomingWholeBodyOfParts.torso.getGlobalAnchorPoint ("LeftLegPoint"));
 			incomingWholeBodyOfParts.leftLeg.setGlobalPosition (incomingWholeBodyOfParts.torso.getGlobalAnchorPoint ("LeftLegPoint"));
 //			incomingWholeBodyOfParts.leftLeg.setInternalGlobalCords ();
 //			print (incomingWholeBodyOfParts.leftLeg.getInternalGlobalCord(new Vector2(0.0f, 0.0f)));

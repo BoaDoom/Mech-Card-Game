@@ -127,7 +127,9 @@ public class BPartGenericScript : MonoBehaviour {
 
 		if (incomingBodyPartData.simpleAnchorPoints) {			//checking to see if there is one anchor point or more
 			if (leftSide){										//if left side (default design), then transfer anchor point normally
-				anchorPoint = incomingBodyPartData.anchor;			//the location in which all parts will be located and placed
+				
+				anchorPoint = new Vector2 (incomingBodyPartData.anchor.x, incomingBodyPartData.anchor.y);			//the location in which all parts will be located and placed
+//				print("anchorPoint "+ anchorPoint);
 			}
 			else if(!leftSide){								//if right side, mirror the anchor point across the X axis
 				anchorPoint = new Vector2 (((dimensions.x) - (incomingBodyPartData.anchor.x+1)), incomingBodyPartData.anchor.y);
@@ -160,7 +162,7 @@ public class BPartGenericScript : MonoBehaviour {
 	public void setInternalGlobalCords(){			//sets the specific global locations for each node
 //		print("dimensions of body part "+getDimensionsOfPart ());
 		internalGlobalCords = new Vector2[(int)getDimensionsOfPart ().x][];
-
+//		print ("getDimensionsOfPart () " +getName()+" " + getDimensionsOfPart ());
 		for (int x = 0; x < getDimensionsOfPart ().x; x++) {				
 			internalGlobalCords[x] = new Vector2[(int)getDimensionsOfPart ().y];
 			for (int y = 0; y < getDimensionsOfPart ().y; y++) {			
@@ -231,6 +233,7 @@ public class BPartGenericScript : MonoBehaviour {
 		return dimensions;
 	}
 	public Vector2 getAnchorPoint(){
+//		print ("anchorPoint for " +getName() +" " + anchorPoint);
 		return anchorPoint;
 	}
 	public ComplexAnchorPoints getComplexAnchorPoint(string incomingRequest){

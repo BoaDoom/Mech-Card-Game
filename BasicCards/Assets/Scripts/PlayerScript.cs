@@ -98,21 +98,25 @@ public class PlayerScript : MonoBehaviour {
 		healthMax = 0;
 		//StartCoroutine (waitForBpartMakerScript ());
 		wholeBodyOfParts.resetBodyToZero ();
-										//loops for every card in discard pile
-		int rand = Random.Range(1,5);				//random body part between one and four
+
+		int rand = Random.Range(1,5);
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso "+intToStringNumber(rand), "none"));
+
+		rand = Random.Range(1,5);
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg "+intToStringNumber(rand), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg "+intToStringNumber(rand), "right"));
+
+		rand = Random.Range(1,5);				//random body part between one and four
 		//print(rand);
 		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm "+intToStringNumber(rand), "left"));
 		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm "+intToStringNumber(rand), "right"));
 		rand = Random.Range(1,5);
 		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head "+intToStringNumber(rand), "left"));
-		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg "+intToStringNumber(rand), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg "+intToStringNumber(rand), "right"));
+
 		rand = Random.Range(1,5);
 		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder "+intToStringNumber(rand), "left"));
 		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder "+intToStringNumber(rand), "right"));
-		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso "+intToStringNumber(rand), "none"));
+
 
 
 //		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm one", "left"));
