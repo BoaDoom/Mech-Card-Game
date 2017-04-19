@@ -98,22 +98,67 @@ public class PlayerScript : MonoBehaviour {
 		healthMax = 0;
 		//StartCoroutine (waitForBpartMakerScript ());
 		wholeBodyOfParts.resetBodyToZero ();
+										//loops for every card in discard pile
+		int rand = Random.Range(1,5);				//random body part between one and four
+		//print(rand);
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm "+intToStringNumber(rand), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm "+intToStringNumber(rand), "right"));
+		rand = Random.Range(1,5);
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head "+intToStringNumber(rand), "left"));
+		rand = Random.Range(1,5);
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg "+intToStringNumber(rand), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg "+intToStringNumber(rand), "right"));
+		rand = Random.Range(1,5);
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder "+intToStringNumber(rand), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder "+intToStringNumber(rand), "right"));
+		rand = Random.Range(1,5);
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso "+intToStringNumber(rand), "none"));
 
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("large biped arm", "left"));
-		//Debug.Log ("large biped arm, left");
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("large biped arm", "right"));
-		//Debug.Log ("large biped arm, "+ "right");
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("large biped head", "left"));
-		//Debug.Log ("soforth");
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("large biped leg", "left"));
-		//Debug.Log ("soforth");
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("large biped leg", "right"));
-		//Debug.Log ("soforth");
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("large biped shoulder", "left"));
-		//Debug.Log ("soforth");
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("large biped shoulder", "right"));
-		//Debug.Log ("soforth");
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("large biped torso", "none"));
+
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm one", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm one", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head one", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg one", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg one", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder one", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder one", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso one", "none"));
+
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm two", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm two", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head two", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg two", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg two", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder two", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder two", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso two", "none"));
+
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm three", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm three", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head three", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg three", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg three", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder three", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder three", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso three", "none"));
+
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm four", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm four", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head four", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg four", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg four", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder four", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder four", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso four", "none"));
+
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder", "left"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder", "right"));
+//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso", "none"));
 		//		print ("play area dim " + playAreaDimensions);
 		wholeBodyOfParts = BpartMaker.createWholeBody (wholeBodyOfParts, playAreaDimensions);		//setting internal location positions of each of the body parts in relation to eachother
 		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Count; i++){
@@ -149,10 +194,11 @@ public class PlayerScript : MonoBehaviour {
 			for (int x=0; x<wholeBodyOfParts.listOfAllParts [i].getDimensionsOfPart ().x; x++){				//get the x dimensions and run through the grid of Y
 				for (int y=0; y<wholeBodyOfParts.listOfAllParts [i].getDimensionsOfPart ().y; y++){			//get the y dimensions and run through every colloum of parts
 					if (wholeBodyOfParts.listOfAllParts [i].getGridPoint(new Vector2(x, y))&& wholeBodyOfParts.listOfAllParts [i].getActive()){				//gets the body part point and asks the grid of bodypartnodes if they are on or off at the internal dimension of the part
-
+//						print("getGlobalOriginPoint(): "+ wholeBodyOfParts.listOfAllParts [i].getGlobalOriginPoint());
 						int outGoingXCord = ((int)wholeBodyOfParts.listOfAllParts [i].getGlobalOriginPoint().x)+x;
 						int outGoingYCord = ((int)wholeBodyOfParts.listOfAllParts [i].getGlobalOriginPoint().y)+y;
-
+//						print ("outgoing x cord: " + outGoingXCord + " outgoing y cord: " + outGoingYCord);
+//						print("Type: "+wholeBodyOfParts.listOfAllParts[i].getName ());
 						incomingSquareGrid[outGoingXCord][outGoingYCord].OccupiedSquare(wholeBodyOfParts.listOfAllParts [i]);	//sends a reference to the body part to the square marked as 'occupied'
 
 						//if grid point is on, it finds the relative relation of the body part node and turns it on as an Occupiedsquare in the play area. it finds the relative location on the grid because each
@@ -172,5 +218,19 @@ public class PlayerScript : MonoBehaviour {
 	public string getWhichPlayer(){
 		return gameObject.tag;
 	}
+	public string intToStringNumber(int incomingNumber){
+		switch (incomingNumber) {
+		case(1):
+			return "one";
+		case(2):
+			return "two";
+		case(3):
+			return "three";
+		case(4):
+			return "four";
+		}
+		return null;
+	}
+
 }
 

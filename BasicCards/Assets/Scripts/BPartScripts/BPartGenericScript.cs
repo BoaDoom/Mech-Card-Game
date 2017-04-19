@@ -160,6 +160,7 @@ public class BPartGenericScript : MonoBehaviour {
 	public void setInternalGlobalCords(){			//sets the specific global locations for each node
 //		print("dimensions of body part "+getDimensionsOfPart ());
 		internalGlobalCords = new Vector2[(int)getDimensionsOfPart ().x][];
+
 		for (int x = 0; x < getDimensionsOfPart ().x; x++) {				
 			internalGlobalCords[x] = new Vector2[(int)getDimensionsOfPart ().y];
 			for (int y = 0; y < getDimensionsOfPart ().y; y++) {			
@@ -168,6 +169,7 @@ public class BPartGenericScript : MonoBehaviour {
 //				print ("setting internal cords x: " + outGoingXCord + " y: " + outGoingYCord);
 //				print ("at x: " + x + " y: " + y);
 				internalGlobalCords [x] [y] = new Vector2 (outGoingXCord, outGoingYCord);
+//				print (getName()+  " internal global cords: "+internalGlobalCords [x] [y]);
 			}
 		}
 	}
