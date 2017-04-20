@@ -189,7 +189,7 @@ public class BPartGenericScript : MonoBehaviour {
 
 	public void setTorsoOriginPosition(Vector2 incomingTorsoOriginPoint){
 		//Debug.Log ("setting custom torso origin");
-		globalOriginPoint = incomingTorsoOriginPoint;
+		globalOriginPoint = new Vector2 (incomingTorsoOriginPoint.x, incomingTorsoOriginPoint.y - (listOfComplexAnchorPoints.Find (ComplexAnchorPoints => ComplexAnchorPoints.nameOfPoint == "LeftLegPoint").anchorPoint.y));
 		setInternalGlobalCords ();
 		//print (getInternalGlobalCord(new Vector2(0.0f, 0.0f)));
 	}

@@ -54,7 +54,7 @@ public class BodyPartMakerScript : MonoBehaviour {
 			//(int)Mathf.Round(
 			int halfwayLengthOfBoard = (int)Mathf.Round((incomingDimensionsOfPlayArea.x/2) -incomingWholeBodyOfParts.torso.getDimensionsOfPart().x/2);
 			//float halfwayLengthOfTorso = ;
-			int heightOfLegAnchorPoint = (int)incomingWholeBodyOfParts.leftLeg.getAnchorPoint ().y-1;
+			int heightOfLegAnchorPoint = (int)incomingWholeBodyOfParts.leftLeg.getAnchorPoint ().y;
 						//the far left point that the torso needs to be center, it's origin x point
 //			print("halfwayLengthOfBoard: "+halfwayLengthOfBoard +" halfwayLengthOfTorso: " +halfwayLengthOfTorso+" heightOfLegAnchorPoint: "+heightOfLegAnchorPoint);
 			Vector2 offSetToCenter = new Vector2((halfwayLengthOfBoard),heightOfLegAnchorPoint);
