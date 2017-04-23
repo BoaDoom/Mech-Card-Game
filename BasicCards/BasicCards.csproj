@@ -81,6 +81,8 @@
     <Compile Include="Assets\DontDestroy.cs" />
     <Compile Include="Assets\Scripts\BPartScripts\BPartGenericScript.cs" />
     <Compile Include="Assets\Scripts\BPartScripts\BodyPartMakerScript.cs" />
+    <Compile Include="Assets\Scripts\BodyPartSelectionCanvasScript.cs" />
+    <Compile Include="Assets\Scripts\BodyPartVariationPanel.cs" />
     <Compile Include="Assets\Scripts\CardScript.cs" />
     <Compile Include="Assets\Scripts\DeckScript.cs" />
     <Compile Include="Assets\Scripts\DraggableScript.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Assets\Scripts\XMLScripts\LoaderScript.cs" />
     <Compile Include="Assets\Scripts\XMLScripts\XMLCardLoaderScript.cs" />
     <Compile Include="Assets\Scripts\XMLScripts\XMLWeaponHitLoaderScript.cs" />
+    <Compile Include="Assets\Scripts\bodyPartPickerButtonScript.cs" />
     <Compile Include="Assets\Scripts\z_Old\DraggableGrid.cs" />
     <Compile Include="Assets\Scripts\z_Old\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\z_Old\XMLBodyLoaderScript.cs" />
