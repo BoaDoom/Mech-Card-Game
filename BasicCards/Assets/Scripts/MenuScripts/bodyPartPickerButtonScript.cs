@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class bodyPartPickerButtonScript : MonoBehaviour, ISelectHandler {
 //	SelectionBaseAttribute selectorScript;
@@ -14,6 +15,11 @@ public class bodyPartPickerButtonScript : MonoBehaviour, ISelectHandler {
 	}
 	public void OnSelect(BaseEventData eventData){
 		print ("test onSelect");
+		gameObject.GetComponent<Text> ().color = new Color(0, 0, 1, 1);
+	}
+	public void OnUnselect(){
+		print ("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		gameObject.GetComponent<Text> ().color = new Color(0, 0, 0, 0);
 	}
 //	private SelectionBaseAttribute selectorScript;
 

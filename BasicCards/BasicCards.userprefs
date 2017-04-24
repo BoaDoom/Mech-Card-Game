@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\bodyPartPickerButtonScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuScripts\bodyPartPickerButtonScript.cs">
     <Files>
       <File FileName="Assets\Scripts\GameControllerScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DeckScript.cs" Line="1" Column="1" />
@@ -11,9 +11,7 @@
       <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CardScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BodyPartSelectionCanvasScript.cs" Line="25" Column="4" />
-      <File FileName="Assets\Scripts\BodyPartVariationPanel.cs" Line="7" Column="2" />
-      <File FileName="Assets\Scripts\bodyPartPickerButtonScript.cs" Line="7" Column="4" />
+      <File FileName="Assets\Scripts\MenuScripts\bodyPartPickerButtonScript.cs" Line="33" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
