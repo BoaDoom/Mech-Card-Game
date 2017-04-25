@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 	public EventSystem eventSystem;	
-	public int what;
+//	public int what;
 	int headSelection = -1;
 	int armSelection = -1;
 	int torsoSelection = -1;
@@ -27,20 +27,23 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //	}
 	public void markSelectedBodyPart(string nameOfPart, int incomingSelection){
 		switch (nameOfPart) {
-			case("head"):
+		case("Head"):
 			headSelection = incomingSelection;
 			break;
-			case("arm"):
+		case("Arm"):
 			armSelection = incomingSelection;
 			break;
-			case("torso"):
+		case("Torso"):
 			torsoSelection = incomingSelection;
 			break;
-			case("shoulder"):
+		case("Shoulder"):
 			shoulderSelection = incomingSelection;
 			break;
-			case("leg"):
+		case("Leg"):
 			legSelection = incomingSelection;
+			break;
+		default:
+			Debug.Log ("Unknown bodypart");
 			break;
 		}
 		print (incomingSelection +" "+ nameOfPart);
