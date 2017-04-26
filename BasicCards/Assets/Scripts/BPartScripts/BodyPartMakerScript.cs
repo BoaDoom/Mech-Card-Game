@@ -39,7 +39,7 @@ public class BodyPartMakerScript : MonoBehaviour {
 		partData = bPartXMLReader.getBodyData (nameOfpart);
 		BPartGenericScript instaBodypart = Instantiate (bodyPartObject, Vector3.zero, bodyPartObject.GetComponent<Transform>().rotation);
 		//Debug.Log ("body data check: "+bPartXMLReader.getBodyData (nameOfpart).name);
-		instaBodypart.CreateNewPart (partData, leftOrRight);
+		instaBodypart.CreateNewPart (partData, leftOrRight);		//formatting is partData and 'Left' or 'Right'
 		//Debug.Log ("instantiated after: "+instaBodypart.getName());
 		return instaBodypart;
 	}

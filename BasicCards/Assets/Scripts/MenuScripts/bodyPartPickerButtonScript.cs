@@ -10,6 +10,8 @@ public class bodyPartPickerButtonScript : Selectable{
 	public int bodyPartNumber;
 	public Color startColor = Color.grey;
 	public Color startNormalColor;
+
+	public bool completedStart = false;
 //	public Color highlightedColor;
 //	public Color selectedColor;
 	//public string bodyPartName;
@@ -22,6 +24,7 @@ public class bodyPartPickerButtonScript : Selectable{
 		startNormalColor = cb.normalColor;
 //		button.colors = cb;
 //		print("Done text");
+		completedStart = true;
 	}
 
 	public void setAsSelected(){
@@ -69,6 +72,10 @@ public class bodyPartPickerButtonScript : Selectable{
 		ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript> ().colors;
 		cb.normalColor = Color.green;
 		gameObject.GetComponent<bodyPartPickerButtonScript> ().colors = cb;
+	}
+
+	public bool completedStartQuery(){
+		return completedStart;
 	}
 //	private SelectionBaseAttribute selectorScript;
 

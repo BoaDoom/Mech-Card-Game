@@ -101,71 +101,26 @@ public class PlayerScript : MonoBehaviour {
 		wholeBodyOfParts.resetBodyToZero ();
 
 		//		int rand = Random.Range(1,5);
-		print("Body part picking test: " + allPickedBodyParts.pickedTorso);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso "+ intToStringNumber(allPickedBodyParts.pickedTorso), "none"));
+//		print("Body part picking test: " + allPickedBodyParts.pickedTorso);
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedTorso), "none"));
 
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg "+intToStringNumber(allPickedBodyParts.pickedLeg), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg "+intToStringNumber(allPickedBodyParts.pickedLeg), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), "right"));
 
 		//		rand = Random.Range(1,5);				//random body part between one and four
 		//print(rand);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm "+intToStringNumber(allPickedBodyParts.pickedArm), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm "+intToStringNumber(allPickedBodyParts.pickedArm), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm), "right"));
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head "+intToStringNumber(allPickedBodyParts.pickedHead), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedHead), "left"));
 
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder "+intToStringNumber(allPickedBodyParts.pickedShoulder), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder "+intToStringNumber(allPickedBodyParts.pickedShoulder), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder), "right"));
 
 
 
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm one", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm one", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head one", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg one", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg one", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder one", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder one", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso one", "none"));
-
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm two", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm two", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head two", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg two", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg two", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder two", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder two", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso two", "none"));
-
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm three", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm three", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head three", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg three", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg three", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder three", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder three", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso three", "none"));
-
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm four", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm four", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head four", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg four", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg four", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder four", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder four", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso four", "none"));
-
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("arm", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("head", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("leg", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder", "left"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("shoulder", "right"));
-		//		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ("torso", "none"));
-		//		print ("play area dim " + playAreaDimensions);
 		wholeBodyOfParts = BpartMaker.createWholeBody (wholeBodyOfParts, playAreaDimensions);		//setting internal location positions of each of the body parts in relation to eachother
 		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Count; i++){
 			healthMax += wholeBodyOfParts.listOfAllParts [i].getCurrentHealth ();		//makes health pool

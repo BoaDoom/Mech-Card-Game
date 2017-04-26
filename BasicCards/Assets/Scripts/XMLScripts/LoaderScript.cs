@@ -46,7 +46,8 @@ public class LoaderScript : MonoBehaviour {
 		}
 		//print (XMLCardLoader.checkIfFinishedLoading() +" "+ XMLWeaponHitLoader.checkIfFinishedLoading() +" "+ XMLBPartLoader.checkIfFinishedLoading());
 		//print ("outside while loop");
-		SceneManager.LoadScene("_Main"); //Only happens if coroutine is finished 
+		SceneManager.LoadScene("PartPicker"); //Only happens if coroutine is finished 
+		//SceneManager.LoadScene("_Main"); //Only happens if coroutine is finished 
 		//yield return WaitForEndOfFrame();
 		//yield return new WaitForSeconds(1);
 //		print(Time.time);

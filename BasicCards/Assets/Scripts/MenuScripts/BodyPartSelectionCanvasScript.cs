@@ -9,58 +9,79 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 	public EventSystem eventSystem;	
 	public SceneTransferVariablesScript sceneTransferVariablesScript;
+
+	BodyPartVariationPanel[] listOfAllThePanels;
+	BodyPartDataHolder partData = null;
+	public VisualOnlyBPartGenericScript visualOnlyBodyPartObject;
+
+	BPartXMLReaderScript bPartXMLReader;
 //	public int what;
-	int headSelection;
-	int armSelection;
-	int torsoSelection;
-	int shoulderSelection;
-	int legSelection;
+	string headSelection;
+	string armSelection;
+	string torsoSelection;
+	string shoulderSelection;
+	string legSelection;
 	//PickedBodyPart[] listOfPickedBodyParts;
+
 
 	public Button nextButton;
 //	bool thingsChecked;
 	public void Start(){
-		GameObject sceneTransferVariablesScriptTemp = GameObject.FindWithTag("SceneTransferVariables");
-		if (sceneTransferVariablesScriptTemp != null) {
-			sceneTransferVariablesScript = sceneTransferVariablesScriptTemp.GetComponent<SceneTransferVariablesScript> ();
-		} else {
-			print ("Couldnt find SceneTransferVariablesScript");
+		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");		//grabbing the object with the body part info taken from xml data	
+		if (loaderScriptTemp == null) {
+			SceneManager.LoadScene ("XMLLoaderScene");
+			return;
+		} else if (loaderScriptTemp != null) {
+			bPartXMLReader = loaderScriptTemp.GetComponent<BPartXMLReaderScript> ();
+		
+
+			GameObject sceneTransferVariablesScriptTemp = GameObject.FindWithTag ("SceneTransferVariables");
+			if (sceneTransferVariablesScriptTemp != null) {
+				sceneTransferVariablesScript = sceneTransferVariablesScriptTemp.GetComponent<SceneTransferVariablesScript> ();
+			} else {
+				print ("Couldnt find SceneTransferVariablesScript");
+			}
+
+			GameObject eventFinderTemp = GameObject.FindWithTag ("EventSystem");
+			if (eventFinderTemp != null) {
+				eventSystem = eventFinderTemp.GetComponent<EventSystem> ();
+			} else {
+				print ("Couldnt find event system");
+			}
+			nextButton.onClick.AddListener (checkToMoveToPlayScreen);
+
+			listOfAllThePanels = gameObject.GetComponentsInChildren<BodyPartVariationPanel> ();
+			foreach (BodyPartVariationPanel panel in listOfAllThePanels) {
+				StartCoroutine (panel.ManualStart ());
+			}
 		}
-
-		GameObject eventFinderTemp = GameObject.FindWithTag("EventSystem");
-		if (eventFinderTemp != null) {
-			eventSystem = eventFinderTemp.GetComponent<EventSystem> ();
-		} else {
-			print ("Couldnt find event system");
-		}
-		nextButton.onClick.AddListener(checkToMoveToPlayScreen);
-
-
+			
+			//		print ("done panel");
 	}
 
 //	public void checkThing(int incomingint, int otherthing){
 //		thingsChecked = true;
 //	}
-	public void markSelectedBodyPart(string nameOfPart, int incomingSelection){
+	public VisualOnlyBPartGenericScript markSelectedBodyPart(string nameOfPart, int incomingSelection){		//almost the same as PlayerScript method populate body
 		switch (nameOfPart) {
 		case("Head"):
-			headSelection =incomingSelection;
-			break;
+			headSelection = "head "+ intToStringNumber(incomingSelection); //intToStringNumber(
+			return makeBodyPart(headSelection);
 		case("Arm"):
-			armSelection = incomingSelection;
-			break;
+			armSelection = "arm "+ intToStringNumber(incomingSelection);
+			return makeBodyPart(armSelection);
 		case("Torso"):
-			torsoSelection = incomingSelection;
-			break;
+			torsoSelection = "torso " + intToStringNumber(incomingSelection);
+			return makeBodyPart(torsoSelection);
 		case("Shoulder"):
-			shoulderSelection = incomingSelection;
-			break;
+			shoulderSelection = "shoulder "+ intToStringNumber(incomingSelection);
+			return makeBodyPart(shoulderSelection);
 		case("Leg"):
-			legSelection = incomingSelection;
-			break;
+			legSelection = "leg "+ intToStringNumber(incomingSelection);
+			return makeBodyPart(legSelection);
 		default:
 			Debug.Log ("Unknown bodypart");
-			break;
+			return makeBodyPart (legSelection);
 		}
 		//Debug.Log(legSelection);
 //		print (incomingSelection +" "+ nameOfPart);
@@ -68,7 +89,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //		tempbodyPartPickerButtonScript.setAsSelected ();
 	}
 	public bool checkIfBodyIsComplete(){
-		return (headSelection >= 0 && armSelection >= 0 && torsoSelection >= 0 && shoulderSelection >= 0 && legSelection >= 0);
+		return (headSelection != null && armSelection != null && torsoSelection != null && shoulderSelection != null && legSelection != null);
 	}
 	public void onClick(){
 		print ("clicked");
@@ -85,7 +106,47 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			Debug.Log ("Not all body parts have a selection");
 		}
 	}
+
+
+	public VisualOnlyBPartGenericScript makeBodyPart(string nameOfpart){
+		partData = bPartXMLReader.getBodyData (nameOfpart);
+		VisualOnlyBPartGenericScript instaBodypart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
+		instaBodypart.CreateNewPart (partData);		// 
+		return instaBodypart;
+	}
+	public string intToStringNumber(int incomingNumber){
+		switch (incomingNumber) {
+		case(1):
+			return "one";
+		case(2):
+			return "two";
+		case(3):
+			return "three";
+		case(4):
+			return "four";
+		}
+		return null;
+	}
 }
+
+
+//public class BodyPartNode{
+//	private bool exists;
+//	public BodyPartNode(){
+//		exists = false;
+//	}
+//	public bool getState(){
+//		return exists;
+//	}
+//
+//
+//	public void turnOn(){
+//		exists = true;
+//	}
+//	public void turnOff(){
+//		exists = false;
+//	}
+//}
 //public class PickedBodyPart{
 //	public string nameOfPartType{ get; set; }
 //	public int numberOfPart{ get; set; }
