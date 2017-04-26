@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\BodyPartVariationPanel.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\HeadSelectScript.cs" />
+     <Compile Include="Assets\Scripts\MenuScripts\SceneTransferVariablesScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\bodyPartPickerButtonScript.cs" />
      <Compile Include="Assets\Scripts\PlayAreaScript.cs" />
      <Compile Include="Assets\Scripts\PlayerScript.cs" />

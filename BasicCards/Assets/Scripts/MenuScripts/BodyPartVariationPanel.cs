@@ -19,7 +19,7 @@ public class BodyPartVariationPanel : MonoBehaviour {
 		listOfAllTheText = gameObject.GetComponentsInChildren<bodyPartPickerButtonScript> ();
 		listOfAllTheText [0].turnOnActiveGreen ();
 		StartCoroutine (partSelected (1));
-		print ("done panel");
+//		print ("done panel");
 	}
 
 	public IEnumerator partSelected(int incomingSelection){		//sending the value to the greater UI canvas to deal with populating the demo of the part on screen

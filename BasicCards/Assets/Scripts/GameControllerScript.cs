@@ -13,6 +13,7 @@ public class GameControllerScript : MonoBehaviour {
 	//public PlayAreaScript playAreaController;
 	private PlayerScript enemyController;
 	private PlayerScript playerController;
+	private SceneTransferVariablesScript sceneTransferVariablesScript;
 
 	public PlayerScript actingPlayer{ get; set; }
 	public PlayerScript opposingPlayer{ get; set; }
@@ -27,6 +28,14 @@ public class GameControllerScript : MonoBehaviour {
 //			StartCoroutine (StartUpLoader());
 			return;
 		}
+
+		GameObject sceneTransferVariablesScriptTemp = GameObject.FindWithTag("SceneTransferVariables");		//the script containing the variables input in from previous scenes to inform the rest of the game
+		if (sceneTransferVariablesScriptTemp != null) {
+			sceneTransferVariablesScript = sceneTransferVariablesScriptTemp.GetComponent<SceneTransferVariablesScript> ();
+		} else {
+			print ("Couldnt find SceneTransferVariablesScript");
+		}
+
 		GameObject tempEnemyController = GameObject.FindWithTag("EnemyController");				//whole block is for grabbing the Deck object so it can deal a card when clicked
 		if (tempEnemyController != null) {
 			enemyController = tempEnemyController.GetComponent<PlayerScript>();
@@ -45,14 +54,14 @@ public class GameControllerScript : MonoBehaviour {
 //		incomingPlayerScript.getActiveDeck() = enemyController.GetComponentInChildren<DeckScript>();
 //		playerDeckController = playerController.GetComponentInChildren<DeckScript>();
 
-
+//		sceneTransferVariablesScript.bleh ();
 		currentClickedOnCardWeaponMatrix = new CurrentWeaponHitBox(null, false, null, 0);
 		shufflePlayerButton.onClick.AddListener(discardAllActivePlayerShuffle);
 //		MakeSquaresButton.onClick.AddListener(makeActiveSquares);
 		shuffleEnemyButton.onClick.AddListener(discardAllActiveEnemyShuffle);
 
-		StartCoroutine (enemyController.ManualStart ());
-		StartCoroutine (playerController.ManualStart ());
+		StartCoroutine (enemyController.ManualStart (sceneTransferVariablesScript.getAllPartsPicked()));
+		StartCoroutine (playerController.ManualStart (sceneTransferVariablesScript.getAllPartsPicked()));
 
 	}
 //	IEnumerator StartUpLoader(){

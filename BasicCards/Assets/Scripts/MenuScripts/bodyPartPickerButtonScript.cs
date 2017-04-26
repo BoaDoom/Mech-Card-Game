@@ -21,14 +21,14 @@ public class bodyPartPickerButtonScript : Selectable{
 		ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript>().colors;
 		startNormalColor = cb.normalColor;
 //		button.colors = cb;
-		print("Done text");
+//		print("Done text");
 	}
 
 	public void setAsSelected(){
 		//selectorScript.
 	}
 	public override void OnPointerDown(PointerEventData eventData){
-		print ("pointer down");
+//		print ("pointer down");
 		if (bodyPartVariationPanel.getPartSelected () == bodyPartNumber) { //toggles off the the body part color on deselection if the parent panel is storing the same number
 			StartCoroutine (bodyPartVariationPanel.partSelected(-1));
 			turnOffSelectedColor ();
