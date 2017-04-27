@@ -11,7 +11,7 @@ public class BodyPartVariationPanel : MonoBehaviour {
 	string nameOfPartPanel;
 	int currentSelectedPart = 0;
 	bool completedStartup = false;
-	SpriteRenderer bodyPartMenuViewer;
+	BodyPartPreviewWindowScript bodyPartpreviewer;
 	VisualOnlyBPartGenericScript currentVisualOfPart;
 	public void Start(){
 		GameObject canvasFinderTemp = GameObject.FindWithTag ("PartSelectionCanvas");
@@ -20,7 +20,7 @@ public class BodyPartVariationPanel : MonoBehaviour {
 		}
 		nameOfPartPanel = gameObject.name;
 		listOfAllTheText = gameObject.GetComponentsInChildren<bodyPartPickerButtonScript> ();
-		bodyPartMenuViewer = gameObject.GetComponentInChildren<SpriteRenderer>();////////////////////////////////// after grabbing sprite object, make a small version of PlayAreaScript to display part
+		bodyPartpreviewer = gameObject.GetComponentInChildren<BodyPartPreviewWindowScript>();////////////////////////////////// after grabbing sprite object, make a small version of PlayAreaScript to display part
 
 
 		StartCoroutine (checkIfChildrenAreDone());		//checks if children of panel are done starting up
@@ -33,21 +33,28 @@ public class BodyPartVariationPanel : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		} 
 
-	listOfAllTheText [0].turnOnActiveGreen ();
+	listOfAllTheText [0].turnOnActiveGreen ();		//turns on the first option as default
 	StartCoroutine (partSelected (1));
 //	print ("done with panel");
 	yield return null;
 	}
 
-	public IEnumerator partSelected(int incomingSelection){		//sending the value to the greater UI canvas to deal with populating the demo of the part on screen
-		currentVisualOfPart = partSelectionCanvas.markSelectedBodyPart(nameOfPartPanel, incomingSelection);			
-		currentSelectedPart = incomingSelection;		//setting current part selected
-		foreach(bodyPartPickerButtonScript bodyPartText in listOfAllTheText){
+	public IEnumerator partSelected(int incomingSelection){		//sending the value to the greater UI canvas to get the info about the body parts
+		
+		currentSelectedPart = incomingSelection;		//setting current part selected number value
+		foreach(bodyPartPickerButtonScript bodyPartText in listOfAllTheText){		//turns off all the text buttons if they are not the currently selected option
 			if (bodyPartText.getBodyPartNumber () != currentSelectedPart) {
 				bodyPartText.turnOffSelectedColor ();
 			}
 		}
-
+		if (incomingSelection <0){	//command comes through as -1 if the selection coming through is deselecting everything
+			partSelectionCanvas.markSelectedBodyPartAsNull(nameOfPartPanel);
+			StartCoroutine( bodyPartpreviewer.clearSquares());
+		}
+		else{
+			currentVisualOfPart = partSelectionCanvas.markSelectedBodyPart(nameOfPartPanel, incomingSelection);		//name of panel is built in to each version	
+			StartCoroutine( bodyPartpreviewer.refreshSquares (currentVisualOfPart));		//sends the bodypart data to the preview square to populate the visual
+		}
 		yield return null;
 	}
 	public int getPartSelected(){

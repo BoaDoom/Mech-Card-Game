@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetSquareScript : MonoBehaviour {
+public class VisualSquareScript : MonoBehaviour {
 
 	int gridCordX;
 	int gridCordY;
@@ -15,20 +15,20 @@ public class TargetSquareScript : MonoBehaviour {
 	private string playerControllerIDTag;
 
 	Sprite trueUntarget;
-	Sprite trueTarget;
+//	Sprite trueTarget;
 //	private int startingIntValue;
 
 	public TargetSquareState activeSquareState;
 
 	SpriteRenderer spriteRenderer;
-	PlayAreaScript playArea;
+//	PlayAreaScript playArea;
 	BPartGenericScript bodyPartReference;
 	//PlayAreaScript playAreaScript;
 
 //	private bool bPUnderThreat = false;
 
 	public IEnumerator ManualStart(PlayAreaScript parentPlayAreaScript){
-		playArea = parentPlayAreaScript;
+//		playArea = parentPlayAreaScript;
 		activeSquareState = new TargetSquareState();
 //		activeSquareState.setOccupiedState (true);
 //		print (activeSquareState.getOccupiedState());
@@ -40,7 +40,7 @@ public class TargetSquareScript : MonoBehaviour {
 //			trueUntarget = spriteRenderer.sprite;
 		}
 		trueUntarget = defaultSprite;
-		trueTarget = targetMissedSprite;
+//		trueTarget = targetMissedSprite;
 		if(spriteRendererTemp == null){
 			Debug.Log ("Cannot find 'spriteRendererTemp'object");
 		}
@@ -77,35 +77,6 @@ public class TargetSquareScript : MonoBehaviour {
 //			spriteRenderer.sprite = defaultSprite;
 //		}
 //	}
-		
-	void OnMouseEnter(){
-		playArea.squareHoveredOver (gridCordX, gridCordY);
-
-	}
-	void OnMouseExit(){
-		playArea.squareHoveredOff ();
-	}
-	void OnMouseDown(){
-		playArea.squareClickedOn(gridCordX, gridCordY);
-	}
-		
-	public void TargetSquare(){		//used by playarea to turn on and off targetting
-		spriteRenderer.sprite = trueTarget;
-		activeSquareState.setHardTargetedState(true);
-		activeSquareState.setSoftTargetedState(true);
-		if (bodyPartReference != null) {
-			bodyPartReference.setBPartThreatenedOn ();
-		}
-//		bodyPartReference.setHardBPartTargetedOn ();
-//		Debug.Log ("target triggered");
-
-	}
-	public void softUntargetSquare(){	//used by playarea to turn on and off targetting. The point of this is to turn off squares that arn't hovered over anymore, but to keep track of
-										//where the last place the weapon shape was hovered over in case the user releases and 'fires' the weapon within the bounderies, the correct portions are hit
-		spriteRenderer.sprite = trueUntarget;
-		activeSquareState.setHardTargetedState(false);
-//		Debug.Log ("soft untarget triggered");
-	}
 	public void hardUntargetSquare(){	//used by playarea to turn on and off targetting. Hard reset happens when Another
 		spriteRenderer.sprite = trueUntarget;
 		activeSquareState.setSoftTargetedState(false);
@@ -116,16 +87,6 @@ public class TargetSquareScript : MonoBehaviour {
 //		Debug.Log ("hard untarget triggered");
 	}
 
-	public void setBPartUnderThreat(){
-//		Vector2 tempVector2 = new Vector2 (gridCordX, gridCordY);
-		if (activeSquareState.getOccupiedState () && 	//if its occupied by a bpart
-			!activeSquareState.getSoftTargetedState () && 	//if its getting targetted by a weapon don't activate, so it doesn't override the weapon
-			!activeSquareState.getHardTargetedState () && 	//
-			bodyPartReference.getIfUnderThreat()) {			//checks to see if the body part is actually being targetted/under threat
-				spriteRenderer.sprite = limbUnderThreatSprite;	//goal of the whole method, to swap to limbUnderThreat sprite
-		}
-//		bPUnderThreat = true;
-	}
 	public void setBPartNotUnderThreat(){
 		spriteRenderer.sprite = trueUntarget;
 //		bPUnderThreat = false;
@@ -145,30 +106,18 @@ public class TargetSquareScript : MonoBehaviour {
 //		bodyPartReference.takeDamage (incomingWeaponDamage);
 //	}
 
-	public void OccupiedSquare(BPartGenericScript incomingBodyPartReference){	//used by playerScript to turn on and off if the body part occupies the space
-		bodyPartReference = incomingBodyPartReference;
-		trueTarget = occupiedTargetedSprite;
-		trueUntarget = occupiedUntargetedSprite;
-		activeSquareState.setOccupiedState(true);
-		spriteRenderer.sprite = occupiedUntargetedSprite;
-	}
+
 	public void OccupiedSquare(){	//used by playerScript to turn on and off if the body part occupies the space. Alt method for when its just a preview window
 		activeSquareState.setOccupiedState(true);
 		spriteRenderer.sprite = occupiedUntargetedSprite;
 	}
 	public void DeactivateSquare(){		//used by playarea to turn on and off if the enemy occupies the space
-		trueUntarget = defaultSprite;
-		trueTarget = targetMissedSprite;
+//		trueUntarget = defaultSprite;
+//		trueTarget = targetMissedSprite;
+		spriteRenderer.sprite = trueUntarget;
 		activeSquareState.setOccupiedState(false);
 	}
-
-	public void SetPlayerAs(string incomingPlayerControllerIDTag){
-		playerControllerIDTag = incomingPlayerControllerIDTag;
-	}
-	public string getPlayerID(){
-		return playerControllerIDTag;
-	}
-
+		
 //	public TargetSquareState getStateOfSquare(){
 //		return activeSquareState;
 //	}

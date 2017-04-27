@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\BPartScripts\BPartGenericScript.cs" />
      <Compile Include="Assets\Scripts\BPartScripts\BodyPartMakerScript.cs" />
      <Compile Include="Assets\Scripts\BPartScripts\VisualOnlyBPartGenericScript.cs" />
+     <Compile Include="Assets\Scripts\BodyPartPreviewWindowScript.cs" />
      <Compile Include="Assets\Scripts\CardScript.cs" />
      <Compile Include="Assets\Scripts\DeckScript.cs" />
      <Compile Include="Assets\Scripts\DraggableScript.cs" />
@@ -64,6 +65,7 @@
      <Compile Include="Assets\Scripts\TargetSquareScript.cs" />
      <Compile Include="Assets\Scripts\UIScripts\UIBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\UndrawnDeckScript.cs" />
+     <Compile Include="Assets\Scripts\VisualSquareScript.cs" />
      <Compile Include="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" />
      <Compile Include="Assets\Scripts\XMLScripts\LoaderScript.cs" />
      <Compile Include="Assets\Scripts\XMLScripts\XMLCardLoaderScript.cs" />

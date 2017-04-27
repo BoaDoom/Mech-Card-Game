@@ -39,6 +39,7 @@ public class VisualOnlyBPartGenericScript : MonoBehaviour {
 		}
 		dimensions = new Vector2(nodesOfBP.Length, nodesOfBP[0].Length);		//dependent on the farthest location from the source (0,0) of the list of binaryDimensions
 		//Debug.Log("complex list for "+bPartName+ " : "+ listOfComplexAnchorPoints.Count);
+
 	}
 	public string getName(){
 		return bPartName;

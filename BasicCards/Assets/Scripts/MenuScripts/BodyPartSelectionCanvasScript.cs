@@ -83,10 +83,28 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			Debug.Log ("Unknown bodypart");
 			return makeBodyPart (legSelection);
 		}
-		//Debug.Log(legSelection);
-//		print (incomingSelection +" "+ nameOfPart);
-//		bodyPartPickerButtonScript tempbodyPartPickerButtonScript =	eventSystem.currentSelectedGameObject.GetComponents<bodyPartPickerButtonScript> ();
-//		tempbodyPartPickerButtonScript.setAsSelected ();
+	}
+	public void markSelectedBodyPartAsNull(string nameOfPart){		//for deselecting the body part
+		switch (nameOfPart) {
+		case("Head"):
+			headSelection = null;
+			break;
+		case("Arm"):
+			armSelection = null;
+			break;
+		case("Torso"):
+			torsoSelection = null;
+			break;
+		case("Shoulder"):
+			shoulderSelection = null;
+			break;
+		case("Leg"):
+			legSelection = null;
+			break;
+		default:
+			Debug.Log ("Unknown bodypart");
+			break;
+		}
 	}
 	public bool checkIfBodyIsComplete(){
 		return (headSelection != null && armSelection != null && torsoSelection != null && shoulderSelection != null && legSelection != null);
