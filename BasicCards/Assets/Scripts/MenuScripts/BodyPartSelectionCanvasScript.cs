@@ -14,6 +14,8 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	BodyPartDataHolder partData = null;
 	public VisualOnlyBPartGenericScript visualOnlyBodyPartObject;
 
+	VisualOnlyBPartGenericScript tempBodyPart;
+
 	BPartXMLReaderScript bPartXMLReader;
 //	public int what;
 	string headSelection;
@@ -32,9 +34,9 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			SceneManager.LoadScene ("XMLLoaderScene");
 			return;
 		} else if (loaderScriptTemp != null) {
+			tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
 			bPartXMLReader = loaderScriptTemp.GetComponent<BPartXMLReaderScript> ();
 		
-
 			GameObject sceneTransferVariablesScriptTemp = GameObject.FindWithTag ("SceneTransferVariables");
 			if (sceneTransferVariablesScriptTemp != null) {
 				sceneTransferVariablesScript = sceneTransferVariablesScriptTemp.GetComponent<SceneTransferVariablesScript> ();
@@ -49,11 +51,13 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 				print ("Couldnt find event system");
 			}
 			nextButton.onClick.AddListener (checkToMoveToPlayScreen);
-
+			//VisualOnlyBPartGenericScript tempBodyPart;
 			listOfAllThePanels = gameObject.GetComponentsInChildren<BodyPartVariationPanel> ();
 			foreach (BodyPartVariationPanel panel in listOfAllThePanels) {
 				StartCoroutine (panel.ManualStart ());
 			}
+
+
 		}
 			
 			//		print ("done panel");
@@ -128,9 +132,11 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 	public VisualOnlyBPartGenericScript makeBodyPart(string nameOfpart){
 		partData = bPartXMLReader.getBodyData (nameOfpart);
-		VisualOnlyBPartGenericScript instaBodypart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
-		instaBodypart.CreateNewPart (partData);		// 
-		return instaBodypart;
+
+		//VisualOnlyBPartGenericScript tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
+
+		tempBodyPart.CreateNewPart (partData);		// 
+		return tempBodyPart;
 	}
 	public string intToStringNumber(int incomingNumber){
 		switch (incomingNumber) {

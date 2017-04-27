@@ -71,12 +71,13 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 	public IEnumerator refreshSquares (VisualOnlyBPartGenericScript incomingVisualOfBpart) {
 		StartCoroutine (clearSquares ());
 		Vector2 incomingGridDimensions = incomingVisualOfBpart.getDimensionsOfPart ();
-
+		Vector2 offSetPoint = new Vector2 (Mathf.Ceil((staticNumberOfBoxesX/2)-(incomingGridDimensions.x)/2), Mathf.Ceil((staticNumberOfBoxesY/2)-(incomingGridDimensions.y)/2));
+//		print (offSetPoint);
 		for(int x = 0; x < incomingGridDimensions.x; x++){
 			for(int y = 0; y <incomingGridDimensions.y; y++){
 				//grid [x] [y].DeactivateSquare ();
 				if (incomingVisualOfBpart.getGridPoint(new Vector2(x,y))){	//checks the dimensions of the incoming body part and sees if its occupied
-					grid [x] [y].OccupiedSquare ();		//sets the preview windows square as occupied if the above is true
+					grid [x+ (int)offSetPoint.x] [y +(int)offSetPoint.y].OccupiedSquare ();		//sets the preview windows square as occupied if the above is true
 				}
 			}
 		}

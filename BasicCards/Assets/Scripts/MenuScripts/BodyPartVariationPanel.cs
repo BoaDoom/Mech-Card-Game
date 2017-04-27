@@ -22,7 +22,9 @@ public class BodyPartVariationPanel : MonoBehaviour {
 		listOfAllTheText = gameObject.GetComponentsInChildren<bodyPartPickerButtonScript> ();
 		bodyPartpreviewer = gameObject.GetComponentInChildren<BodyPartPreviewWindowScript>();////////////////////////////////// after grabbing sprite object, make a small version of PlayAreaScript to display part
 
-
+		foreach(bodyPartPickerButtonScript bodyPartText in listOfAllTheText){
+			StartCoroutine (bodyPartText.ManualStart ());
+		}
 		StartCoroutine (checkIfChildrenAreDone());		//checks if children of panel are done starting up
 		completedStartup = true;
 //		print ("panel startup done");
@@ -40,7 +42,9 @@ public class BodyPartVariationPanel : MonoBehaviour {
 	}
 
 	public IEnumerator partSelected(int incomingSelection){		//sending the value to the greater UI canvas to get the info about the body parts
-		
+//		foreach (VisualOnlyBPartGenericScript child in transform) {///////////////////////////
+//			Destroy (child);
+//		}
 		currentSelectedPart = incomingSelection;		//setting current part selected number value
 		foreach(bodyPartPickerButtonScript bodyPartText in listOfAllTheText){		//turns off all the text buttons if they are not the currently selected option
 			if (bodyPartText.getBodyPartNumber () != currentSelectedPart) {
@@ -53,6 +57,7 @@ public class BodyPartVariationPanel : MonoBehaviour {
 		}
 		else{
 			currentVisualOfPart = partSelectionCanvas.markSelectedBodyPart(nameOfPartPanel, incomingSelection);		//name of panel is built in to each version	
+			currentVisualOfPart.GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>());
 			StartCoroutine( bodyPartpreviewer.refreshSquares (currentVisualOfPart));		//sends the bodypart data to the preview square to populate the visual
 		}
 		yield return null;

@@ -72,6 +72,7 @@ public class GameControllerScript : MonoBehaviour {
 		}
 
 	}
+
 //	IEnumerator StartUpLoader(){
 //		SceneManager.LoadScene("XMLLoaderScene"); //Only happens if coroutine is finished
 //		print("its still going");

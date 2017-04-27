@@ -31,6 +31,7 @@ public class PlayAreaScript: MonoBehaviour {
 
 
 	public IEnumerator ManualStart () {
+		
 		controllerParentIDtag = gameObject.transform.parent.tag;
 		//print ("My daddy is "+controllerParentIDtag);
 

@@ -15,16 +15,28 @@ public class bodyPartPickerButtonScript : Selectable{
 //	public Color highlightedColor;
 //	public Color selectedColor;
 	//public string bodyPartName;
-	protected override void Start(){
+//	protected override void Start(){
+//		bodyPartVariationPanel = gameObject.GetComponentInParent<BodyPartVariationPanel>();
+//		//gameObject.GetComponent<Text>().color =  startColor;
+//		//print (startColor);
+//		//Changes the button's Disabled color to the new color.
+//		ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript>().colors;
+//		startNormalColor = cb.normalColor;
+////		button.colors = cb;
+////		print("Done text");
+//		completedStart = true;
+//	}
+	public IEnumerator ManualStart(){
 		bodyPartVariationPanel = gameObject.GetComponentInParent<BodyPartVariationPanel>();
 		//gameObject.GetComponent<Text>().color =  startColor;
 		//print (startColor);
 		//Changes the button's Disabled color to the new color.
 		ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript>().colors;
 		startNormalColor = cb.normalColor;
-//		button.colors = cb;
-//		print("Done text");
+		//		button.colors = cb;
+		//		print("Done text");
 		completedStart = true;
+		yield return null;
 	}
 
 	public void setAsSelected(){

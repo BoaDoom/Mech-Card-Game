@@ -31,6 +31,7 @@ public class PlayerScript : MonoBehaviour {
 	private AllPickedBodyParts allPickedBodyParts;
 	//	bool bodypartIsDone = false;
 	//	bool playAreaIsDone = false;
+	float zeroTime = 0.0f;
 
 
 	public IEnumerator ManualStart (AllPickedBodyParts incomingBodyPartPicks) {
@@ -56,8 +57,25 @@ public class PlayerScript : MonoBehaviour {
 		} else {
 			isEnemyPlayer = true;
 		}
+//		setTimer (10.0f);
+
+
 		yield return null;
 	}
+	public void Update(){
+		zeroTime = zeroTime + Time.deltaTime;
+		print ("Timer counted " +zeroTime );
+	}
+//	public void setTimer(float timerLength){
+//		print ("Timer start "+ timerLength);
+//
+//		while (zeroTime < timerLength) {
+//			//yield return new WaitForSeconds (1);
+//			print ("Timer counted " +zeroTime );
+//		}
+//		print ("Timer done");
+//	}
+
 	public void setPlayAreaDimensions(Vector2 incomingDimensions){
 		//print ("inc dim "+incomingDimensions);
 		playAreaDimensions = incomingDimensions;
