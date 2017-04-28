@@ -20,6 +20,7 @@ public class GameControllerScript : MonoBehaviour {
 
 	public CurrentWeaponHitBox currentClickedOnCardWeaponMatrix{ get; set; }
 	//private bool boolCardClickedOn;
+	private float publicTimer = 0f;
 
 	void Start () {
 		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");				//whole block is for grabbing the Deck object so it can deal a card when clicked
@@ -72,7 +73,13 @@ public class GameControllerScript : MonoBehaviour {
 		}
 
 	}
-
+	public void Update(){
+		publicTimer = publicTimer + Time.deltaTime;
+		//print ("Timer counted " +zeroTime );
+	}
+	public float getTime(){
+		return publicTimer;
+	}
 //	IEnumerator StartUpLoader(){
 //		SceneManager.LoadScene("XMLLoaderScene"); //Only happens if coroutine is finished
 //		print("its still going");

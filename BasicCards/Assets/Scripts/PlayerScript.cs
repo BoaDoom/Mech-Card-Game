@@ -18,6 +18,13 @@ public class PlayerScript : MonoBehaviour {
 	private Vector3 healthBarStartingPosition;
 	private bool isEnemyPlayer;
 
+	public Transform playerTickerTimer;
+	private Vector3 playerTickerStartTransformScale;
+	private Vector3 playerTickerStartTransformPosition;
+	private float defaultTickerTime = 5.0f;
+	private float tickerTimer;
+
+
 	private WholeBodyOfParts wholeBodyOfParts = new WholeBodyOfParts();
 	CurrentWeaponHitBox incomingWeaponhitBox;
 
@@ -31,10 +38,14 @@ public class PlayerScript : MonoBehaviour {
 	private AllPickedBodyParts allPickedBodyParts;
 	//	bool bodypartIsDone = false;
 	//	bool playAreaIsDone = false;
-	float zeroTime = 0.0f;
+	//float zeroTime;
 
 
 	public IEnumerator ManualStart (AllPickedBodyParts incomingBodyPartPicks) {
+		playerTickerStartTransformScale = new Vector3(playerTickerTimer.transform.localScale.x, playerTickerTimer.transform.localScale.y, playerTickerTimer.transform.localScale.y);
+		playerTickerStartTransformPosition = new Vector3(playerTickerTimer.transform.localPosition.x,playerTickerTimer.transform.localPosition.y, playerTickerTimer.transform.localPosition.z);
+		tickerTimer = defaultTickerTime;
+
 		allPickedBodyParts = incomingBodyPartPicks;  //choices of body parts picked from previous menu selections
 		gameController = gameObject.GetComponentInParent<GameControllerScript> ();
 		playAreaScript = gameObject.GetComponentInChildren<PlayAreaScript> ();
@@ -57,24 +68,43 @@ public class PlayerScript : MonoBehaviour {
 		} else {
 			isEnemyPlayer = true;
 		}
-//		setTimer (10.0f);
 
-
+		StartCoroutine(startTicker());
 		yield return null;
 	}
-	public void Update(){
-		zeroTime = zeroTime + Time.deltaTime;
-		print ("Timer counted " +zeroTime );
-	}
-//	public void setTimer(float timerLength){
-//		print ("Timer start "+ timerLength);
-//
-//		while (zeroTime < timerLength) {
-//			//yield return new WaitForSeconds (1);
-//			print ("Timer counted " +zeroTime );
+
+//	public IEnumerator setTimer(float timerLength){
+////		print ("Timer start "+ timerLength);
+//		//float timerCounter = 0f;
+//		float endTime = gameController.getTime () + timerLength;
+//		while (gameController.getTime () < endTime) {
+//			//print ("Timer going " +(endTime -gameController.getTime()));
+//			yield return null;
 //		}
-//		print ("Timer done");
+////		print ("Timer done" +timerLength);
+//		yield return null;
 //	}
+	public IEnumerator startTicker(){
+		int enemy;
+		if (isEnemyPlayer) {
+			enemy = -1;
+		} else {
+			enemy = 1;
+		}
+		while (tickerTimer > 0){
+			tickerTimer = tickerTimer - Time.deltaTime;
+			playerTickerTimer.localScale = new Vector3((playerTickerStartTransformScale.x*(tickerTimer / defaultTickerTime)), playerTickerStartTransformScale.y, playerTickerStartTransformScale.z);
+			playerTickerTimer.localPosition = new Vector3 ((playerTickerStartTransformPosition.x - ((playerTickerStartTransformScale.x/2)-((playerTickerStartTransformScale.x/2)*(tickerTimer / defaultTickerTime))) * enemy),
+				playerTickerStartTransformPosition.y, playerTickerStartTransformPosition.z);
+//			print (playerTickerStartTransform.localScale.x);
+//			print ((4*(tickerTimer / defaultTickerTime)));
+			yield return null;
+		}
+		tickerTimer = defaultTickerTime;
+		playerTickerTimer.localScale = playerTickerStartTransformScale;
+		//print ("One rotation done");
+		yield return StartCoroutine(startTicker());
+	}
 
 	public void setPlayAreaDimensions(Vector2 incomingDimensions){
 		//print ("inc dim "+incomingDimensions);
