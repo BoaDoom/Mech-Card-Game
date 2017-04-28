@@ -40,7 +40,7 @@ public class BPartGenericScript : MonoBehaviour {
 ////////////////////
 	public void takeDamage(CurrentWeaponHitBox incomingWeaponHitData){
 		currentHealth -= incomingWeaponHitData.weaponDamage;
-		print (incomingWeaponHitData.weaponDamage);
+//		print (incomingWeaponHitData.weaponDamage);
 			if (currentHealth <= 0) {
 				playerScript.outgoingBrokenPartNodes (internalGlobalCords);
 			}

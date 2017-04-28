@@ -13,6 +13,11 @@ public class GameControllerScript : MonoBehaviour {
 	//public PlayAreaScript playAreaController;
 	private PlayerScript enemyController;
 	private PlayerScript playerController;
+
+	private PlayerScript storedAttackOnPlayer;
+	private BPartGenericScript[] storedHitBodyParts;
+	private CurrentWeaponHitBox storedWeaponHitBox;
+
 	private SceneTransferVariablesScript sceneTransferVariablesScript;
 
 	public PlayerScript actingPlayer{ get; set; }
@@ -73,13 +78,13 @@ public class GameControllerScript : MonoBehaviour {
 		}
 
 	}
-	public void Update(){
-		publicTimer = publicTimer + Time.deltaTime;
-		//print ("Timer counted " +zeroTime );
-	}
-	public float getTime(){
-		return publicTimer;
-	}
+//	public void Update(){
+//		publicTimer = publicTimer + Time.deltaTime;
+//		//print ("Timer counted " +zeroTime );
+//	}
+//	public float getTime(){
+//		return publicTimer;
+//	}
 //	IEnumerator StartUpLoader(){
 //		SceneManager.LoadScene("XMLLoaderScene"); //Only happens if coroutine is finished
 //		print("its still going");
@@ -138,17 +143,31 @@ public class GameControllerScript : MonoBehaviour {
 		enemyController.getActiveDeck().discardAllActiveShuffle();
 	}
 
-
+//	public void startSendingDamage(){
+//		StartCoroutine( actingPlayer.startTicker(2f));		//starts the timer bar with a countdown on that specific player
+//
+//	}
 	public void transferOfCardDamage(){		//is sent by the play area script that the active card was just played
 //		Debug.Log("target: " +playAreaController.getActiveSquareStateSoftTarget(0,0));
 //		Debug.Log("occupied: " +playAreaController.getActiveSquareStateOccupied(0,0));
 		//incomingPlayerScript.takeDamage (currentClickedOnCardWeaponMatrix);
+		StartCoroutine( actingPlayer.startTicker(2f));		//starts the timer bar with a countdown on that specific player
+		if (storedHitBodyParts != null) {
+			for (int i = 0; storedHitBodyParts.Length >= 0; i++) {
+				storedHitBodyParts [i] = null;
+			}
+		}
+		int f = 0;
 		foreach (BPartGenericScript bodyPartObject in opposingPlayer.getWholeBodyOfParts().listOfAllParts){
 
 			if (bodyPartObject.getIfUnderThreat ()) {
 				//print ("body part run though");
-				bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
-				opposingPlayer.updateHealthDisplay ();
+				storedHitBodyParts[f] = bodyPartObject;	//stores the incoming data so that it can allow the rest of the game run but delete card and allow targetting squares to reset
+				storedWeaponHitBox = currentClickedOnCardWeaponMatrix;
+				storedAttackOnPlayer = opposingPlayer;
+//				bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
+//				opposingPlayer.updateHealthDisplay ();
+				f++;
 			}
 		}
 ////////////////obsolete after changing damage from per square to per body part
@@ -163,6 +182,12 @@ public class GameControllerScript : MonoBehaviour {
 //		}
 ///////////////////////////
 		cardClickedOff ();
+	}
+	public void executeDelayedCardDamage(){
+		foreach (BPartGenericScript bodyPartObject in storedHitBodyParts) {
+			bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
+		}
+		opposingPlayer.updateHealthDisplay ();
 	}
 //	public DeckScript getEnemyDeckController(){
 //		return incomingPlayerScript.getActiveDeck();

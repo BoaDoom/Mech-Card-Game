@@ -69,7 +69,7 @@ public class PlayerScript : MonoBehaviour {
 			isEnemyPlayer = true;
 		}
 
-		StartCoroutine(startTicker());
+//		StartCoroutine(startTicker());
 		yield return null;
 	}
 
@@ -84,26 +84,30 @@ public class PlayerScript : MonoBehaviour {
 ////		print ("Timer done" +timerLength);
 //		yield return null;
 //	}
-	public IEnumerator startTicker(){
+	public IEnumerator startTicker(float incomingTime){
+//		print ("start");
+		float startingIncomingTime = incomingTime;
 		int enemy;
 		if (isEnemyPlayer) {
 			enemy = -1;
 		} else {
 			enemy = 1;
 		}
-		while (tickerTimer > 0){
-			tickerTimer = tickerTimer - Time.deltaTime;
-			playerTickerTimer.localScale = new Vector3((playerTickerStartTransformScale.x*(tickerTimer / defaultTickerTime)), playerTickerStartTransformScale.y, playerTickerStartTransformScale.z);
-			playerTickerTimer.localPosition = new Vector3 ((playerTickerStartTransformPosition.x - ((playerTickerStartTransformScale.x/2)-((playerTickerStartTransformScale.x/2)*(tickerTimer / defaultTickerTime))) * enemy),
+		while (incomingTime > 0){
+//			print ("loop");
+			incomingTime = incomingTime - Time.deltaTime;
+			playerTickerTimer.localScale = new Vector3((playerTickerStartTransformScale.x*(incomingTime / startingIncomingTime)), playerTickerStartTransformScale.y, playerTickerStartTransformScale.z);
+			playerTickerTimer.localPosition = new Vector3 ((playerTickerStartTransformPosition.x - ((playerTickerStartTransformScale.x/2)-((playerTickerStartTransformScale.x/2)*(incomingTime / startingIncomingTime))) * enemy),
 				playerTickerStartTransformPosition.y, playerTickerStartTransformPosition.z);
-//			print (playerTickerStartTransform.localScale.x);
-//			print ((4*(tickerTimer / defaultTickerTime)));
 			yield return null;
 		}
-		tickerTimer = defaultTickerTime;
+		//incomingTime = defaultTickerTime;
 		playerTickerTimer.localScale = playerTickerStartTransformScale;
+		playerTickerTimer.localPosition = playerTickerStartTransformPosition;
+		//gameController.transferOfCardDamage ();
 		//print ("One rotation done");
-		yield return StartCoroutine(startTicker());
+//		print ("end");
+		yield return null;
 	}
 
 	public void setPlayAreaDimensions(Vector2 incomingDimensions){

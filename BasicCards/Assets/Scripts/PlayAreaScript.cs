@@ -131,6 +131,7 @@ public class PlayAreaScript: MonoBehaviour {
 	}
 	public void squareClickedOn(int xCord, int yCord){		//when a small square is clicked on
 		if (gameControllerScript.currentClickedOnCardWeaponMatrix.isCardClickedOn && (gameControllerScript.actingPlayer.getWhichPlayer() != playerScript.getWhichPlayer())) {		//checks to see if there was a card in play and is in the opposite players play area
+//			playerScript.
 			playerScript.getGameController().transferOfCardDamage ();		//if there was, make the enemy take damage
 			gameControllerScript.actingPlayer.getActiveDeck().turnOffCurrentCard();
 		}
