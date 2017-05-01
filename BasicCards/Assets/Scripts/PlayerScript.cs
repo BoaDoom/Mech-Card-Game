@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour {
 
 
 	private WholeBodyOfParts wholeBodyOfParts = new WholeBodyOfParts();
-	CurrentWeaponHitBox incomingWeaponhitBox;
+	private CurrentWeaponHitBox incomingWeaponhitBox;
 
 	private Vector2 playAreaDimensions;
 	private int flagForBrokenParts;
@@ -36,7 +36,7 @@ public class PlayerScript : MonoBehaviour {
 
 	private PlayerScript opponentPlayerController;
 	private CurrentWeaponHitBox storedWeaponHitBoxForDelayedHit;
-	private BPartGenericScript[] listOfBPartsUnderThreatForDelayedHit;
+	//private BPartGenericScript[] listOfBPartsUnderThreatForDelayedHit;
 
 	private AllPickedBodyParts allPickedBodyParts;
 	//	bool bodypartIsDone = false;
@@ -89,7 +89,11 @@ public class PlayerScript : MonoBehaviour {
 ////		print ("Timer done" +timerLength);
 //		yield return null;
 //	}
-	public IEnumerator startTicker(float incomingTime){
+	public IEnumerator startTicker(float incomingTime, BPartGenericScript[] incomingListOfBPartsUnderThreat){	//this is stored to use on the opponents controller after players timer has counted down
+		//storedWeaponHitBoxForDelayedHit = incomingWeaponHitBox;
+
+		//print("stored weapon damage "+opponentPlayerController.storedWeaponHitBoxForDelayedHit.weaponDamage);
+		//listOfBPartsUnderThreatForDelayedHit = incomingListOfBPartsUnderThreat;
 //		print ("start");
 		float startingIncomingTime = incomingTime;
 		int enemy;
@@ -112,9 +116,9 @@ public class PlayerScript : MonoBehaviour {
 		//gameController.transferOfCardDamage ();
 		//print ("One rotation done");
 //		print ("end");
-		foreach (BPartGenericScript bodyPartObject in listOfBPartsUnderThreatForDelayedHit) {	//deals damage to stored body parts from card. These are the enemies body parts
-			if (bodyPartObject != null) {
-				bodyPartObject.takeDamage (storedWeaponHitBoxForDelayedHit);
+		for (int i=0; i<incomingListOfBPartsUnderThreat.Length; i++) {	//deals damage to stored body parts from card. These are the enemies body parts
+			if (incomingListOfBPartsUnderThreat[i] != null) {
+				incomingListOfBPartsUnderThreat[i].takeDamage (opponentPlayerController.storedWeaponHitBoxForDelayedHit);
 			}
 		}
 		opponentPlayerController.updateHealthDisplay ();
@@ -198,8 +202,11 @@ public class PlayerScript : MonoBehaviour {
 		foreach(Vector2[] partCordsRow in incomingSet){
 			foreach (Vector2 cord in partCordsRow) {
 				playAreaScript.getSmallSquare ((int)cord.x, (int)cord.y).DeactivateSquare ();
+//				print ("square deactivated");
+				playAreaScript.hardResetSmallSquares ();		//in place to refresh the visability of all the small squares
 			}
 		}
+		updateHealthDisplay ();
 
 	}
 	public PlayAreaScript getPlayAreaOfPlayer(){
@@ -257,12 +264,15 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 	public void sendingAttackCard(XMLWeaponHitData weaponHitMatrix, float weaponDamage){		//info from the card in play by opponent's currently clicked on card, sending it down to playarea of this player
-		playAreaScript.cardClickedOn (weaponHitMatrix, weaponDamage);	//sends the data to the play area
+//		print("weapon damage "+ weaponDamage + tag);
+		storedWeaponHitBoxForDelayedHit =  new CurrentWeaponHitBox(weaponHitMatrix, weaponDamage);
+//		print ("stored damage " +storedWeaponHitBoxForDelayedHit.weaponDamage);
+		playAreaScript.cardClickedOn (storedWeaponHitBoxForDelayedHit);	//sends the data to the play area
 	}
-	public void storedWaitingAttackInfo(CurrentWeaponHitBox incomingWeaponHitBox, BPartGenericScript[] incomingListOfBPartsUnderThreat){	//this is stored to use on the opponents controller after players timer has counted down
-		storedWeaponHitBoxForDelayedHit = incomingWeaponHitBox;
-		listOfBPartsUnderThreatForDelayedHit = incomingListOfBPartsUnderThreat;
-	}
+//	public void storedWaitingAttackInfo( BPartGenericScript[] incomingListOfBPartsUnderThreat){	//this is stored to use on the opponents controller after players timer has counted down
+//		//storedWeaponHitBoxForDelayedHit = incomingWeaponHitBox;
+//		listOfBPartsUnderThreatForDelayedHit = incomingListOfBPartsUnderThreat;
+//	}
 
 
 	public void cardClickedOff(){ //signal from the opponent card that it has been unclicked

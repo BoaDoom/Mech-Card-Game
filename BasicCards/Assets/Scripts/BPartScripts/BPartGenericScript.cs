@@ -39,6 +39,7 @@ public class BPartGenericScript : MonoBehaviour {
 //	}
 ////////////////////
 	public void takeDamage(CurrentWeaponHitBox incomingWeaponHitData){
+//		print (incomingWeaponHitData.weaponDamage);
 		currentHealth -= incomingWeaponHitData.weaponDamage;
 //		print (incomingWeaponHitData.weaponDamage);
 			if (currentHealth <= 0) {

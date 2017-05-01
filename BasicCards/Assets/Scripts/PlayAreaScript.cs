@@ -37,6 +37,7 @@ public class PlayAreaScript: MonoBehaviour {
 	private BPartGenericScript[] storedHitBodyParts;
 
 	public IEnumerator ManualStart () {
+		currentClickedOnCardWeaponMatrix = new CurrentWeaponHitBox (null, 0);
 		isCardClickedOn = false;
 		storedHitBodyParts = new BPartGenericScript[8]; 		//the max amount of body parts that could be stored
 		controllerParentIDtag = gameObject.transform.parent.tag;
@@ -145,26 +146,27 @@ public class PlayAreaScript: MonoBehaviour {
 		if (isCardClickedOn) {		//checks to see if there was a card in play from opponent. This info is transfered from the playerscript from method cardClickedOn. It's sent directly from the card to the playerscript.
 //			playerScript.
 
-			StartCoroutine(opponentPlayerController.startTicker(2f));		//starts the timer bar with a countdown on the opponent of this play area
 			if (storedHitBodyParts != null) {		//clearing out the stored body parts that are going to be hit from previous hit
-				print(storedHitBodyParts.Length);
+//				print(storedHitBodyParts.Length);
 				int tempLength = storedHitBodyParts.Length;
 				for (int i = 0; tempLength > i; i++) {
-					print ("start " +i);
+//					print ("start " +i);
 					storedHitBodyParts [i] = null;
-					print ("end " +i);
+//					print ("end " +i);
 				}
 			}
 			int f = 0;
 			foreach (BPartGenericScript bodyPartObject in playerScript.getWholeBodyOfParts().listOfAllParts){	//gets the whole list of current players partsparts
 				if (bodyPartObject.getIfUnderThreat ()) {	//only grabs the body parts if they are currently under threat i.e. highlighted by the targeting marker
 					storedHitBodyParts[f] = bodyPartObject;	//stores the incoming data so that it can allow the rest of the game run but delete card and allow targetting squares to reset
+//					print("stored bparts : "+bodyPartObject.getName());
 				}
 
 				f++;
 			}
 //			storedWeaponHitBox = currentClickedOnCardWeaponMatrix;		//transfers the weapon data from the active card to the 'preped' attack that just started
-			opponentPlayerController.storedWaitingAttackInfo (currentClickedOnCardWeaponMatrix, storedHitBodyParts);		//sends the info of the attack to the opponent player script, so it can store it for use after the opponents timer has counted
+			StartCoroutine(opponentPlayerController.startTicker(3f, storedHitBodyParts));		//starts the timer bar with a countdown on the opponent of this play area
+			//opponentPlayerController.storedWaitingAttackInfo (storedHitBodyParts);		//sends the info of the attack to the opponent player script, so it can store it for use after the opponents timer has counted
 			cardClickedOff ();	//soft resets the small squares so they no longer highlight in the play area
 			opponentPlayerController.getActiveDeck().turnOffCurrentCard();		//turns off the opponents card after it is all used
 		}
@@ -190,8 +192,8 @@ public class PlayAreaScript: MonoBehaviour {
 	public string getControllerParentIdTag(){
 		return controllerParentIDtag;
 	}
-	public void cardClickedOn(XMLWeaponHitData WeaponHitMatrix, float weaponDamage){		//command sent from the CardBehaviour script with info about the damage its doing
-		currentClickedOnCardWeaponMatrix = new CurrentWeaponHitBox(WeaponHitMatrix, weaponDamage);
+	public void cardClickedOn(CurrentWeaponHitBox incomingWeaponBox){		//command sent from the CardBehaviour script with info about the damage its doing
+		currentClickedOnCardWeaponMatrix = incomingWeaponBox;
 		hardResetSmallSquares ();
 		isCardClickedOn = true;
 	}
