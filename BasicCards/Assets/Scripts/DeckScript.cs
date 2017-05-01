@@ -170,14 +170,14 @@ public class DeckScript : MonoBehaviour {
 		updateCards ();
 		discardDrawThenShuffle ();
 	}
+
 	public void setCurrentCard(CardScript incomingCard){
 		currentCard = incomingCard;
-
 	}
 	public void emptyCurrentCard(){
 		currentCard = null;
 	}
-	public void turnOffCurrentCard(){
+	public void turnOffCurrentCard(){		//turns off the card in play
 		//Debug.Log ("trying to turn off");
 		if (currentCard == null) {
 			Debug.Log ("There is currently no activated card");

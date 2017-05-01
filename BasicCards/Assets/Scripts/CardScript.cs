@@ -11,22 +11,17 @@ public class CardScript : MonoBehaviour {
 	string typeOfAttack;
 
 	private DeckScript deckScript;
-	//private GridMaker gridMaker;
-	//private weaponHitContainerBehaviour weaponHitSquares;
-	//private ActiveSquareBehaviour tempSquares;
-//	private Vector3 offSetDistance;
-//	float heightOfHitSquares;
-//	float widthOfHitSquares;
 
-	//private bool clicked;
-	//private bool cardInPlayArea;
 	private bool active;
 	private bool clickedOn;
 	private Sprite storedSprite;
 	private SpriteRenderer spriteRenderer;
 	private int hitSquareOverflow;
 
-	private string controllerParentIDtag;
+	private string controllerParentIDtag; //will either be EnemyController or PlayerController
+	private PlayerScript selfPlayerController;
+	private PlayerScript opponentPlayerController;
+	private PlayerScript tempPlayerController;
 
 	private XMLWeaponHitData hitBoxDataForCard;
 
@@ -41,22 +36,6 @@ public class CardScript : MonoBehaviour {
 		clickedOn = false;
 		hitSquareOverflow = 0;
 
-		//GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");	
-//		GameObject deckControllerObjectTemp = GameObject.FindWithTag ("DeckController");
-//		if (deckControllerObjectTemp != null) {
-//			deckScript = deckControllerObjectTemp.GetComponent<DeckScript> ();
-//		}
-//		if (deckControllerObjectTemp == null) {
-//			Debug.Log ("Cannot find 'deckController'object");
-//		}
-
-//		GameObject gameControllerScriptTemp = GameObject.FindWithTag ("GameController");
-//		if (gameControllerScriptTemp != null) {
-//			gameController = gameControllerScriptTemp.GetComponent<GameControllerScript> ();
-//		}
-//		if (gameControllerScriptTemp == null) {
-//			Debug.Log ("Cannot find 'GameController'object");
-//		}
 	}
 	public void setFace(Sprite cardFaceGraphic){
 		gameObject.GetComponent<SpriteRenderer>().sprite = cardFaceGraphic;
@@ -87,40 +66,24 @@ public class CardScript : MonoBehaviour {
 	}
 
 
-
-	void Update(){
-////		//Debug.Log(hitSquares[0].transform.localPosition);
-////		//Debug.Log(gameObject.transform.localPosition);
-////		offSetDistance = hitSquares[0].transform.localPosition - gameObject.transform.localPosition;
-////		//Debug.Log(offSetDistance);
-////		offSetDistance = new Vector3 (offSetDistance.x -(widthOfHitSquares/2), offSetDistance.y -(heightOfHitSquares/2), 0.0f);
-////		int incriment = 0;
-//		foreach (ActiveSquareBehaviour hitSquare in hitSquares) {
-//			hitSquare.transform.localPosition = hitSquare.transform.localPosition + offSetDistance;
-//		}
-	}
-
-
-
-
 	public void moveCard(Vector3 newPosition){
 		gameObject.transform.position = newPosition;
 	}
 
 	private void OnMouseDown(){
-		if (!clickedOn) {
-			deckScript.getGameController().cardClickedOn (deckScript.getPlayerScript(), hitBoxDataForCard, attackDamageOfCard);		//sends the info about attack attached to the card to the gamecontroller
+		if (!clickedOn) {	//allows a single click down and up to activate and attach card to mouse pointer
+			opponentPlayerController.sendingAttackCard (hitBoxDataForCard, attackDamageOfCard);		//sends the info about attack attached to the card to the gamecontroller
 			clickedOn = true;
 			//Debug.Log (gameObject.GetComponent<CardScript> ().AttackValue);
-			deckScript.setCurrentCard (gameObject.GetComponent<CardScript>());
+			deckScript.setCurrentCard (gameObject.GetComponent<CardScript>());	//sets the clicked on card in the deck object to let it know which card to delete/shuffle
 		} else {
 			clickedOn = false;
-			deckScript.emptyCurrentCard ();
+//			deckScript.emptyCurrentCard ();
 		}
 	}
 	private void OnMouseUp(){
-		if (!clickedOn) {
-			deckScript.getGameController().cardClickedOff ();
+		if (!clickedOn) {	//if the card isn't currently clicked on it signals that it is no longer about to be played
+			opponentPlayerController.cardClickedOff ();
 			//clicked = true;
 //			if (cardInPlayArea) {
 //				deactivate ();
@@ -133,15 +96,15 @@ public class CardScript : MonoBehaviour {
 		if (other.CompareTag("TargetSquare")){		//does not trigger anything if its colliding with anything else
 //			print ("other tag : "+other.GetComponent<TargetSquareScript>().getPlayerID());
 //			print ("Self tag : "+ getPlayerID());
-			if (active && (hitSquareOverflow<=0) && (other.GetComponent<TargetSquareScript>().getPlayerID() != getPlayerID())){
-				hideCard ();
+			if (active && (hitSquareOverflow<=0) && (other.GetComponent<TargetSquareScript>().getPlayerID() != getPlayerID())){	//checks to compare if the card is being played in the enemy play area or its own
+				hideCard ();		//if its being played in the enemy area, it 'hides' so the shooting pattern can be shown
 //				print ("card hidden");
 //				cardInPlayArea = true;
 			}
 			hitSquareOverflow++;			//the sum of all the small squares the card has entered. If number is 0, its left play area and can becom active again
 		}
 	}
-	void OnTriggerExit2D(Collider2D other){
+	void OnTriggerExit2D(Collider2D other){		//a running count of all the squares the card has passed over, so it knows when to show back up if it is taken off the play area
 		if (other.CompareTag("TargetSquare")){
 			hitSquareOverflow--;
 			if (!active && (hitSquareOverflow<=0)){
@@ -162,10 +125,31 @@ public class CardScript : MonoBehaviour {
 		//storedSprite = null;
 	}
 
-	public void deactivate(){
+	public void deactivate(){		//once a card is played, it is deactivated to signal that it is no longer in use and will be destroyed on the next UpdateCards() actions called by the deck
 		gameObject.SetActive (false);
 	}
-	public void SetPlayerAs(string incomingPlayerControllerIDTag){
+	public void SetPlayerAs(string incomingPlayerControllerIDTag){		//on contruction of card from the deck, it assigns the playeridtag
+
+		GameObject playerGameObjectTemp = GameObject.FindWithTag("PlayerController");
+		if(playerGameObjectTemp != null){
+			selfPlayerController = playerGameObjectTemp.GetComponent<PlayerScript>();
+		}
+		if(playerGameObjectTemp == null){
+			Debug.Log ("Cannot find 'playerGameObjectTemp'object");}
+		
+		GameObject enemyGameObjectTemp = GameObject.FindWithTag("EnemyController");
+		if(enemyGameObjectTemp != null){
+			opponentPlayerController = enemyGameObjectTemp.GetComponent<PlayerScript>();
+		}
+		if(enemyGameObjectTemp == null){
+			Debug.Log ("Cannot find 'enemyGameObjectTemp'object");}
+
+		if (incomingPlayerControllerIDTag == "EnemyController") {		//if the assigned incomingplayeridtag is enemy, swap the default assignment and assign self/owner script as the enemy
+			tempPlayerController = selfPlayerController;
+			selfPlayerController = opponentPlayerController;
+			opponentPlayerController = tempPlayerController;
+		}
+
 		controllerParentIDtag = incomingPlayerControllerIDTag;
 	}
 	public string getPlayerID(){

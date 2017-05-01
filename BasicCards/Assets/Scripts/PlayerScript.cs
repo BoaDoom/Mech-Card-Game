@@ -21,8 +21,8 @@ public class PlayerScript : MonoBehaviour {
 	public Transform playerTickerTimer;
 	private Vector3 playerTickerStartTransformScale;
 	private Vector3 playerTickerStartTransformPosition;
-	private float defaultTickerTime = 5.0f;
-	private float tickerTimer;
+//	private float defaultTickerTime = 5.0f;
+//	private float tickerTimer;
 
 
 	private WholeBodyOfParts wholeBodyOfParts = new WholeBodyOfParts();
@@ -34,6 +34,9 @@ public class PlayerScript : MonoBehaviour {
 	private DeckScript activeDeck;
 	private GameControllerScript gameController;
 
+	private PlayerScript opponentPlayerController;
+	private CurrentWeaponHitBox storedWeaponHitBoxForDelayedHit;
+	private BPartGenericScript[] listOfBPartsUnderThreatForDelayedHit;
 
 	private AllPickedBodyParts allPickedBodyParts;
 	//	bool bodypartIsDone = false;
@@ -44,13 +47,15 @@ public class PlayerScript : MonoBehaviour {
 	public IEnumerator ManualStart (AllPickedBodyParts incomingBodyPartPicks) {
 		playerTickerStartTransformScale = new Vector3(playerTickerTimer.transform.localScale.x, playerTickerTimer.transform.localScale.y, playerTickerTimer.transform.localScale.y);
 		playerTickerStartTransformPosition = new Vector3(playerTickerTimer.transform.localPosition.x,playerTickerTimer.transform.localPosition.y, playerTickerTimer.transform.localPosition.z);
-		tickerTimer = defaultTickerTime;
+//		tickerTimer = defaultTickerTime;
 
 		allPickedBodyParts = incomingBodyPartPicks;  //choices of body parts picked from previous menu selections
 		gameController = gameObject.GetComponentInParent<GameControllerScript> ();
 		playAreaScript = gameObject.GetComponentInChildren<PlayAreaScript> ();
 		activeDeck = gameObject.GetComponentInChildren<DeckScript> ();
 		StartCoroutine( playAreaScript.ManualStart ());
+		SetOpponentScript ();		//finds and stores the playerscript of the opponent
+		playAreaScript.SetOpponentScript (opponentPlayerController);	//gives the opponent control script to the playarea
 
 		BpartMaker = gameObject.GetComponent<BodyPartMakerScript> ();
 
@@ -107,6 +112,12 @@ public class PlayerScript : MonoBehaviour {
 		//gameController.transferOfCardDamage ();
 		//print ("One rotation done");
 //		print ("end");
+		foreach (BPartGenericScript bodyPartObject in listOfBPartsUnderThreatForDelayedHit) {	//deals damage to stored body parts from card. These are the enemies body parts
+			if (bodyPartObject != null) {
+				bodyPartObject.takeDamage (storedWeaponHitBoxForDelayedHit);
+			}
+		}
+		opponentPlayerController.updateHealthDisplay ();
 		yield return null;
 	}
 
@@ -222,6 +233,42 @@ public class PlayerScript : MonoBehaviour {
 		}
 		return incomingSquareGrid;
 	}
+	public void SetOpponentScript(){		//on contruction of play area, it identifys the owner of the play area and assigns the opposite as the opponent script
+		if (tag == "EnemyController") {
+			GameObject playerGameObjectTemp = GameObject.FindWithTag ("PlayerController");
+			if (playerGameObjectTemp != null) {
+				opponentPlayerController = playerGameObjectTemp.GetComponent<PlayerScript> ();
+			}
+			if (playerGameObjectTemp == null) {
+				Debug.Log ("Cannot find 'playerGameObjectTemp'object");
+			}
+		}
+		if (tag == "PlayerController") {
+			GameObject playerGameObjectTemp = GameObject.FindWithTag ("EnemyController");
+			if (playerGameObjectTemp != null) {
+				opponentPlayerController = playerGameObjectTemp.GetComponent<PlayerScript> ();
+			}
+			if (playerGameObjectTemp == null) {
+				Debug.Log ("Cannot find 'playerGameObjectTemp'object");
+			}
+		}
+
+
+	}
+
+	public void sendingAttackCard(XMLWeaponHitData weaponHitMatrix, float weaponDamage){		//info from the card in play by opponent's currently clicked on card, sending it down to playarea of this player
+		playAreaScript.cardClickedOn (weaponHitMatrix, weaponDamage);	//sends the data to the play area
+	}
+	public void storedWaitingAttackInfo(CurrentWeaponHitBox incomingWeaponHitBox, BPartGenericScript[] incomingListOfBPartsUnderThreat){	//this is stored to use on the opponents controller after players timer has counted down
+		storedWeaponHitBoxForDelayedHit = incomingWeaponHitBox;
+		listOfBPartsUnderThreatForDelayedHit = incomingListOfBPartsUnderThreat;
+	}
+
+
+	public void cardClickedOff(){ //signal from the opponent card that it has been unclicked
+		playAreaScript.cardClickedOff();
+	}
+
 	public DeckScript getActiveDeck(){
 		return activeDeck;
 	}

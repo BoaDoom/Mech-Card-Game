@@ -14,6 +14,8 @@ public class PlayAreaScript: MonoBehaviour {
 	public GameControllerScript gameControllerScript; //added manually inside unity
 	PlayerScript playerScript;
 
+	PlayerScript opponentPlayerController;
+
 	private string controllerParentIDtag;
 
 	public int boxCountX;
@@ -29,9 +31,14 @@ public class PlayAreaScript: MonoBehaviour {
 	Vector3 framingBoxSize;
 	public Vector3 firstBoxCord;
 
+	private CurrentWeaponHitBox currentClickedOnCardWeaponMatrix;
+//	private CurrentWeaponHitBox storedWeaponHitBox;
+	private bool isCardClickedOn;
+	private BPartGenericScript[] storedHitBodyParts;
 
 	public IEnumerator ManualStart () {
-		
+		isCardClickedOn = false;
+		storedHitBodyParts = new BPartGenericScript[8]; 		//the max amount of body parts that could be stored
 		controllerParentIDtag = gameObject.transform.parent.tag;
 		//print ("My daddy is "+controllerParentIDtag);
 
@@ -80,6 +87,9 @@ public class PlayAreaScript: MonoBehaviour {
 		//populateEnemyPlayAreaSquares ();
 		yield return null;
 	}
+
+
+
 	public void populateEnemyPlayAreaSquares(){		//triggered by enemyscript when both the play area is done being made and the enemy squares are done being set up
 //		print("grid [0][0] "+grid[0][0].activeSquareState.getOccupiedState());
 //		print("grid "+grid.Length);
@@ -101,19 +111,21 @@ public class PlayAreaScript: MonoBehaviour {
 	public Vector2 getGridDimensions(){
 		return gridDimensions;
 	}
+	public void SetOpponentScript(PlayerScript incomingPlayerScript){
+		opponentPlayerController = incomingPlayerScript;
+	}
 
 	public void squareHoveredOver(int xCord, int yCord){		//method used by the grid of active squares to signal that they are being hovered over
-		if(gameControllerScript.currentClickedOnCardWeaponMatrix.isCardClickedOn && (gameControllerScript.actingPlayer.getWhichPlayer() != playerScript.getWhichPlayer())){	//checks the main game controller to see if a card on the table has sent the signal that it is clicked on
-			//and checks to see if the current card hovering over play area is from the opponent or the ownder of the play area. Disallows owner to use one on self
-			Vector2 middleOfWeaponHitArea = new Vector2(Mathf.Round((gameControllerScript.currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit[0].Length/2)),
-				Mathf.Round((gameControllerScript.currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit.Length/2)));		//rounding the dimensions of the weaponhitArea to find the 'center' to base activate the grid
+		if(isCardClickedOn){	//checks to see if there was a card in play from opponent. This info is transfered from the playerscript from method cardClickedOn. It's sent directly from the card to the playerscript.
+			Vector2 middleOfWeaponHitArea = new Vector2(Mathf.Round((currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit[0].Length/2)),
+				Mathf.Round((currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit.Length/2)));		//rounding the dimensions of the weaponhitArea to find the 'center' to base activate the grid
 			Vector2 upperLeftStartingPoint = new Vector2(xCord - middleOfWeaponHitArea.x, yCord - middleOfWeaponHitArea.y);
 			//Debug.Log ("test");
-			for (int x =0; x < gameControllerScript.currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit[0].Length; x++){
-				for (int y = 0; y < gameControllerScript.currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit.Length; y++) {
+			for (int x =0; x < currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit[0].Length; x++){
+				for (int y = 0; y < currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit.Length; y++) {
 					Vector2 tempStartingPoint = new Vector2 (upperLeftStartingPoint.x, upperLeftStartingPoint.y);
 
-					if (gameControllerScript.currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit[x][y] != 0	//checks the grid hit area to see if its turned 'on' with 1, or 'off' with 0
+					if (currentClickedOnCardWeaponMatrix.weaponHitData.gridOfHit[x][y] != 0	//checks the grid hit area to see if its turned 'on' with 1, or 'off' with 0
 							&& ((tempStartingPoint.x +x)>=0) && ((tempStartingPoint.y +y)>=0)						//checks if the grid hit area is outside of the grid target up and to the left
 							&& ((tempStartingPoint.x +x)<boxCountX) && ((tempStartingPoint.y +y)<boxCountY)){		//checks if the grid hit area is outside of the grid target down and to the right
 						grid [(int)tempStartingPoint.x + x] [(int)tempStartingPoint.y + y].TargetSquare ();		//activates the squares inside the area
@@ -130,10 +142,31 @@ public class PlayAreaScript: MonoBehaviour {
 		//grid [xCord] [yCord].DeactivateSquare ();	
 	}
 	public void squareClickedOn(int xCord, int yCord){		//when a small square is clicked on
-		if (gameControllerScript.currentClickedOnCardWeaponMatrix.isCardClickedOn && (gameControllerScript.actingPlayer.getWhichPlayer() != playerScript.getWhichPlayer())) {		//checks to see if there was a card in play and is in the opposite players play area
+		if (isCardClickedOn) {		//checks to see if there was a card in play from opponent. This info is transfered from the playerscript from method cardClickedOn. It's sent directly from the card to the playerscript.
 //			playerScript.
-			playerScript.getGameController().transferOfCardDamage ();		//if there was, make the enemy take damage
-			gameControllerScript.actingPlayer.getActiveDeck().turnOffCurrentCard();
+
+			StartCoroutine(opponentPlayerController.startTicker(2f));		//starts the timer bar with a countdown on the opponent of this play area
+			if (storedHitBodyParts != null) {		//clearing out the stored body parts that are going to be hit from previous hit
+				print(storedHitBodyParts.Length);
+				int tempLength = storedHitBodyParts.Length;
+				for (int i = 0; tempLength > i; i++) {
+					print ("start " +i);
+					storedHitBodyParts [i] = null;
+					print ("end " +i);
+				}
+			}
+			int f = 0;
+			foreach (BPartGenericScript bodyPartObject in playerScript.getWholeBodyOfParts().listOfAllParts){	//gets the whole list of current players partsparts
+				if (bodyPartObject.getIfUnderThreat ()) {	//only grabs the body parts if they are currently under threat i.e. highlighted by the targeting marker
+					storedHitBodyParts[f] = bodyPartObject;	//stores the incoming data so that it can allow the rest of the game run but delete card and allow targetting squares to reset
+				}
+
+				f++;
+			}
+//			storedWeaponHitBox = currentClickedOnCardWeaponMatrix;		//transfers the weapon data from the active card to the 'preped' attack that just started
+			opponentPlayerController.storedWaitingAttackInfo (currentClickedOnCardWeaponMatrix, storedHitBodyParts);		//sends the info of the attack to the opponent player script, so it can store it for use after the opponents timer has counted
+			cardClickedOff ();	//soft resets the small squares so they no longer highlight in the play area
+			opponentPlayerController.getActiveDeck().turnOffCurrentCard();		//turns off the opponents card after it is all used
 		}
 	}
 
@@ -156,6 +189,16 @@ public class PlayAreaScript: MonoBehaviour {
 //	}
 	public string getControllerParentIdTag(){
 		return controllerParentIDtag;
+	}
+	public void cardClickedOn(XMLWeaponHitData WeaponHitMatrix, float weaponDamage){		//command sent from the CardBehaviour script with info about the damage its doing
+		currentClickedOnCardWeaponMatrix = new CurrentWeaponHitBox(WeaponHitMatrix, weaponDamage);
+		hardResetSmallSquares ();
+		isCardClickedOn = true;
+	}
+	public void cardClickedOff(){
+		softResetSmallSquares ();			//resets all the targetting squares if the card is released. If not in place, used cards never stop broadcasting their weapon matrix
+		isCardClickedOn = false;
+//		currentClickedOnCardWeaponMatrix.isCardClickedOn = false;
 	}
 }
 public class TargetSquareState{

@@ -14,18 +14,18 @@ public class GameControllerScript : MonoBehaviour {
 	private PlayerScript enemyController;
 	private PlayerScript playerController;
 
-	private PlayerScript storedAttackOnPlayer;
+//	private PlayerScript storedAttackOnPlayer;
 	private BPartGenericScript[] storedHitBodyParts;
 	private CurrentWeaponHitBox storedWeaponHitBox;
 
 	private SceneTransferVariablesScript sceneTransferVariablesScript;
 
-	public PlayerScript actingPlayer{ get; set; }
-	public PlayerScript opposingPlayer{ get; set; }
+//	public PlayerScript actingPlayer{ get; set; }
+//	public PlayerScript opposingPlayer{ get; set; }
 
 	public CurrentWeaponHitBox currentClickedOnCardWeaponMatrix{ get; set; }
 	//private bool boolCardClickedOn;
-	private float publicTimer = 0f;
+//	private float publicTimer = 3f;
 
 	void Start () {
 		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");				//whole block is for grabbing the Deck object so it can deal a card when clicked
@@ -61,7 +61,7 @@ public class GameControllerScript : MonoBehaviour {
 //		playerDeckController = playerController.GetComponentInChildren<DeckScript>();
 
 //		sceneTransferVariablesScript.bleh ();
-		currentClickedOnCardWeaponMatrix = new CurrentWeaponHitBox(null, false, null, 0);
+		currentClickedOnCardWeaponMatrix = new CurrentWeaponHitBox( null, 0);
 		shufflePlayerButton.onClick.AddListener(discardAllActivePlayerShuffle);
 //		MakeSquaresButton.onClick.AddListener(makeActiveSquares);
 		shuffleEnemyButton.onClick.AddListener(discardAllActiveEnemyShuffle);
@@ -100,41 +100,23 @@ public class GameControllerScript : MonoBehaviour {
 //		playAreaController.populateEnemyPlayAreaSquares ();
 //	}
 
-	public void cardClickedOn(PlayerScript incomingPlayerScript, XMLWeaponHitData WeaponHitMatrix, float weaponDamage){		//command sent from the CardBehaviour script with info about the damage its doing
-		if (incomingPlayerScript.tag == "PlayerController") {
-			actingPlayer = playerController;
-			opposingPlayer = enemyController;
-		} else if (incomingPlayerScript.tag == "EnemyController") {
-			actingPlayer = enemyController;
-			opposingPlayer = playerController;
-		} else {Debug.Log ("can't find appropriate player script");}
-		currentClickedOnCardWeaponMatrix = new CurrentWeaponHitBox(incomingPlayerScript, true, WeaponHitMatrix, weaponDamage);
-		opposingPlayer.getPlayAreaOfPlayer().hardResetSmallSquares ();
-
-		//boolCardClickedOn = true;
-	}
-	public void cardClickedOff(){				//sent from the cardbehaviour
-		opposingPlayer.getPlayAreaOfPlayer().softResetSmallSquares ();			//resets all the targetting squares if the card is released. If not in place, used cards never 'exit'
-		currentClickedOnCardWeaponMatrix.isCardClickedOn = false;
-	}
-
-//	public void discardDrawThenShuffle(PlayerScript incomingPlayerScript){
-//		if (incomingPlayerScript.tag == "PlayerController") {
-//			PlayerScript opposingPlayer = enemyController;
-//		} else if (incomingPlayerScript.tag == "EnemyController") {
-//			PlayerScript opposingPlayer = playerController;
-//		} else {Debug.Log ("can't find appropriate player script");}
-//		incomingPlayerScript.getActiveDeck().discardDrawThenShuffle();		//puts all draw pile cards into the discard and then shuffles discard
-//	}
-//	public void shuffleDiscard(PlayerScript incomingPlayerScript){					//only shuffles discard
-//		if (incomingPlayerScript.tag == "PlayerController") {
-//			PlayerScript opposingPlayer = enemyController;
-//		} else if (incomingPlayerScript.tag == "EnemyController") {
-//			PlayerScript opposingPlayer = playerController;
-//		} else {Debug.Log ("can't find appropriate player script");}
-//		incomingPlayerScript.getActiveDeck().shuffleDiscard();
-//
-//	}
+								//	public void cardClickedOn(PlayerScript incomingPlayerScript, XMLWeaponHitData WeaponHitMatrix, float weaponDamage){		//command sent from the CardBehaviour script with info about the damage its doing
+								//		if (incomingPlayerScript.tag == "PlayerController") {
+								//			actingPlayer = playerController;
+								//			opposingPlayer = enemyController;
+								//		} else if (incomingPlayerScript.tag == "EnemyController") {
+								//			actingPlayer = enemyController;
+								//			opposingPlayer = playerController;
+								//		} else {Debug.Log ("can't find appropriate player script");}
+								//		currentClickedOnCardWeaponMatrix = new CurrentWeaponHitBox(incomingPlayerScript, true, WeaponHitMatrix, weaponDamage);
+								//		opposingPlayer.getPlayAreaOfPlayer().hardResetSmallSquares ();
+								//
+								//		//boolCardClickedOn = true;
+								//	}
+					//	public void cardClickedOff(){				//sent from the cardbehaviour
+					//		opposingPlayer.getPlayAreaOfPlayer().softResetSmallSquares ();			//resets all the targetting squares if the card is released. If not in place, used cards never 'exit'
+					//		currentClickedOnCardWeaponMatrix.isCardClickedOn = false;
+					//	}
 
 	public void discardAllActivePlayerShuffle (){			//discards all active cards and cards in draw pile and then shuffles
 		playerController.getActiveDeck().discardAllActiveShuffle();
@@ -147,61 +129,50 @@ public class GameControllerScript : MonoBehaviour {
 //		StartCoroutine( actingPlayer.startTicker(2f));		//starts the timer bar with a countdown on that specific player
 //
 //	}
-	public void transferOfCardDamage(){		//is sent by the play area script that the active card was just played
-//		Debug.Log("target: " +playAreaController.getActiveSquareStateSoftTarget(0,0));
-//		Debug.Log("occupied: " +playAreaController.getActiveSquareStateOccupied(0,0));
-		//incomingPlayerScript.takeDamage (currentClickedOnCardWeaponMatrix);
-		StartCoroutine( actingPlayer.startTicker(2f));		//starts the timer bar with a countdown on that specific player
-		if (storedHitBodyParts != null) {
-			for (int i = 0; storedHitBodyParts.Length >= 0; i++) {
-				storedHitBodyParts [i] = null;
-			}
-		}
-		int f = 0;
-		foreach (BPartGenericScript bodyPartObject in opposingPlayer.getWholeBodyOfParts().listOfAllParts){
-
-			if (bodyPartObject.getIfUnderThreat ()) {
-				//print ("body part run though");
-				storedHitBodyParts[f] = bodyPartObject;	//stores the incoming data so that it can allow the rest of the game run but delete card and allow targetting squares to reset
-				storedWeaponHitBox = currentClickedOnCardWeaponMatrix;
-				storedAttackOnPlayer = opposingPlayer;
-//				bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
-//				opposingPlayer.updateHealthDisplay ();
-				f++;
-			}
-		}
-////////////////obsolete after changing damage from per square to per body part
-//		Vector2 gridDimensions = opposingPlayer.getPlayAreaOfPlayer().getGridDimensions();
-//		for (int x = 0; x < gridDimensions.x; x++) {
-//			for (int y = 0; y < gridDimensions.y; y++) {
-//				if (opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateSoftTarget(x,y) && opposingPlayer.getPlayAreaOfPlayer().getTargetSquareStateOccupied(x,y)){	//gets the area that was 'highlighted' and check to see if it is occupied by a body part
-//					opposingPlayer.getPlayAreaOfPlayer().takeAHit (opposingPlayer, currentClickedOnCardWeaponMatrix, x, y);	//sends who is getting hit and shape of hit one square at a time
-//					opposingPlayer.updateHealthDisplay ();
-//				}
-//			}
-//		}
-///////////////////////////
-		cardClickedOff ();
-	}
-	public void executeDelayedCardDamage(){
-		foreach (BPartGenericScript bodyPartObject in storedHitBodyParts) {
-			bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
-		}
-		opposingPlayer.updateHealthDisplay ();
-	}
-//	public DeckScript getEnemyDeckController(){
-//		return incomingPlayerScript.getActiveDeck();
-//	}
+					//	public void transferOfCardDamage(){		//is sent by the play area script that the active card was just played
+					////		Debug.Log("target: " +playAreaController.getActiveSquareStateSoftTarget(0,0));
+					////		Debug.Log("occupied: " +playAreaController.getActiveSquareStateOccupied(0,0));
+					//		//incomingPlayerScript.takeDamage (currentClickedOnCardWeaponMatrix);
+					//		StartCoroutine( actingPlayer.startTicker(2f));		//starts the timer bar with a countdown on that specific player
+					//		if (storedHitBodyParts != null) {
+					//			for (int i = 0; storedHitBodyParts.Length >= 0; i++) {
+					//				storedHitBodyParts [i] = null;
+					//			}
+					//		}
+					//		int f = 0;
+					//		foreach (BPartGenericScript bodyPartObject in opposingPlayer.getWholeBodyOfParts().listOfAllParts){
+					//
+					//			if (bodyPartObject.getIfUnderThreat ()) {
+					//				//print ("body part run though");
+					//				storedHitBodyParts[f] = bodyPartObject;	//stores the incoming data so that it can allow the rest of the game run but delete card and allow targetting squares to reset
+					//				storedWeaponHitBox = currentClickedOnCardWeaponMatrix;
+					//				storedAttackOnPlayer = opposingPlayer;
+					////				bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
+					////				opposingPlayer.updateHealthDisplay ();
+					//				f++;
+					//			}
+					//		}
+					//		cardClickedOff ();
+					//	}
+					//	public void executeDelayedCardDamage(){
+					//		foreach (BPartGenericScript bodyPartObject in storedHitBodyParts) {
+					//			bodyPartObject.takeDamage (currentClickedOnCardWeaponMatrix);
+					//		}
+					//		opposingPlayer.updateHealthDisplay ();
+					//	}
+					//	public DeckScript getEnemyDeckController(){
+					//		return incomingPlayerScript.getActiveDeck();
+					//	}
 
 }
 public class CurrentWeaponHitBox{
-	public bool isCardClickedOn{ get; set; }
+//	public bool isCardClickedOn{ get; set; }
 	public XMLWeaponHitData weaponHitData{ get;  set; }
 	public float weaponDamage{ get; private set; }
-	public PlayerScript actingPlayerScript;
-	public CurrentWeaponHitBox(PlayerScript incomingPlayerScript, bool incomingCardClickedData, XMLWeaponHitData incomingWeaponHitData, float weaponDamageT){
-		actingPlayerScript = incomingPlayerScript;
-		isCardClickedOn = incomingCardClickedData;
+	//public PlayerScript actingPlayerScript;
+	public CurrentWeaponHitBox( XMLWeaponHitData incomingWeaponHitData, float weaponDamageT){
+		//actingPlayerScript = incomingPlayerScript;
+//		isCardClickedOn = incomingCardClickedData;
 		weaponHitData = incomingWeaponHitData;
 		weaponDamage = weaponDamageT;
 	}
