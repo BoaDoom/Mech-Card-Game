@@ -1,18 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayAreaScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameControllerScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameControllerScript.cs" Line="64" Column="61" NotebookId="1" />
-      <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="46" Column="26" NotebookId="1" />
-      <File FileName="Assets\Scripts\DeckScript.cs" Line="177" Column="27" NotebookId="1" />
-      <File FileName="Assets\Scripts\PlayerScript.cs" Line="206" Column="108" NotebookId="1" />
-      <File FileName="Assets\Scripts\PlayAreaScript.cs" Line="135" Column="5" NotebookId="1" />
+      <File FileName="Assets\Scripts\GameControllerScript.cs" Line="62" Column="3" NotebookId="1" />
+      <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\DeckScript.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\PlayerScript.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\PlayAreaScript.cs" Line="1" Column="1" NotebookId="1" />
     </Files>
     <FloatingWindows>
-      <FloatingWindow WindowId="1" X="1912" Y="-8" Width="1600" Height="847">
+      <FloatingWindow WindowId="1" X="1920" Y="0" Width="1600" Height="847">
         <Files>
-          <File FileName="Assets\Scripts\TargetSquareScript.cs" Line="88" Column="21" />
-          <File FileName="Assets\Scripts\CardScript.cs" Line="75" Column="46" />
+          <File FileName="Assets\Scripts\TargetSquareScript.cs" Line="82" Column="53" />
+          <File FileName="Assets\Scripts\CardScript.cs" Line="1" Column="1" />
         </Files>
       </FloatingWindow>
     </FloatingWindows>
