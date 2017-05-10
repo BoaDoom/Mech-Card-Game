@@ -39,6 +39,7 @@ public class PlayerScript : MonoBehaviour {
 	//private BPartGenericScript[] listOfBPartsUnderThreatForDelayedHit;
 
 	private AllPickedBodyParts allPickedBodyParts;
+	private bool bodyPartsPopulated = false;
 	//	bool bodypartIsDone = false;
 	//	bool playAreaIsDone = false;
 	//float zeroTime;
@@ -162,7 +163,7 @@ public class PlayerScript : MonoBehaviour {
 		healthBarGraphic.localPosition = tempPositionForHealth;
 		enemyHealthDisplayNumber.text = remainingHealth.ToString() + "/" + healthMax.ToString();
 	}
-	public void populateBody(){				//currently invoked by game controller script on button press
+	public void populateBody(){				//currently by the manualstart of this same script, which is started by the game controller
 		healthMax = 0;
 		//StartCoroutine (waitForBpartMakerScript ());
 		wholeBodyOfParts.resetBodyToZero ();
@@ -197,6 +198,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 		remainingHealth = healthMax;
 		updateHealthDisplay ();
+		bodyPartsPopulated = true;
 	}
 	public void outgoingBrokenPartNodes(Vector2[][] incomingSet){		//new replacement for turning off the targeting nodes when a bodypart is destroyed
 		foreach(Vector2[] partCordsRow in incomingSet){
@@ -300,6 +302,9 @@ public class PlayerScript : MonoBehaviour {
 			return "four";
 		}
 		return null;
+	}
+	public bool getIfBodyPartsPopulated(){
+		return bodyPartsPopulated;
 	}
 
 }

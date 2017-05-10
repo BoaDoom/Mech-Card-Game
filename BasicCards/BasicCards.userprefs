@@ -1,27 +1,20 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayAreaScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DeckScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameControllerScript.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\DeckScript.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\PlayerScript.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\PlayAreaScript.cs" Line="29" Column="2" NotebookId="1" />
+      <File FileName="Assets\Scripts\GameControllerScript.cs" Line="73" Column="11" />
+      <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="166" Column="193" />
+      <File FileName="Assets\Scripts\DeckScript.cs" Line="114" Column="3" />
+      <File FileName="Assets\Scripts\PlayerScript.cs" Line="306" Column="37" />
+      <File FileName="Assets\Scripts\PlayAreaScript.cs" Line="168" Column="11" />
+      <File FileName="Assets\Scripts\BPartScripts\BodyPartMakerScript.cs" Line="111" Column="49" />
     </Files>
-    <FloatingWindows>
-      <FloatingWindow WindowId="1" X="1912" Y="-8" Width="1600" Height="847">
-        <Files>
-          <File FileName="Assets\Scripts\TargetSquareScript.cs" Line="88" Column="21" />
-          <File FileName="Assets\Scripts\CardScript.cs" Line="1" Column="1" />
-        </Files>
-      </FloatingWindow>
-    </FloatingWindows>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="H:\Unity\MechCardGame\BasicCards\Assets\Scripts\GameControllerScript.cs" line="147" column="1" />
-      <Breakpoint file="H:\Unity\MechCardGame\BasicCards\Assets\Scripts\TargetSquareScript.cs" line="89" column="1" />
-      <Breakpoint file="H:\Unity\MechCardGame\BasicCards\Assets\Scripts\TargetSquareScript.cs" line="88" column="1" />
+      <Breakpoint file="H:\Unity\MechCardGame\BasicCards\Assets\Scripts\DeckScript.cs" line="117" column="1" />
+      <Breakpoint file="H:\Unity\MechCardGame\BasicCards\Assets\Scripts\BPartScripts\BPartGenericScript.cs" line="162" column="2" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

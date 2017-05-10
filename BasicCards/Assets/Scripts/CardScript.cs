@@ -22,6 +22,7 @@ public class CardScript : MonoBehaviour {
 	private PlayerScript selfPlayerController;
 	private PlayerScript opponentPlayerController;
 	private PlayerScript tempPlayerController;
+	private LWCardInfo lWCardInfo;
 
 	private XMLWeaponHitData hitBoxDataForCard;
 
@@ -64,6 +65,13 @@ public class CardScript : MonoBehaviour {
 			typeOfAttack = value.typeOfAttack;
 		}
 	}
+	public void setlWCardInfo(LWCardInfo incomingLWCardInfo){
+		lWCardInfo = incomingLWCardInfo;
+	}
+	public LWCardInfo getlWCardInfo(){
+		return lWCardInfo;
+	}
+
 
 
 	public void moveCard(Vector3 newPosition){
