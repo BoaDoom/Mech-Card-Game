@@ -1,5 +1,6 @@
 <BPartsList>
 	<Arm>
+		<defaultModuleSlots>2</defaultModuleSlots>
 		<Bpart name = "arm one">
 			<gridHitBox>
 				<line>00111</line>
@@ -69,6 +70,7 @@
 		</Bpart>
 	</Arm>
 	<Head>
+		<defaultModuleSlots>1</defaultModuleSlots>
 		<Bpart name = "head one">
 			<gridHitBox>
 				<line>111</line>
@@ -125,6 +127,7 @@
 		</Bpart>
 	</Head>
 	<Leg>
+		<defaultModuleSlots>1</defaultModuleSlots>
 		<Bpart name = "leg one">
 			<gridHitBox>
 				<line>0010</line>
@@ -201,6 +204,7 @@
 		</Bpart>
 	</Leg>
 	<Shoulder>
+		<defaultModuleSlots>2</defaultModuleSlots>
 		<Bpart name = "shoulder one">
 			<gridHitBox>
 				<line>1110</line>
@@ -278,6 +282,7 @@
 			</Bpart>
 	</Shoulder>
 	<Torso>
+		<defaultModuleSlots>1</defaultModuleSlots>
 		<Bpart name = "torso one">
 			<gridHitBox>
 				<line>0011100</line>

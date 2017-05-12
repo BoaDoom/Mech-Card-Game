@@ -31,7 +31,7 @@ public class BodyPartMakerScript : MonoBehaviour {
 		yield return null;
 	}
 
-	public BPartGenericScript makeBodyPart(string nameOfpart, string leftOrRight){
+	public BPartGenericScript makeBodyPart(string nameOfpart, string leftOrRight){		//used by playerscript
 //		Debug.Log ("check: " + nameOfpart + " " + leftOrRight);
 		//Debug.Log("name: "+ nameOfpart); 
 		//Debug.Log("leftor right: "+ leftOrRight);
@@ -210,4 +210,15 @@ public class WholeBodyOfParts{
 		listOfAllParts.Clear();
 	}
 }
+public class ModulePart{
+	public int[] cardsOfModule;
+	public ModulePart(int[] incomingPartInternalLocation){
+		int tempInt = 0;
+		foreach (int locationNumber in cardsOfModule) {
+			cardsOfModule [tempInt] = locationNumber;
+			tempInt++;
+		}
+	}
 
+
+}

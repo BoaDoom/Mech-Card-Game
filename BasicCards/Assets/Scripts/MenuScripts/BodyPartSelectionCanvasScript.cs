@@ -18,11 +18,11 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 	BPartXMLReaderScript bPartXMLReader;
 //	public int what;
-	string headSelection;
-	string armSelection;
-	string torsoSelection;
-	string shoulderSelection;
-	string legSelection;
+	BPartWithModuleInfo headSelection;
+	BPartWithModuleInfo armSelection;
+	BPartWithModuleInfo torsoSelection;
+	BPartWithModuleInfo shoulderSelection;
+	BPartWithModuleInfo legSelection;
 	//PickedBodyPart[] listOfPickedBodyParts;
 
 
@@ -67,25 +67,31 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //		thingsChecked = true;
 //	}
 	public VisualOnlyBPartGenericScript markSelectedBodyPart(string nameOfPart, int incomingSelection){		//almost the same as PlayerScript method populate body
+
+		//need to swap over the identifying variable from a string to the new class so it can carry the module info and choices. Maybe? needs to convey more info at some point
+
+
+
+
 		switch (nameOfPart) {
 		case("Head"):
-			headSelection = "head "+ intToStringNumber(incomingSelection); //intToStringNumber(
-			return makeBodyPart(headSelection);
+			headSelection.nameOfSelection = "head "+ intToStringNumber(incomingSelection); //intToStringNumber(
+			return makeBodyPart(headSelection.nameOfSelection);
 		case("Arm"):
-			armSelection = "arm "+ intToStringNumber(incomingSelection);
-			return makeBodyPart(armSelection);
+			armSelection.nameOfSelection = "arm "+ intToStringNumber(incomingSelection);
+			return makeBodyPart(armSelection.nameOfSelection);
 		case("Torso"):
-			torsoSelection = "torso " + intToStringNumber(incomingSelection);
-			return makeBodyPart(torsoSelection);
+			torsoSelection.nameOfSelection = "torso " + intToStringNumber(incomingSelection);
+			return makeBodyPart(torsoSelection.nameOfSelection);
 		case("Shoulder"):
-			shoulderSelection = "shoulder "+ intToStringNumber(incomingSelection);
-			return makeBodyPart(shoulderSelection);
+			shoulderSelection.nameOfSelection = "shoulder "+ intToStringNumber(incomingSelection);
+			return makeBodyPart(shoulderSelection.nameOfSelection);
 		case("Leg"):
-			legSelection = "leg "+ intToStringNumber(incomingSelection);
-			return makeBodyPart(legSelection);
+			legSelection.nameOfSelection = "leg "+ intToStringNumber(incomingSelection);
+			return makeBodyPart(legSelection.nameOfSelection);
 		default:
 			Debug.Log ("Unknown bodypart");
-			return makeBodyPart (legSelection);
+			return makeBodyPart (legSelection.nameOfSelection);
 		}
 	}
 	public void markSelectedBodyPartAsNull(string nameOfPart){		//for deselecting the body part
@@ -130,7 +136,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	}
 
 
-	public VisualOnlyBPartGenericScript makeBodyPart(string nameOfpart){
+	public VisualOnlyBPartGenericScript makeBodyPart(string nameOfpart){	//takes the clicked on part name, and finds it in the xmldata and creates a visual only body part to display
 		partData = bPartXMLReader.getBodyData (nameOfpart);
 
 		//VisualOnlyBPartGenericScript tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
@@ -152,7 +158,12 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		return null;
 	}
 }
-
+public class BPartWithModuleInfo{
+	public string nameOfSelection{ get; set; }
+	int[] listOfSelectedModules;
+	public BPartWithModuleInfo(){
+	}
+}
 
 //public class BodyPartNode{
 //	private bool exists;

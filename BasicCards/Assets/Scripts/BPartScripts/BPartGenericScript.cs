@@ -20,6 +20,7 @@ public class BPartGenericScript : MonoBehaviour {
 	private Vector2 dimensions;		//dependent on the farthest location from the source (0,0) of the list of binaryDimensions
 	private bool leftSide;		//default is left side
 	private int cardLocationNumber;		//location of the card in the list of sprites/xml file, dependent on the component installed
+	private List<ModulePart> modulePartList = new List<ModulePart>();
 
 	//dependent and changable variables
 	private float currentHealth;
@@ -90,7 +91,7 @@ public class BPartGenericScript : MonoBehaviour {
 		playerScript = gameObject.GetComponentInParent<PlayerScript>();
 	}
 
-	public void CreateNewPart(BodyPartDataHolder incomingBodyPartData, string leftOrRight){
+	public void CreateNewPart(BodyPartDataHolder incomingBodyPartData, string leftOrRight){		//used by bodypartmakerscript
 		//Debug.Log ("incomingbpart name:"+ incomingBodyPartData.name +" leftright " +leftOrRight);
 		bPartType = incomingBodyPartData.typeOfpart;				//arm,head,legs,shoulder, or torso
 		bPartName = incomingBodyPartData.name;

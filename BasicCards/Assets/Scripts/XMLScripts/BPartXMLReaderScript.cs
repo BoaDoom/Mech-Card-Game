@@ -32,6 +32,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 	IEnumerable<XElement> gridHitBox;
 	IEnumerable<XElement> AnchorPoints;
 	private int MaxHealth = 0;
+	private int moduleSlotCount;
 	private int[][] gridOfBodyPart;
 	private Vector2 anchorVector2;
 	private bool complexAnchorPointsBoolCheck;
@@ -63,6 +64,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 		{
 			listOfParts = partType.Elements ();
 			foreach (var part in listOfParts) {
+				moduleSlotCount = int.Parse (part.Element ("defaultModuleSlots").Value.Trim ());
 				if (BpartName != part.Attribute ("name").Value.Trim ()) {		//if the next element has a new name, select that parrent and assign all it's children to these values
 					BpartName = part.Attribute ("name").Value.Trim ();	
 					BpartType = part.Parent.Name.ToString();
@@ -73,7 +75,6 @@ public class BPartXMLReaderScript : MonoBehaviour {
 					int numberYCord = part.Element ("gridHitBox").Descendants ().Count ();		//counts how many lines there are in the targeting grid, giving Y cords size
 					int interationY = numberYCord - 1;
 					string complexBool = part.Element ("ComplexAnchorPoints").Value.Trim ();
-					//Debug.Log (complexBool);
 
 					if (complexBool == "true") {
 						complexAnchorPointsBoolCheck = true;
@@ -122,7 +123,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 
 							listOfComplexAnchorPoints.Add (uniqueAnchorPoints);
 						}
-						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, listOfComplexAnchorPoints));
+						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, listOfComplexAnchorPoints, moduleSlotCount));
 						//anchorVector2 = new Vector2 (0.0f, 0.0f);		//placeholder
 					} else {
 						//Debug.Log ((string)partType.Name.ToString());
@@ -135,7 +136,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 								anchorVector2.y = int.Parse (cord.Value);
 							}
 						}
-						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, anchorVector2));
+						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, anchorVector2, moduleSlotCount));
 					}
 				}
 			}
@@ -163,13 +164,18 @@ public class BodyPartDataHolder{
 	public Vector2 anchor;
 	public List<ComplexAnchorPoints> listOfComplexAnchorPoints;
 	public bool simpleAnchorPoints;
-	public BodyPartDataHolder(string BpartName, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, Vector2 AnchorPoint){
+
+	public int moduleSocketCount;
+	public BodyPartDataHolder(string BpartName, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, Vector2 AnchorPoint, int incModuleSocketCount){
 		simpleAnchorPoints = true;
 		name = BpartName;
 		typeOfpart = incBpartName;
 		maxHealth = incMaxHealth;
 		anchor = AnchorPoint;
 		bodyPartGrid = new int[incomingBodyPartGrid.Length][];
+
+		moduleSocketCount = incModuleSocketCount;
+
 		for(int i=0; i < incomingBodyPartGrid.Length; i++){	//transfering the int[][] grid
 			bodyPartGrid [i] = new int[incomingBodyPartGrid[0].Length];
 			for(int j=0; j < incomingBodyPartGrid[0].Length; j++){
@@ -177,20 +183,22 @@ public class BodyPartDataHolder{
 			}
 		}
 	}
-	public BodyPartDataHolder(string BpartName, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, List<ComplexAnchorPoints> incomingListOfComplexAnchorPoints){
+	public BodyPartDataHolder(string BpartName, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, List<ComplexAnchorPoints> incomingListOfComplexAnchorPoints, int incModuleSocketCount){
 		simpleAnchorPoints = false;
 		name = BpartName;
 		typeOfpart = incBpartName;
 		maxHealth = incMaxHealth;
 		listOfComplexAnchorPoints = incomingListOfComplexAnchorPoints;
 		bodyPartGrid = new int[incomingBodyPartGrid.Length][];
+
+		moduleSocketCount = incModuleSocketCount;
+
 		for(int i=0; i < incomingBodyPartGrid.Length; i++){	//transfering the int[][] grid
 			bodyPartGrid [i] = new int[incomingBodyPartGrid[0].Length];
 			for(int j=0; j < incomingBodyPartGrid[0].Length; j++){
 				bodyPartGrid [i][j] = incomingBodyPartGrid[i][j];
 			}
 		}
-		//Debug.Log ("Data holder point: "+BpartName);
 	}
 }
 public class ComplexAnchorPoints{
