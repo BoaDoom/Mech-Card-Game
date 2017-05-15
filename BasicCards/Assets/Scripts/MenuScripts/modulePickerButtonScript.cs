@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class bodyPartPickerButtonScript : Selectable{
+public class modulePickerButtonScript : Selectable{
 //	SelectionBaseAttribute selectorScript;
 	BodyPartVariationPanel bodyPartVariationPanel;
 	public int bodyPartNumber;
@@ -36,6 +36,7 @@ public class bodyPartPickerButtonScript : Selectable{
 		//		button.colors = cb;
 		//		print("Done text");
 		completedStart = true;
+
 		yield return null;
 	}
 
@@ -44,7 +45,6 @@ public class bodyPartPickerButtonScript : Selectable{
 	}
 	public override void OnPointerDown(PointerEventData eventData){
 //		print ("pointer down");
-//		print("bodyPartVariationPanel "+ bodyPartVariationPanel);
 		if (bodyPartVariationPanel.getPartSelected () == bodyPartNumber) { //toggles off the the body part color on deselection if the parent panel is storing the same number
 			StartCoroutine (bodyPartVariationPanel.partSelected(-1));
 			turnOffSelectedColor ();

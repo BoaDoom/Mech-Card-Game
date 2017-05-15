@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
@@ -17,6 +18,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	VisualOnlyBPartGenericScript tempBodyPart;
 
 	BPartXMLReaderScript bPartXMLReader;
+	XMLModuleLoaderScript XMLModuleLoader;
 //	public int what;
 	BPartWithModuleInfo headSelection = new BPartWithModuleInfo();
 	BPartWithModuleInfo armSelection = new BPartWithModuleInfo();
@@ -24,18 +26,50 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	BPartWithModuleInfo shoulderSelection = new BPartWithModuleInfo();
 	BPartWithModuleInfo legSelection = new BPartWithModuleInfo();
 	//PickedBodyPart[] listOfPickedBodyParts;
+	public XMLModuleData[] listOfWeaponModules;
+	public XMLModuleData[] listOfUtilityModules;
 
 
 	public Button nextButton;
 //	bool thingsChecked;
 	public void Start(){
+
+		//grab XML data for modules and store it here for the ModulePickerScript to request and grab later
 		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");		//grabbing the object with the body part info taken from xml data	
 		if (loaderScriptTemp == null) {
 			SceneManager.LoadScene ("XMLLoaderScene");
 			return;
 		} else if (loaderScriptTemp != null) {
 			tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
+
 			bPartXMLReader = loaderScriptTemp.GetComponent<BPartXMLReaderScript> ();
+			XMLModuleLoader = loaderScriptTemp.GetComponent<XMLModuleLoaderScript> ();
+
+			int tempWeaponInt = 0;
+			int tempUtilityInt = 0;
+			foreach (XMLModuleData moduleData in XMLModuleLoader.data) {
+				if (moduleData.moduleType == "Weapons") {
+					tempWeaponInt++;
+				}
+				if (moduleData.moduleType == "Utility") {
+					tempUtilityInt++;
+				}
+			}
+			listOfWeaponModules = new XMLModuleData[tempWeaponInt];
+			listOfUtilityModules = new XMLModuleData[tempUtilityInt];
+
+			tempWeaponInt = 0;
+			tempUtilityInt = 0;
+			foreach(XMLModuleData moduleData in XMLModuleLoader.data){
+				if (moduleData.moduleType == "Weapons") {
+					listOfWeaponModules[tempWeaponInt] = (moduleData);
+					tempWeaponInt++;
+				}
+				else if (moduleData.moduleType == "Utility") {
+					listOfUtilityModules[tempUtilityInt] = (moduleData);
+					tempUtilityInt++;
+				}
+			}
 		
 			GameObject sceneTransferVariablesScriptTemp = GameObject.FindWithTag ("SceneTransferVariables");
 			if (sceneTransferVariablesScriptTemp != null) {
@@ -154,6 +188,21 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			return "three";
 		case(4):
 			return "four";
+		}
+		return null;
+	}
+	public XMLModuleData[] getListOfModules(string incomingRequestForList){
+//		XMLModuleData[] listOfAvailibleModules = new XMLModuleData()[];
+		if (incomingRequestForList == "Weapons"){
+			return listOfWeaponModules;
+		}
+		if (incomingRequestForList == "Utility"){
+			return listOfUtilityModules;
+		}
+		if (incomingRequestForList == "Both"){
+			XMLModuleData[] listOfBothTypesOfModules = listOfWeaponModules;
+			listOfBothTypesOfModules.Concat (listOfUtilityModules);
+			return listOfBothTypesOfModules;
 		}
 		return null;
 	}

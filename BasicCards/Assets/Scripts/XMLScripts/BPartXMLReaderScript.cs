@@ -33,6 +33,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 	IEnumerable<XElement> AnchorPoints;
 	private int MaxHealth = 0;
 	private int moduleSlotCount = 0;
+	private ModuleCount moduleCount;
 	private int[][] gridOfBodyPart;
 	private Vector2 anchorVector2;
 	private bool complexAnchorPointsBoolCheck;
@@ -68,6 +69,10 @@ public class BPartXMLReaderScript : MonoBehaviour {
 				if (BpartName != part.Attribute ("name").Value.Trim ()) {		//if the next element has a new name, select that parrent and assign all it's children to these values
 					BpartName = part.Attribute ("name").Value.Trim ();	
 					BpartType = part.Parent.Name.ToString();
+					moduleCount = new ModuleCount (
+						int.Parse (part.Element ("WeaponModuleSlots").Value.Trim ()), 
+						int.Parse (part.Element ("UtilityModuleSlots").Value.Trim ()),
+						int.Parse (part.Element ("GenericModuleSlots").Value.Trim ()));
 					moduleSlotCount = int.Parse (part.Element ("defaultModuleSlots").Value.Trim ());
 					MaxHealth = int.Parse (part.Element ("Health").Value.Trim ());
 
@@ -124,7 +129,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 
 							listOfComplexAnchorPoints.Add (uniqueAnchorPoints);
 						}
-						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, listOfComplexAnchorPoints, moduleSlotCount));
+						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, listOfComplexAnchorPoints, moduleCount));
 						//anchorVector2 = new Vector2 (0.0f, 0.0f);		//placeholder
 					} else {
 						//Debug.Log ((string)partType.Name.ToString());
@@ -137,9 +142,9 @@ public class BPartXMLReaderScript : MonoBehaviour {
 								anchorVector2.y = int.Parse (cord.Value);
 							}
 						}
-						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, anchorVector2, moduleSlotCount));
+						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, anchorVector2, moduleCount));
 					}
-//					Debug.Log (BpartName +" "+ BpartType +" "+ MaxHealth +" "+ gridOfBodyPart +" "+ anchorVector2 +" "+ moduleSlotCount);
+					//					Debug.Log (BpartName +" "+ BpartType +" "+ MaxHealth +" "+ gridOfBodyPart +" "+ anchorVector2 +" "+ moduleCount);
 				}
 			}
 		}
@@ -167,8 +172,9 @@ public class BodyPartDataHolder{
 	public List<ComplexAnchorPoints> listOfComplexAnchorPoints;
 	public bool simpleAnchorPoints;
 
-	public int moduleSocketCount;
-	public BodyPartDataHolder(string BpartName, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, Vector2 AnchorPoint, int incModuleSocketCount){
+	public ModuleCount moduleSockets;
+
+	public BodyPartDataHolder(string BpartName, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, Vector2 AnchorPoint, ModuleCount incModuleSocketCount){
 		simpleAnchorPoints = true;
 		name = BpartName;
 		typeOfpart = incBpartName;
@@ -176,7 +182,7 @@ public class BodyPartDataHolder{
 		anchor = AnchorPoint;
 		bodyPartGrid = new int[incomingBodyPartGrid.Length][];
 
-		moduleSocketCount = incModuleSocketCount;
+		moduleSockets = incModuleSocketCount;
 
 		for(int i=0; i < incomingBodyPartGrid.Length; i++){	//transfering the int[][] grid
 			bodyPartGrid [i] = new int[incomingBodyPartGrid[0].Length];
@@ -185,7 +191,7 @@ public class BodyPartDataHolder{
 			}
 		}
 	}
-	public BodyPartDataHolder(string BpartName, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, List<ComplexAnchorPoints> incomingListOfComplexAnchorPoints, int incModuleSocketCount){
+	public BodyPartDataHolder(string BpartName, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, List<ComplexAnchorPoints> incomingListOfComplexAnchorPoints, ModuleCount incModuleSocketCount){
 		simpleAnchorPoints = false;
 		name = BpartName;
 		typeOfpart = incBpartName;
@@ -193,7 +199,7 @@ public class BodyPartDataHolder{
 		listOfComplexAnchorPoints = incomingListOfComplexAnchorPoints;
 		bodyPartGrid = new int[incomingBodyPartGrid.Length][];
 
-		moduleSocketCount = incModuleSocketCount;
+		moduleSockets = incModuleSocketCount;
 
 		for(int i=0; i < incomingBodyPartGrid.Length; i++){	//transfering the int[][] grid
 			bodyPartGrid [i] = new int[incomingBodyPartGrid[0].Length];
@@ -216,5 +222,18 @@ public class ComplexAnchorPoints{
 //	public void setGlobalAnchorPointLocation(Vector2 incomingGlobalLocation){
 //		globalAnchorPointLocation = incomingGlobalLocation;
 //	}
+}
+public class ModuleCount{
+	public int weaponModuleCount;
+	public int utilityModuleCount;
+	public int genericModuleCount;
+	public ModuleCount(int incomingWeapon, int incomingUtility, int incomingGeneric){
+		weaponModuleCount = incomingWeapon;
+		utilityModuleCount = incomingUtility;
+		genericModuleCount = incomingGeneric;
+	}
+	public int getTotalCount(){
+		return weaponModuleCount + utilityModuleCount + genericModuleCount;
+	}
 }
 

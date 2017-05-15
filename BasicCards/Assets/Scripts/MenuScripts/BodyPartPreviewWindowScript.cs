@@ -28,8 +28,23 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 	//Vector2 zeroCord = Vector2.zero;
 	Vector2 framingBoxSize;
 	public Vector3 firstBoxCord;
+	bool completedStartup = false;
+
+	public ModulePickerScript modulePicker;		//orginal prefab of panel for picking variable modules
+	public int moduleSocketCount;		//stored count of number of module sockets
+	public ModulePickerScript[] modulePanels; 		//the list of panels that are open for selection after the part has been picked. Can be 0-3 panels
+
+	BodyPartSelectionCanvasScript partSelectionCanvas;
 	public void Start(){
+		GameObject partSelectionCanvasTemp = GameObject.FindWithTag ("PartSelectionCanvas");
+		if (partSelectionCanvasTemp != null) {
+			partSelectionCanvas = partSelectionCanvasTemp.GetComponent<BodyPartSelectionCanvasScript> ();
+		} else {
+			print ("Couldnt find SceneTransferVariablesScript");
+		}
+
 		Transform BodyPartPanelTemp = gameObject.transform.parent;
+		modulePanels = new ModulePickerScript[3];
 //		if(BodyPartPanelTemp != null){
 //			bodyPartPanel = BodyPartPanelTemp.GetComponent<BodyPartVariationPanel>();
 //		}
@@ -66,13 +81,27 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 
 			}
 		}
+		completedStartup = true;
+	}
+	public bool getcompletedStartup(){
+		return completedStartup;
 	}
 
 	public IEnumerator refreshSquares (VisualOnlyBPartGenericScript incomingVisualOfBpart) {
 		StartCoroutine (clearSquares ());
+		moduleSocketCount = incomingVisualOfBpart.getModuleSocketCount ().getTotalCount();		//grabbing the count of sockets
 		Vector2 incomingGridDimensions = incomingVisualOfBpart.getDimensionsOfPart ();
+
 		Vector2 offSetPoint = new Vector2 (Mathf.Ceil((staticNumberOfBoxesX/2)-(incomingGridDimensions.x)/2), Mathf.Ceil((staticNumberOfBoxesY/2)-(incomingGridDimensions.y)/2));
 //		print (offSetPoint);
+		float floatOffset = 1.25f;
+		for (int i = 0; i <moduleSocketCount; i++){
+			modulePanels [i] = Instantiate (modulePicker, Vector3.zero + new Vector3((1.25f + floatOffset*i), 0.0f, 0.0f), transformOriginal.rotation);
+			modulePanels [i].takePartSelectionCanvas (partSelectionCanvas, incomingVisualOfBpart);
+//			put in the module choices here to send to module picker to list as choices
+			modulePanels[i].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
+		}
+
 		for(int x = 0; x < incomingGridDimensions.x; x++){
 			for(int y = 0; y <incomingGridDimensions.y; y++){
 				//grid [x] [y].DeactivateSquare ();
@@ -84,9 +113,22 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		yield return null;
 	}
 	public IEnumerator clearSquares(){
+		while (!completedStartup) {
+			//yield return null;
+			print("Loop that doesn't do anythingg");
+		}
 		for(int x = 0; x < staticNumberOfBoxesX; x++){
 			for(int y = 0; y <staticNumberOfBoxesX; y++){
 				grid [x] [y].DeactivateSquare ();		//sets the preview windows square as occupied if the above is true
+			}
+		}
+		if (modulePanels[0] != null) {
+			for (int i = 0; i < modulePanels.Length; i++) {
+				//ModulePickerScript tempToDestroy = modulePanels [0].gameObject;
+				if (modulePanels [i] != null) {
+					DestroyObject (modulePanels [i].gameObject);
+				}
+				//print ("Destroy!");
 			}
 		}
 		yield return null;

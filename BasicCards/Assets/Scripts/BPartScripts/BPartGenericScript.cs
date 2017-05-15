@@ -20,7 +20,7 @@ public class BPartGenericScript : MonoBehaviour {
 	private Vector2 dimensions;		//dependent on the farthest location from the source (0,0) of the list of binaryDimensions
 	private bool leftSide;		//default is left side
 	private int cardLocationNumber;		//location of the card in the list of sprites/xml file, dependent on the component installed
-	private List<ModulePart> modulePartList = new List<ModulePart>();
+//	private List<ModulePart> modulePartList = new List<ModulePart>();
 
 	//dependent and changable variables
 	private float currentHealth;

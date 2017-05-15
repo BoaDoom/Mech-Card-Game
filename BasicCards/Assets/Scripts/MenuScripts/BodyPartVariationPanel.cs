@@ -10,10 +10,13 @@ public class BodyPartVariationPanel : MonoBehaviour {
 	bodyPartPickerButtonScript[] listOfAllTheText;
 	string nameOfPartPanel;
 	int currentSelectedPart = 0;
-	bool completedStartup = false;
+//	bool completedStartup = false;
 	BodyPartPreviewWindowScript bodyPartpreviewer;
 	VisualOnlyBPartGenericScript currentVisualOfPart;
 	public void Start(){
+
+	}
+	public IEnumerator ManualStart(){
 		GameObject canvasFinderTemp = GameObject.FindWithTag ("PartSelectionCanvas");
 		if (canvasFinderTemp != null) {
 			partSelectionCanvas = canvasFinderTemp.GetComponent<BodyPartSelectionCanvasScript> ();
@@ -26,19 +29,16 @@ public class BodyPartVariationPanel : MonoBehaviour {
 			StartCoroutine (bodyPartText.ManualStart ());
 		}
 		StartCoroutine (checkIfChildrenAreDone());		//checks if children of panel are done starting up
-		completedStartup = true;
-//		print ("panel startup done");
-	}
-	public IEnumerator ManualStart(){
-		while (!completedStartup) {
+//		completedStartup = true;
+		//		print ("panel startup done");
+//		while (!completedStartup) {
 //			print ("not done with panel");
-			yield return new WaitForEndOfFrame();
-		} 
-
-	listOfAllTheText [0].turnOnActiveGreen ();		//turns on the first option as default
-	StartCoroutine (partSelected (1));
-//	print ("done with panel");
-	yield return null;
+////			yield return new WaitForEndOfFrame();
+//		} 
+//		print ("done with panel");
+		listOfAllTheText [0].turnOnActiveGreen ();		//turns on the first option as default
+		StartCoroutine (partSelected (1));
+		yield return null;
 	}
 
 	public IEnumerator partSelected(int incomingSelection){		//sending the value to the greater UI canvas to get the info about the body parts
@@ -59,6 +59,8 @@ public class BodyPartVariationPanel : MonoBehaviour {
 			currentVisualOfPart = partSelectionCanvas.markSelectedBodyPart(nameOfPartPanel, incomingSelection);		//name of panel is built in to each version	
 			currentVisualOfPart.GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>());
 			StartCoroutine( bodyPartpreviewer.refreshSquares (currentVisualOfPart));		//sends the bodypart data to the preview square to populate the visual
+
+
 		}
 		yield return null;
 	}

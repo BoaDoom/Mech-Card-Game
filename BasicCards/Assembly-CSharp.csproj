@@ -54,8 +54,10 @@
      <Compile Include="Assets\Scripts\MenuScripts\BodyPartPreviewWindowScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\BodyPartVariationPanel.cs" />
+     <Compile Include="Assets\Scripts\MenuScripts\ModulePickerScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\SceneTransferVariablesScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\bodyPartPickerButtonScript.cs" />
+     <Compile Include="Assets\Scripts\MenuScripts\modulePickerButtonScript.cs" />
      <Compile Include="Assets\Scripts\TargetSquareScript.cs" />
      <Compile Include="Assets\Scripts\UIScripts\UIBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\UndrawnDeckScript.cs" />
@@ -63,6 +65,7 @@
      <Compile Include="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" />
      <Compile Include="Assets\Scripts\XMLScripts\LoaderScript.cs" />
      <Compile Include="Assets\Scripts\XMLScripts\XMLCardLoaderScript.cs" />
+     <Compile Include="Assets\Scripts\XMLScripts\XMLModuleLoaderScript.cs" />
      <Compile Include="Assets\Scripts\XMLScripts\XMLWeaponHitLoaderScript.cs" />
      <Compile Include="Assets\Scripts\_MainGamePlay\CardScript.cs" />
      <Compile Include="Assets\Scripts\_MainGamePlay\DeckScript.cs" />

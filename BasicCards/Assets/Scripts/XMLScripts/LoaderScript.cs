@@ -13,6 +13,7 @@ public class LoaderScript : MonoBehaviour {
 	public XMLCardLoaderScript XMLCardLoader;
 	public XMLWeaponHitLoaderScript XMLWeaponHitLoader;
 	public BPartXMLReaderScript XMLBPartLoader;
+	public XMLModuleLoaderScript XMLModuleLoader;
 
 
 	void Start ()
@@ -32,6 +33,10 @@ public class LoaderScript : MonoBehaviour {
 		XMLBPartLoader = gameObject.GetComponent<BPartXMLReaderScript> ();
 		if (XMLBPartLoader == null) {
 			Debug.Log ("Cannot find 'XMLBPartLoader'object");
+		}
+		XMLModuleLoader = gameObject.GetComponent<XMLModuleLoaderScript> ();
+		if (XMLModuleLoader == null) {
+			Debug.Log ("Cannot find 'XMLModuleLoader'object");
 		}
 		StartCoroutine(Waiter());
 
