@@ -4,9 +4,9 @@
     <Files>
       <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BPartScripts\BodyPartMakerScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" Line="126" Column="137" />
+      <File FileName="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" Line="142" Column="23" />
       <File FileName="Assets\Scripts\MenuScripts\SceneTransferVariablesScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" Line="87" Column="90" />
+      <File FileName="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" Line="46" Column="4" />
       <File FileName="Assets\Scripts\MenuScripts\BodyPartVariationPanel.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\_MainGamePlay\DeckScript.cs" Line="1" Column="1" />
     </Files>

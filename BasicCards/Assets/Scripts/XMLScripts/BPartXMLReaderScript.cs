@@ -32,7 +32,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 	IEnumerable<XElement> gridHitBox;
 	IEnumerable<XElement> AnchorPoints;
 	private int MaxHealth = 0;
-	private int moduleSlotCount;
+	private int moduleSlotCount = 0;
 	private int[][] gridOfBodyPart;
 	private Vector2 anchorVector2;
 	private bool complexAnchorPointsBoolCheck;
@@ -64,10 +64,11 @@ public class BPartXMLReaderScript : MonoBehaviour {
 		{
 			listOfParts = partType.Elements ();
 			foreach (var part in listOfParts) {
-				moduleSlotCount = int.Parse (part.Element ("defaultModuleSlots").Value.Trim ());
+				//moduleSlotCount = int.Parse (part.Element ("defaultModuleSlots").Value.Trim ());
 				if (BpartName != part.Attribute ("name").Value.Trim ()) {		//if the next element has a new name, select that parrent and assign all it's children to these values
 					BpartName = part.Attribute ("name").Value.Trim ();	
 					BpartType = part.Parent.Name.ToString();
+					moduleSlotCount = int.Parse (part.Element ("defaultModuleSlots").Value.Trim ());
 					MaxHealth = int.Parse (part.Element ("Health").Value.Trim ());
 
 					int numberXCord = part.Element ("gridHitBox").Element ("line").Value.Trim ().Length;	//the length of the design shape line of 1's and 0's
@@ -138,6 +139,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 						}
 						BPartData.Add (new BodyPartDataHolder (BpartName, BpartType, MaxHealth, gridOfBodyPart, anchorVector2, moduleSlotCount));
 					}
+//					Debug.Log (BpartName +" "+ BpartType +" "+ MaxHealth +" "+ gridOfBodyPart +" "+ anchorVector2 +" "+ moduleSlotCount);
 				}
 			}
 		}

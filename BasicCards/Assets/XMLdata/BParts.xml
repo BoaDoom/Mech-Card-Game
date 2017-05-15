@@ -1,7 +1,7 @@
 <BPartsList>
 	<Arm>
-		<defaultModuleSlots>2</defaultModuleSlots>
 		<Bpart name = "arm one">
+			<defaultModuleSlots>2</defaultModuleSlots>
 			<gridHitBox>
 				<line>00111</line>
 				<line>01110</line>
@@ -18,6 +18,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "arm two">
+			<defaultModuleSlots>2</defaultModuleSlots>
 			<gridHitBox>
 				<line>00111</line>
 				<line>00110</line>
@@ -35,6 +36,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "arm three">
+			<defaultModuleSlots>2</defaultModuleSlots>
 			<gridHitBox>
 				<line>011</line>
 				<line>011</line>
@@ -52,6 +54,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "arm four">
+			<defaultModuleSlots>3</defaultModuleSlots>
 			<gridHitBox>
 				<line>11111</line>
 				<line>11011</line>
@@ -70,8 +73,8 @@
 		</Bpart>
 	</Arm>
 	<Head>
-		<defaultModuleSlots>1</defaultModuleSlots>
 		<Bpart name = "head one">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>111</line>
 				<line>111</line>
@@ -84,6 +87,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "head two">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>111</line>
 				<line>111</line>
@@ -98,6 +102,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "head three">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>01110</line>
 				<line>11111</line>
@@ -112,6 +117,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "head four">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>010</line>
 				<line>010</line>
@@ -127,8 +133,8 @@
 		</Bpart>
 	</Head>
 	<Leg>
-		<defaultModuleSlots>1</defaultModuleSlots>
 		<Bpart name = "leg one">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>0010</line>
 				<line>0111</line>
@@ -147,6 +153,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "leg two">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>00010</line>
 				<line>00111</line>
@@ -166,6 +173,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "leg three">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>010</line>
 				<line>111</line>
@@ -184,6 +192,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "leg four">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>00010</line>
 				<line>00110</line>
@@ -204,8 +213,8 @@
 		</Bpart>
 	</Leg>
 	<Shoulder>
-		<defaultModuleSlots>2</defaultModuleSlots>
 		<Bpart name = "shoulder one">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>1110</line>
 				<line>1110</line>
@@ -225,65 +234,68 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "shoulder two">
-				<gridHitBox>
-					<line>11100</line>
-					<line>11110</line>
-					<line>11110</line>
-					<line>00111</line>
-				</gridHitBox>
-				<ComplexAnchorPoints>true</ComplexAnchorPoints>
-				<AnchorPoints>
-					<ArmPoint typeOfSocket = "male">
-						<xCord>2</xCord>
-						<yCord>-1</yCord>
-					</ArmPoint>
-					<TorsoPoint typeOfSocket = "female">
-						<xCord>4</xCord>
-						<yCord>0</yCord>
-					</TorsoPoint>
-				</AnchorPoints>
-				<Health>30</Health>
-			</Bpart>
-			<Bpart name = "shoulder three">
-				<gridHitBox>
-					<line>00100</line>
-					<line>01100</line>
-					<line>11111</line>
-				</gridHitBox>
-				<ComplexAnchorPoints>true</ComplexAnchorPoints>
-				<AnchorPoints>
-					<ArmPoint typeOfSocket = "male">
-						<xCord>1</xCord>
-						<yCord>-1</yCord>
-					</ArmPoint>
-					<TorsoPoint typeOfSocket = "female">
-						<xCord>4</xCord>
-						<yCord>0</yCord>
-					</TorsoPoint>
-				</AnchorPoints>
-				<Health>30</Health>
-			</Bpart>
-			<Bpart name = "shoulder four">
-				<gridHitBox>
-					<line>111</line>
-				</gridHitBox>
-				<ComplexAnchorPoints>true</ComplexAnchorPoints>
-				<AnchorPoints>
-					<ArmPoint typeOfSocket = "male">
-						<xCord>0</xCord>
-						<yCord>-1</yCord>
-					</ArmPoint>
-					<TorsoPoint typeOfSocket = "female">
-						<xCord>2</xCord>
-						<yCord>0</yCord>
-					</TorsoPoint>
-				</AnchorPoints>
-				<Health>30</Health>
-			</Bpart>
+			<defaultModuleSlots>1</defaultModuleSlots>
+			<gridHitBox>
+				<line>11100</line>
+				<line>11110</line>
+				<line>11110</line>
+				<line>00111</line>
+			</gridHitBox>
+			<ComplexAnchorPoints>true</ComplexAnchorPoints>
+			<AnchorPoints>
+				<ArmPoint typeOfSocket = "male">
+					<xCord>2</xCord>
+					<yCord>-1</yCord>
+				</ArmPoint>
+				<TorsoPoint typeOfSocket = "female">
+					<xCord>4</xCord>
+					<yCord>0</yCord>
+				</TorsoPoint>
+			</AnchorPoints>
+			<Health>30</Health>
+		</Bpart>
+		<Bpart name = "shoulder three">
+			<defaultModuleSlots>1</defaultModuleSlots>
+			<gridHitBox>
+				<line>00100</line>
+				<line>01100</line>
+				<line>11111</line>
+			</gridHitBox>
+			<ComplexAnchorPoints>true</ComplexAnchorPoints>
+			<AnchorPoints>
+				<ArmPoint typeOfSocket = "male">
+					<xCord>1</xCord>
+					<yCord>-1</yCord>
+				</ArmPoint>
+				<TorsoPoint typeOfSocket = "female">
+					<xCord>4</xCord>
+					<yCord>0</yCord>
+				</TorsoPoint>
+			</AnchorPoints>
+			<Health>30</Health>
+		</Bpart>
+		<Bpart name = "shoulder four">
+			<defaultModuleSlots>1</defaultModuleSlots>
+			<gridHitBox>
+				<line>111</line>
+			</gridHitBox>
+			<ComplexAnchorPoints>true</ComplexAnchorPoints>
+			<AnchorPoints>
+				<ArmPoint typeOfSocket = "male">
+					<xCord>0</xCord>
+					<yCord>-1</yCord>
+				</ArmPoint>
+				<TorsoPoint typeOfSocket = "female">
+					<xCord>2</xCord>
+					<yCord>0</yCord>
+				</TorsoPoint>
+			</AnchorPoints>
+			<Health>30</Health>
+		</Bpart>
 	</Shoulder>
 	<Torso>
-		<defaultModuleSlots>1</defaultModuleSlots>
 		<Bpart name = "torso one">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>0011100</line>
 				<line>0111110</line>
@@ -319,6 +331,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "torso two">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>01110</line>
 				<line>11111</line>
@@ -351,6 +364,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "torso three">
+			<defaultModuleSlots>2</defaultModuleSlots>
 			<gridHitBox>
 				<line>000111000</line>
 				<line>001111100</line>
@@ -386,6 +400,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "torso four">
+			<defaultModuleSlots>1</defaultModuleSlots>
 			<gridHitBox>
 				<line>00100</line>
 				<line>11111</line>

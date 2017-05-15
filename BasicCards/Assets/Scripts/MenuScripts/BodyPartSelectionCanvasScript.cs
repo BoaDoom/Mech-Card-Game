@@ -18,11 +18,11 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 	BPartXMLReaderScript bPartXMLReader;
 //	public int what;
-	BPartWithModuleInfo headSelection;
-	BPartWithModuleInfo armSelection;
-	BPartWithModuleInfo torsoSelection;
-	BPartWithModuleInfo shoulderSelection;
-	BPartWithModuleInfo legSelection;
+	BPartWithModuleInfo headSelection = new BPartWithModuleInfo();
+	BPartWithModuleInfo armSelection = new BPartWithModuleInfo();
+	BPartWithModuleInfo torsoSelection = new BPartWithModuleInfo();
+	BPartWithModuleInfo shoulderSelection = new BPartWithModuleInfo();
+	BPartWithModuleInfo legSelection = new BPartWithModuleInfo();
 	//PickedBodyPart[] listOfPickedBodyParts;
 
 
@@ -97,19 +97,19 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public void markSelectedBodyPartAsNull(string nameOfPart){		//for deselecting the body part
 		switch (nameOfPart) {
 		case("Head"):
-			headSelection = null;
+			headSelection.nameOfSelection = null;
 			break;
 		case("Arm"):
-			armSelection = null;
+			armSelection.nameOfSelection = null;
 			break;
 		case("Torso"):
-			torsoSelection = null;
+			torsoSelection.nameOfSelection = null;
 			break;
 		case("Shoulder"):
-			shoulderSelection = null;
+			shoulderSelection.nameOfSelection = null;
 			break;
 		case("Leg"):
-			legSelection = null;
+			legSelection.nameOfSelection = null;
 			break;
 		default:
 			Debug.Log ("Unknown bodypart");
@@ -125,7 +125,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public void checkToMoveToPlayScreen(){
 		if (checkIfBodyIsComplete()) {
 			AllPickedBodyParts allPickedBodyPartsTemp = new AllPickedBodyParts ();
-			allPickedBodyPartsTemp.setAllPickedBodyParts(headSelection, armSelection, torsoSelection, shoulderSelection, legSelection);
+			allPickedBodyPartsTemp.setAllPickedBodyParts(headSelection.nameOfSelection, armSelection.nameOfSelection, torsoSelection.nameOfSelection, shoulderSelection.nameOfSelection, legSelection.nameOfSelection);
 //			print (allPickedBodyPartsTemp.pickedHead);
 //			sceneTransferVariablesScript.bleh ();
 			sceneTransferVariablesScript.setPartsPicked(allPickedBodyPartsTemp);
