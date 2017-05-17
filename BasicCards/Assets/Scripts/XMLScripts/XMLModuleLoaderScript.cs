@@ -66,7 +66,10 @@ public class XMLModuleLoaderScript : MonoBehaviour {
 //				attackDamageOfCard = int.Parse (item.Parent.Element("attack").Value.Trim ()); 
 //				typeOfAttack = item.Parent.Element ("attackType").Value.Trim ();
 				/*Create a new Index in the List, which will be a new XMLData object and pass the previously assigned variables as arguments so they get assigned to the new object’s variables.*/
-				data.Add (new XMLModuleData(nameOfModule, cardNumber, moduleType));
+				XMLModuleData tempXMLModule = new XMLModuleData();
+				tempXMLModule.MakeNewData (nameOfModule, cardNumber, moduleType);
+				data.Add (tempXMLModule);
+					
 //				print ("nameOfModule "+ nameOfModule + " cardNumber "+ cardNumber+ " moduleType "+moduleType);
 				/*To test and make sure the data has been applied to properly, print out the musicClip name from the data list’s current index. This will let us know if the objects in the list have been created successfully and if their variables have been assigned the right values.*/
 				//				Debug.Log (data[iteration-1].nameOfCard);
@@ -87,14 +90,16 @@ public class XMLModuleData {
 	public string nameOfModule, moduleType;
 	public int cardNumber;
 	// Create a constructor that will accept multiple arguments that can be assigned to our variables. 
-	public XMLModuleData (string incNameOfModule, int incCardNumber, string incModuleType)
+	public void MakeNewData(string incNameOfModule, int incCardNumber, string incModuleType)
 	{
 		nameOfModule = incNameOfModule;
 		cardNumber = incCardNumber;
 		moduleType = incModuleType;
-//		Debug.Log ("nameOfModule "+ nameOfModule + " incCardNumber "+ incCardNumber+ " incModuleType "+incModuleType);
-//		attackDamageOfCard = attack;
-//		typeOfAttack = atkType;
 	}
-
+	public void CopyData(XMLModuleData incXMLModuleData)
+	{
+		nameOfModule = incXMLModuleData.nameOfModule;
+		cardNumber = incXMLModuleData.cardNumber;
+		moduleType = incXMLModuleData.moduleType;
+	}
 }

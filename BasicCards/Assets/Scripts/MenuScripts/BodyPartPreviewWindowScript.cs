@@ -30,9 +30,10 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 	public Vector3 firstBoxCord;
 	bool completedStartup = false;
 
-	public ModulePickerScript modulePicker;		//orginal prefab of panel for picking variable modules
-	public int moduleSocketCount;		//stored count of number of module sockets
+	public ModulePickerScript ModulePickerPanel;		//orginal prefab of panel for picking variable modules
+	public ModuleSocketCount moduleSocketCount;		//stored count of number of module sockets
 	public ModulePickerScript[] modulePanels; 		//the list of panels that are open for selection after the part has been picked. Can be 0-3 panels
+	public int numberOfModularSocketsShown;
 
 	BodyPartSelectionCanvasScript partSelectionCanvas;
 	public void Start(){
@@ -89,14 +90,14 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 
 	public IEnumerator refreshSquares (VisualOnlyBPartGenericScript incomingVisualOfBpart) {
 		StartCoroutine (clearSquares ());
-		moduleSocketCount = incomingVisualOfBpart.getModuleSocketCount ().getTotalCount();		//grabbing the count of sockets
+		numberOfModularSocketsShown = incomingVisualOfBpart.getModuleSocketCount ().getTotalCount();		//grabbing the count of sockets
 		Vector2 incomingGridDimensions = incomingVisualOfBpart.getDimensionsOfPart ();
 
 		Vector2 offSetPoint = new Vector2 (Mathf.Ceil((staticNumberOfBoxesX/2)-(incomingGridDimensions.x)/2), Mathf.Ceil((staticNumberOfBoxesY/2)-(incomingGridDimensions.y)/2));
 //		print (offSetPoint);
 		float floatOffset = 1.25f;
-		for (int i = 0; i <moduleSocketCount; i++){
-			modulePanels [i] = Instantiate (modulePicker, Vector3.zero + new Vector3((1.25f + floatOffset*i), 0.0f, 0.0f), transformOriginal.rotation);
+		for (int i = 0; i <numberOfModularSocketsShown; i++){
+			modulePanels [i] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*i), 0.0f, 0.0f), transformOriginal.rotation);
 			modulePanels [i].takePartSelectionCanvas (partSelectionCanvas, incomingVisualOfBpart);
 //			put in the module choices here to send to module picker to list as choices
 			modulePanels[i].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);

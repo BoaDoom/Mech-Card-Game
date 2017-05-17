@@ -6,27 +6,27 @@ public class ModulePickerScript : MonoBehaviour {
 
 	public modulePickerButtonScript buttonPrefab;
 	public BodyPartSelectionCanvasScript partSelectionCanvas;
-	private ModuleCount BPartData;
+	private ModuleSocketCount moduleSocketCount;
 	XMLModuleData[] weaponModules;
 	XMLModuleData[] utilityModules;
 	XMLModuleData[] genericModules;
 
 	public void takePartSelectionCanvas(BodyPartSelectionCanvasScript incomingPartSelectionCanvas, VisualOnlyBPartGenericScript incomingBPartGeneric){
 		partSelectionCanvas = incomingPartSelectionCanvas;
-		BPartData = incomingBPartGeneric.moduleSockets;
+		moduleSocketCount = incomingBPartGeneric.getModuleSocketCount();
 
-		if (BPartData.weaponModuleCount > 0) {
+		if (moduleSocketCount.weaponModuleSocketCount > 0) {
 			weaponModules = partSelectionCanvas.getListOfModules ("Weapons");
 			foreach (XMLModuleData modularData in weaponModules) {
 //				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
 //				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
-				print("test");
+//				print("test");
 			}
 		}
-		if (BPartData.utilityModuleCount > 0) {
+		if (moduleSocketCount.utilityModuleSocketCount > 0) {
 			utilityModules = partSelectionCanvas.getListOfModules ("Utility");
 		}
-		if (BPartData.genericModuleCount > 0) {
+		if (moduleSocketCount.genericModuleSocketCount > 0) {
 			genericModules = partSelectionCanvas.getListOfModules ("Generic");
 		}
 			

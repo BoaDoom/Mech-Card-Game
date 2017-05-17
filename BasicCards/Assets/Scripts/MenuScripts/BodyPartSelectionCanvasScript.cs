@@ -62,11 +62,13 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			tempUtilityInt = 0;
 			foreach(XMLModuleData moduleData in XMLModuleLoader.data){
 				if (moduleData.moduleType == "Weapons") {
-					listOfWeaponModules[tempWeaponInt] = (moduleData);
+					listOfWeaponModules[tempWeaponInt] = new XMLModuleData();
+					listOfWeaponModules [tempWeaponInt].CopyData (moduleData);
 					tempWeaponInt++;
 				}
 				else if (moduleData.moduleType == "Utility") {
-					listOfUtilityModules[tempUtilityInt] = (moduleData);
+					listOfUtilityModules[tempUtilityInt] = new XMLModuleData();
+					listOfUtilityModules [tempUtilityInt].CopyData (moduleData);
 					tempUtilityInt++;
 				}
 			}
@@ -103,9 +105,6 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public VisualOnlyBPartGenericScript markSelectedBodyPart(string nameOfPart, int incomingSelection){		//almost the same as PlayerScript method populate body
 
 		//need to swap over the identifying variable from a string to the new class so it can carry the module info and choices. Maybe? needs to convey more info at some point
-
-
-
 
 		switch (nameOfPart) {
 		case("Head"):
@@ -200,8 +199,15 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			return listOfUtilityModules;
 		}
 		if (incomingRequestForList == "Both"){
-			XMLModuleData[] listOfBothTypesOfModules = listOfWeaponModules;
-			listOfBothTypesOfModules.Concat (listOfUtilityModules);
+			int tempWeaponListCount = listOfWeaponModules.Length;
+			int tempUtilityListCount = listOfUtilityModules.Length;
+			XMLModuleData[] listOfBothTypesOfModules = new XMLModuleData[tempWeaponListCount+tempUtilityListCount];
+			for (int i = 0; i < tempWeaponListCount; i++) {
+				listOfBothTypesOfModules [i] = listOfWeaponModules[i];
+			}
+			for (int i = 0; i < tempUtilityListCount; i++) {
+				listOfBothTypesOfModules [tempWeaponListCount+i] = listOfUtilityModules[i];
+			}
 			return listOfBothTypesOfModules;
 		}
 		return null;

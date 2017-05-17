@@ -16,7 +16,7 @@ public class VisualOnlyBPartGenericScript : MonoBehaviour {
 	private float maxHealth;
 	private Vector2 dimensions;		//dependent on the farthest location from the source (0,0) of the list of binaryDimensions
 
-	public ModuleCount moduleSockets;
+	public ModuleSocketCount moduleSocketCount;
 	public void Start(){
 	}
 
@@ -26,7 +26,7 @@ public class VisualOnlyBPartGenericScript : MonoBehaviour {
 		bPartName = incomingBodyPartData.name;
 
 		maxHealth = incomingBodyPartData.maxHealth;
-		moduleSockets = incomingBodyPartData.moduleSockets;
+		moduleSocketCount = incomingBodyPartData.moduleSocketCount;
 
 		nodesOfBP = new BodyPartNode[incomingBodyPartData.bodyPartGrid.Length][];
 		for(int i=0; i < incomingBodyPartData.bodyPartGrid.Length; i++){	//transfering the int[][] grid
@@ -56,8 +56,8 @@ public class VisualOnlyBPartGenericScript : MonoBehaviour {
 	public float getHealth(){
 		return maxHealth;
 	}
-	public ModuleCount getModuleSocketCount(){
-		return moduleSockets;
+	public ModuleSocketCount getModuleSocketCount(){
+		return moduleSocketCount;
 	}
 
 	public bool getGridPoint(Vector2 incomingPoint){
