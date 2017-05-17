@@ -83,8 +83,8 @@
 	<Head>
 		<Bpart name = "head one">
 			<WeaponModuleSlots>0</WeaponModuleSlots>
-			<UtilityModuleSlots>0</UtilityModuleSlots>
-			<GenericModuleSlots>1</GenericModuleSlots>
+			<UtilityModuleSlots>1</UtilityModuleSlots>
+			<GenericModuleSlots>0</GenericModuleSlots>
 			<gridHitBox>
 				<line>111</line>
 				<line>111</line>
@@ -98,8 +98,8 @@
 		</Bpart>
 		<Bpart name = "head two">
 			<WeaponModuleSlots>0</WeaponModuleSlots>
-			<UtilityModuleSlots>0</UtilityModuleSlots>
-			<GenericModuleSlots>1</GenericModuleSlots>
+			<UtilityModuleSlots>1</UtilityModuleSlots>
+			<GenericModuleSlots>0</GenericModuleSlots>
 			<gridHitBox>
 				<line>111</line>
 				<line>111</line>
@@ -115,8 +115,8 @@
 		</Bpart>
 		<Bpart name = "head three">
 			<WeaponModuleSlots>0</WeaponModuleSlots>
-			<UtilityModuleSlots>0</UtilityModuleSlots>
-			<GenericModuleSlots>1</GenericModuleSlots>
+			<UtilityModuleSlots>1</UtilityModuleSlots>
+			<GenericModuleSlots>0</GenericModuleSlots>
 			<gridHitBox>
 				<line>01110</line>
 				<line>11111</line>
@@ -132,8 +132,8 @@
 		</Bpart>
 		<Bpart name = "head four">
 			<WeaponModuleSlots>0</WeaponModuleSlots>
-			<UtilityModuleSlots>0</UtilityModuleSlots>
-			<GenericModuleSlots>1</GenericModuleSlots>
+			<UtilityModuleSlots>1</UtilityModuleSlots>
+			<GenericModuleSlots>0</GenericModuleSlots>
 			<gridHitBox>
 				<line>010</line>
 				<line>010</line>
@@ -260,7 +260,7 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "shoulder two">
-			<WeaponModuleSlots>1</WeaponModuleSlots>
+			<WeaponModuleSlots>2</WeaponModuleSlots>
 			<UtilityModuleSlots>0</UtilityModuleSlots>
 			<GenericModuleSlots>0</GenericModuleSlots>
 			<gridHitBox>
@@ -305,9 +305,9 @@
 			<Health>30</Health>
 		</Bpart>
 		<Bpart name = "shoulder four">
-			<WeaponModuleSlots>1</WeaponModuleSlots>
+			<WeaponModuleSlots>0</WeaponModuleSlots>
 			<UtilityModuleSlots>0</UtilityModuleSlots>
-			<GenericModuleSlots>0</GenericModuleSlots>
+			<GenericModuleSlots>1</GenericModuleSlots>
 			<gridHitBox>
 				<line>111</line>
 			</gridHitBox>

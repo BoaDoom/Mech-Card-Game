@@ -45,14 +45,14 @@ public class modulePickerButtonScript : Selectable{
 	}
 	public override void OnPointerDown(PointerEventData eventData){
 //		print ("pointer down");
-		if (bodyPartVariationPanel.getPartSelected () == bodyPartNumber) { //toggles off the the body part color on deselection if the parent panel is storing the same number
-			StartCoroutine (bodyPartVariationPanel.partSelected(-1));
-			turnOffSelectedColor ();
-		} else {
-//			print ("test onSelect");
-			StartCoroutine (bodyPartVariationPanel.partSelected (bodyPartNumber));
-			turnOnActiveGreen ();
-		}
+//		if (bodyPartVariationPanel.getPartSelected () == bodyPartNumber) { //toggles off the the body part color on deselection if the parent panel is storing the same number
+//			StartCoroutine (bodyPartVariationPanel.partSelected(-1));
+//			turnOffSelectedColor ();
+//		} else {
+////			print ("test onSelect");
+//			StartCoroutine (bodyPartVariationPanel.partSelected (bodyPartNumber));
+//			turnOnActiveGreen ();
+//		}
 	}
 //	public override void OnSelect(BaseEventData eventData){
 //		if (bodyPartVariationPanel.getPartSelected () == bodyPartNumber) { //toggles off the the body part color on deselection if the parent panel is storing the same number
@@ -67,9 +67,9 @@ public class modulePickerButtonScript : Selectable{
 //		}
 //	}
 	public override void OnDeselect(BaseEventData eventData){
-		if (bodyPartVariationPanel.getPartSelected () != bodyPartNumber) {	//only turns off the the body part color on deselection if the parent panel is storing a different number
-			turnOffSelectedColor ();
-		}
+//		if (bodyPartVariationPanel.getPartSelected () != bodyPartNumber) {	//only turns off the the body part color on deselection if the parent panel is storing a different number
+//			turnOffSelectedColor ();
+//		}
 //		}
 	}
 	public int getBodyPartNumber(){

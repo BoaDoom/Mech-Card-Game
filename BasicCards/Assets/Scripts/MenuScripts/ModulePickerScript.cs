@@ -18,16 +18,29 @@ public class ModulePickerScript : MonoBehaviour {
 		if (moduleSocketCount.weaponModuleSocketCount > 0) {
 			weaponModules = partSelectionCanvas.getListOfModules ("Weapons");
 			foreach (XMLModuleData modularData in weaponModules) {
-//				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
+				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
 //				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
-//				print("test");
+				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> (), false);
+//				print("modulardata " + modularData.moduleType);
 			}
 		}
 		if (moduleSocketCount.utilityModuleSocketCount > 0) {
 			utilityModules = partSelectionCanvas.getListOfModules ("Utility");
+			foreach (XMLModuleData modularData in utilityModules) {
+				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
+//				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
+				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> (), false);
+				//				print("modulardata " + modularData.moduleType);
+			}
 		}
 		if (moduleSocketCount.genericModuleSocketCount > 0) {
-			genericModules = partSelectionCanvas.getListOfModules ("Generic");
+			genericModules = partSelectionCanvas.getListOfModules ("Both");
+			foreach (XMLModuleData modularData in genericModules) {
+				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
+//				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
+				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> (), false);
+				//				print("modulardata " + modularData.moduleType);
+			}
 		}
 			
 
