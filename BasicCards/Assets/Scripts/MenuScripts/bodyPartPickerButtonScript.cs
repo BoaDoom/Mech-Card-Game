@@ -39,9 +39,9 @@ public class bodyPartPickerButtonScript : Selectable{
 		yield return null;
 	}
 
-	public void setAsSelected(){
-		//selectorScript.
-	}
+//	public void setAsSelected(){
+//		//selectorScript.
+//	}
 	public override void OnPointerDown(PointerEventData eventData){
 //		print ("pointer down");
 //		print("bodyPartVariationPanel "+ bodyPartVariationPanel);

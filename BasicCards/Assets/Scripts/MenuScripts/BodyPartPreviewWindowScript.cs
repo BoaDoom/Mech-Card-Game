@@ -43,9 +43,10 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		} else {
 			print ("Couldnt find SceneTransferVariablesScript");
 		}
+		modulePanels = new ModulePickerScript[3];
 
 		Transform BodyPartPanelTemp = gameObject.transform.parent;
-		modulePanels = new ModulePickerScript[3];
+
 //		if(BodyPartPanelTemp != null){
 //			bodyPartPanel = BodyPartPanelTemp.GetComponent<BodyPartVariationPanel>();
 //		}
@@ -89,19 +90,47 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 	}
 
 	public IEnumerator refreshSquares (VisualOnlyBPartGenericScript incomingVisualOfBpart) {
+
 		StartCoroutine (clearSquares ());
+		modulePanels = new ModulePickerScript[ incomingVisualOfBpart.getModuleSocketCount ().getTotalCount()];
 		numberOfModularSocketsShown = incomingVisualOfBpart.getModuleSocketCount ().getTotalCount();		//grabbing the count of sockets
 		Vector2 incomingGridDimensions = incomingVisualOfBpart.getDimensionsOfPart ();
 
 		Vector2 offSetPoint = new Vector2 (Mathf.Ceil((staticNumberOfBoxesX/2)-(incomingGridDimensions.x)/2), Mathf.Ceil((staticNumberOfBoxesY/2)-(incomingGridDimensions.y)/2));
 //		print (offSetPoint);
 		float floatOffset = 1.25f;
-		for (int i = 0; i <numberOfModularSocketsShown; i++){
-			modulePanels [i] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*i), 0.0f, 0.0f), transformOriginal.rotation);
-			modulePanels [i].takePartSelectionCanvas (partSelectionCanvas, incomingVisualOfBpart);
-//			put in the module choices here to send to module picker to list as choices
-			modulePanels[i].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
+		int totalCount = 0;
+		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getWeaponCount(); i++){
+			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
+			modulePanels [totalCount].takePartSelectionCanvas (partSelectionCanvas, "weapon");
+			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
+			totalCount += 1;
+//			print ("weapon made" + i);
+//			print ("totalCount: "+ totalCount);
 		}
+		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getUtilityCount(); i++){
+			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
+			modulePanels [totalCount].takePartSelectionCanvas (partSelectionCanvas, "utility");
+			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
+			totalCount += 1;
+//			print ("utility made" + i);
+//			print ("totalCount: "+ totalCount);
+		}
+		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getBothCount(); i++){
+			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
+			modulePanels [totalCount].takePartSelectionCanvas (partSelectionCanvas, "both");
+			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
+			totalCount += 1;
+//			print ("both made" + i);
+//			print ("totalCount: "+ totalCount);
+		}
+
+
+
+
+
+//			put in the module choices here to send to module picker to list as choices
+
 
 		for(int x = 0; x < incomingGridDimensions.x; x++){
 			for(int y = 0; y <incomingGridDimensions.y; y++){
@@ -124,7 +153,9 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 			}
 		}
 		if (modulePanels[0] != null) {
+//			print("modulePanels.Length: "+modulePanels.Length);
 			for (int i = 0; i < modulePanels.Length; i++) {
+//				print("modulePanels deleted: "+i);
 				//ModulePickerScript tempToDestroy = modulePanels [0].gameObject;
 				if (modulePanels [i] != null) {
 					DestroyObject (modulePanels [i].gameObject);

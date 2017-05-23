@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public class modulePickerButtonScript : Selectable{
 //	SelectionBaseAttribute selectorScript;
-	BodyPartVariationPanel bodyPartVariationPanel;
+	ModulePickerScript modulePickerScript;
 	public int bodyPartNumber;
+	int assignedOptionNumber;
 	public Color startColor = Color.grey;
 	public Color startNormalColor;
 
@@ -20,23 +21,37 @@ public class modulePickerButtonScript : Selectable{
 //		//gameObject.GetComponent<Text>().color =  startColor;
 //		//print (startColor);
 //		//Changes the button's Disabled color to the new color.
-//		ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript>().colors;
+//		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript>().colors;
 //		startNormalColor = cb.normalColor;
 ////		button.colors = cb;
 ////		print("Done text");
 //		completedStart = true;
 //	}
-	public IEnumerator ManualStart(){
-		bodyPartVariationPanel = gameObject.GetComponentInParent<BodyPartVariationPanel>();
+	public IEnumerator ManualStart(string nameOfModule, int incomingAssignedOptionNumber){
+//		print ("manually started");
+		ModulePickerScript modulePickerScriptTemp = gameObject.GetComponentInParent<ModulePickerScript>();
+		if (modulePickerScriptTemp != null) {
+			modulePickerScript = modulePickerScriptTemp;
+		} else {
+			print ("Couldnt find modulePickerScriptTemp");
+		}
+
+		modulePickerScript = gameObject.GetComponentInParent<ModulePickerScript>();
+//		print ("name: "+ modulePickerScript.name);
 		//gameObject.GetComponent<Text>().color =  startColor;
 		//print (startColor);
 		//Changes the button's Disabled color to the new color.
-		ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript>().colors;
+		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript>().colors;
 		startNormalColor = cb.normalColor;
 		//		button.colors = cb;
 		//		print("Done text");
+		assignedOptionNumber = incomingAssignedOptionNumber;
+//		print ("nameOfModule: "+ nameOfModule);
+//		print ("pre set text: "+ gameObject.GetComponent<Text>().text);
+		gameObject.GetComponent<Text>().text = "Module " +nameOfModule;
+//		print ("after set text: "+ gameObject.GetComponent<Text>().text);
 		completedStart = true;
-
+//		StartCoroutine( modulePickerScript.setPartSelected (1));
 		yield return null;
 	}
 
@@ -45,46 +60,37 @@ public class modulePickerButtonScript : Selectable{
 	}
 	public override void OnPointerDown(PointerEventData eventData){
 //		print ("pointer down");
-//		if (bodyPartVariationPanel.getPartSelected () == bodyPartNumber) { //toggles off the the body part color on deselection if the parent panel is storing the same number
-//			StartCoroutine (bodyPartVariationPanel.partSelected(-1));
-//			turnOffSelectedColor ();
-//		} else {
-////			print ("test onSelect");
-//			StartCoroutine (bodyPartVariationPanel.partSelected (bodyPartNumber));
-//			turnOnActiveGreen ();
-//		}
-	}
-//	public override void OnSelect(BaseEventData eventData){
-//		if (bodyPartVariationPanel.getPartSelected () == bodyPartNumber) { //toggles off the the body part color on deselection if the parent panel is storing the same number
-//			bodyPartVariationPanel.partSelected(0);
-//			turnOffSelectedColor ();
-//		} else {
+		if (modulePickerScript.getPartSelected () == assignedOptionNumber) { //toggles off the the body part color on deselection if the parent panel is storing the same number
+			StartCoroutine (modulePickerScript.setPartSelected(-1));
+			turnOffSelectedColor ();
+		} else {
 //			print ("test onSelect");
-//			StartCoroutine (bodyPartVariationPanel.partSelected (bodyPartNumber));
-//			ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript> ().colors;
-//			cb.normalColor = Color.green;
-//			gameObject.GetComponent<bodyPartPickerButtonScript> ().colors = cb;
-//		}
-//	}
+			StartCoroutine (modulePickerScript.setPartSelected (assignedOptionNumber));
+			turnOnActiveGreen ();
+		}
+	}
+
 	public override void OnDeselect(BaseEventData eventData){
-//		if (bodyPartVariationPanel.getPartSelected () != bodyPartNumber) {	//only turns off the the body part color on deselection if the parent panel is storing a different number
-//			turnOffSelectedColor ();
-//		}
-//		}
+		if (modulePickerScript.getPartSelected () != bodyPartNumber) {	//only turns off the the body part color on deselection if the parent panel is storing a different number
+			turnOffSelectedColor ();
+		}
 	}
 	public int getBodyPartNumber(){
 		return bodyPartNumber;
 	}
+	public int getModuleNumber(){
+		return assignedOptionNumber;
+	}
 	public void turnOffSelectedColor(){
 //		print ("Deseltected");
-		ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript>().colors;
+		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript>().colors;
 		cb.normalColor = startNormalColor;
-		gameObject.GetComponent<bodyPartPickerButtonScript>().colors = cb;
+		gameObject.GetComponent<modulePickerButtonScript>().colors = cb;
 	}
 	public void turnOnActiveGreen(){
-		ColorBlock cb = gameObject.GetComponent<bodyPartPickerButtonScript> ().colors;
+		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript> ().colors;
 		cb.normalColor = Color.green;
-		gameObject.GetComponent<bodyPartPickerButtonScript> ().colors = cb;
+		gameObject.GetComponent<modulePickerButtonScript> ().colors = cb;
 	}
 
 	public bool completedStartQuery(){

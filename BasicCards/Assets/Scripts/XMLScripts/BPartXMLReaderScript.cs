@@ -235,5 +235,15 @@ public class ModuleSocketCount{
 	public int getTotalCount(){
 		return weaponModuleSocketCount + utilityModuleSocketCount + genericModuleSocketCount;
 	}
+	public int getWeaponCount(){
+		return weaponModuleSocketCount;
+	}
+	public int getUtilityCount(){
+		return utilityModuleSocketCount;
+	}
+	public int getBothCount(){
+		return genericModuleSocketCount;
+	}
+
 }
 

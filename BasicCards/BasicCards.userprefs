@@ -1,25 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\XMLScripts\XMLModuleLoaderScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuScripts\ModulePickerScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" Line="201" Column="38" NotebookId="1" />
-      <File FileName="Assets\Scripts\MenuScripts\BodyPartVariationPanel.cs" Line="13" Column="8" NotebookId="1" />
-      <File FileName="Assets\Scripts\MenuScripts\bodyPartPickerButtonScript.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\BPartScripts\VisualOnlyBPartGenericScript.cs" Line="59" Column="26" NotebookId="1" />
-      <File FileName="Assets\Scripts\MenuScripts\BodyPartPreviewWindowScript.cs" Line="100" Column="10" NotebookId="1" />
-      <File FileName="Assets\Scripts\MenuScripts\ModulePickerScript.cs" Line="37" Column="67" NotebookId="1" />
-      <File FileName="Assets\Scripts\MenuScripts\modulePickerButtonScript.cs" Line="70" Column="5" NotebookId="1" />
-      <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" Line="76" Column="1" />
+      <File FileName="Assets\Scripts\MenuScripts\BodyPartVariationPanel.cs" Line="40" Column="1" />
+      <File FileName="Assets\Scripts\MenuScripts\bodyPartPickerButtonScript.cs" Line="42" Column="3" />
+      <File FileName="Assets\Scripts\BPartScripts\VisualOnlyBPartGenericScript.cs" Line="19" Column="26" />
+      <File FileName="Assets\Scripts\MenuScripts\BodyPartPreviewWindowScript.cs" Line="42" Column="92" />
+      <File FileName="Assets\Scripts\MenuScripts\ModulePickerScript.cs" Line="10" Column="32" />
+      <File FileName="Assets\Scripts\MenuScripts\modulePickerButtonScript.cs" Line="82" Column="31" />
+      <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\XMLScripts\XMLModuleLoaderScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" Line="242" Column="34" />
     </Files>
-    <FloatingWindows>
-      <FloatingWindow WindowId="1" X="1920" Y="0" Width="1600" Height="847">
-        <Files>
-          <File FileName="Assets\Scripts\XMLScripts\LoaderScript.cs" Line="28" Column="4" />
-          <File FileName="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" Line="1" Column="1" />
-          <File FileName="Assets\Scripts\XMLScripts\XMLModuleLoaderScript.cs" Line="70" Column="30" />
-        </Files>
-      </FloatingWindow>
-    </FloatingWindows>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
