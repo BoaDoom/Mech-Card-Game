@@ -29,6 +29,15 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public XMLModuleData[] listOfWeaponModules;
 	public XMLModuleData[] listOfUtilityModules;
 
+	BodyPartPreviewWindowScript headWindow;
+	BodyPartPreviewWindowScript armWindow;
+	BodyPartPreviewWindowScript torsoWindow;
+	BodyPartPreviewWindowScript shoulderWindow;
+	BodyPartPreviewWindowScript legWindow;
+	BodyPartPreviewWindowScript[] allBPartWindows = new BodyPartPreviewWindowScript[5];		//5 is the number of type of parts, head, arm, torso, legs, shoulders;
+
+	public List<int> alreadySelectedModules = new List<int>();
+
 
 	public Button nextButton;
 //	bool thingsChecked;
@@ -211,6 +220,61 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			return listOfBothTypesOfModules;
 		}
 		return null;
+	}
+	public void previewWindowTransfer(BodyPartPreviewWindowScript incomingBPartWindow){		//on startup each bpartpreviewwindow sends a reference to itself to the canvas
+		string tempNameString = incomingBPartWindow.getTypeOfBPartOnDisplay();
+		switch (tempNameString) {
+		case("Head"):
+			headWindow = incomingBPartWindow;
+			allBPartWindows [0] = headWindow;
+			break;
+		case("Arm"):
+			armWindow = incomingBPartWindow;
+			allBPartWindows [1] = armWindow;
+			break;
+		case("Torso"):
+			torsoWindow = incomingBPartWindow;
+			allBPartWindows [2] = torsoWindow;
+			break;
+		case("Shoulder"):
+			shoulderWindow = incomingBPartWindow;
+			allBPartWindows [3] = shoulderWindow;
+			break;
+		case("Leg"):
+			legWindow = incomingBPartWindow;
+			allBPartWindows [4] = legWindow;
+			break;
+		default:
+			Debug.Log ("preview window did not transfer correctly");
+			break;
+		}
+	}
+	public void upwardsModuleSelected(int incomingModuleIDnumber){		//coming from
+		alreadySelectedModules.Add (incomingModuleIDnumber);
+		foreach (BodyPartPreviewWindowScript BPartWindow in allBPartWindows) {		//the loop for setting all of the already active module picker's  buttons to turn off
+			BPartWindow.downwardsModuleSelected (incomingModuleIDnumber);
+		}
+	}
+	public void upwardsModuleDeselected(int incomingModuleIDnumber){
+//		List<int> tempAlreadySelectedModules = new List<int> ();
+//		tempAlreadySelectedModules = alreadySelectedModules;
+		int tempCount = alreadySelectedModules.Count;
+		for (int i = 0; i < tempCount; i++) {
+			if (alreadySelectedModules[i] == incomingModuleIDnumber) {
+				alreadySelectedModules.Remove(incomingModuleIDnumber);
+				i--;
+				tempCount--;
+			}
+		}
+
+		foreach (BodyPartPreviewWindowScript BPartWindow in allBPartWindows) {		//the loop for setting all of the already active module picker's  buttons to turn off
+			BPartWindow.downwardsModuleDeselected (incomingModuleIDnumber);
+//			print("trying to deselect");
+		}
+//		print ("outside?");
+	}
+	public List<int> getModulesAlreadyInUse(){		//used for any new module pickers buttons to check to see if their module is turned off
+		return alreadySelectedModules;
 	}
 }
 public class BPartWithModuleInfo{
