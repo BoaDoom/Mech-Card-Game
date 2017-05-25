@@ -22,6 +22,7 @@ public class VisualOnlyBPartGenericScript : MonoBehaviour {
 
 	public void CreateNewPart(BodyPartDataHolder incomingBodyPartData){
 		//Debug.Log ("incomingbpart name:"+ incomingBodyPartData.name +" leftright " +leftOrRight);
+//		print(incomingBodyPartData);
 		bPartType = incomingBodyPartData.typeOfpart;				//arm,head,legs,shoulder, or torso
 		bPartName = incomingBodyPartData.name;
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SceneTransferVariablesScript : MonoBehaviour {
 	AllPickedBodyParts allPickedBodyParts;
+	List<int> selectedModules;
 	void Start(){
 		allPickedBodyParts = new AllPickedBodyParts ();
 		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");		//grabbing the object with the body part info taken from xml data	
@@ -15,25 +16,46 @@ public class SceneTransferVariablesScript : MonoBehaviour {
 //		print ("set parts in scene transfer");
 		allPickedBodyParts = incomingParts;
 	}
+	public void setModulesPicked(List<int> incomingSelectedModules){
+		selectedModules = incomingSelectedModules;
+	}
 	public AllPickedBodyParts getAllPartsPicked(){
 		return allPickedBodyParts;
+	}
+	public List<int> getAllModules(){
+		return selectedModules;
 	}
 	public void bleh(){
 		print ("bleh");
 	}
 }
 public class AllPickedBodyParts{
-	public string pickedHead{ get; private set; }
-	public string pickedArm{ get; private  set; }
-	public string pickedTorso{ get; private  set; }
-	public string pickedShoulder{ get; private  set; }
-	public string pickedLeg{ get; private  set; }
-	public void setAllPickedBodyParts(string head, string arm, string torso, string shoulder, string leg){
+	public TransferBodyPartInfo pickedHead;
+	public TransferBodyPartInfo pickedArm;
+	public TransferBodyPartInfo pickedTorso;
+	public TransferBodyPartInfo pickedShoulder;
+	public TransferBodyPartInfo pickedLeg;
+	public void setAllPickedBodyParts(TransferBodyPartInfo head, TransferBodyPartInfo arm, TransferBodyPartInfo torso, TransferBodyPartInfo shoulder, TransferBodyPartInfo leg){
 		pickedHead = head;
 		pickedArm = arm;
 		pickedTorso = torso;
 		pickedShoulder = shoulder;
 		pickedLeg = leg;
+	}
+}
+public class TransferBodyPartInfo{
+	public string typeOfPart;
+	public string nameOfPart;
+	public int partIDnum;
+	public int[] moduleIDnum = new int[3];
+	public void setAllAtributesOfBPart(string incomingNameOfPart, int incomingPartIDnum, int[] incomingModuleIDnum){
+		int tempInt = 0;
+		foreach (int partID in moduleIDnum) {
+			moduleIDnum [tempInt] = incomingModuleIDnum [tempInt];
+			tempInt++;
+		}
+		partIDnum = incomingPartIDnum;
+		nameOfPart = incomingNameOfPart;
 	}
 }
 

@@ -170,22 +170,22 @@ public class PlayerScript : MonoBehaviour {
 
 		//		int rand = Random.Range(1,5);
 //		print("Body part picking test: " + allPickedBodyParts.pickedTorso);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedTorso), "none"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedTorso.nameOfPart), "none"));
 
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg.nameOfPart), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg.nameOfPart), "right"));
 
 		//		rand = Random.Range(1,5);				//random body part between one and four
 		//print(rand);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm.nameOfPart), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm.nameOfPart), "right"));
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedHead), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedHead.nameOfPart), "left"));
 
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder.nameOfPart), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder.nameOfPart), "right"));
 
 
 

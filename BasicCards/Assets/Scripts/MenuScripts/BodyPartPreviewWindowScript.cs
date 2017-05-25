@@ -39,24 +39,32 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 
 
 
-	BodyPartSelectionCanvasScript partSelectionCanvas;
-	public void Start(){
-		
-		GameObject partSelectionCanvasTemp = GameObject.FindWithTag ("PartSelectionCanvas");
-		if (partSelectionCanvasTemp != null) {
-			partSelectionCanvas = partSelectionCanvasTemp.GetComponent<BodyPartSelectionCanvasScript> ();
-		} else {
-			print ("Couldnt find SceneTransferVariablesScript");
-		}
-		modulePanels = new ModulePickerScript[3];
-
+	BodyPartPickerPanel partPickerPanel;
+//	public IEnumerator ManualStart(){
+//		
+////		GameObject partSelectionCanvasTemp = GameObject.FindWithTag ("PartSelectionCanvas");
+////		if (partSelectionCanvasTemp != null) {
+////			partSelectionCanvas = partSelectionCanvasTemp.GetComponent<BodyPartSelectionCanvasScript> ();
+////		} else {
+////			print ("Couldnt find SceneTransferVariablesScript");
+////		}
+//
+//		yield return null;
+//	}
+	public IEnumerator ManualStart(){
+		partPickerPanel = gameObject.GetComponentInParent<BodyPartPickerPanel> ();
+		//		print ("This is when the preview window starts");
+		modulePanels = new ModulePickerScript[3];		//3 is the max amount of modules a part can have
+		//print("windows modulepanels are set");
 		Transform BodyPartPanelTemp = gameObject.transform.parent;
 
-//		if(BodyPartPanelTemp != null){
-//			bodyPartPanel = BodyPartPanelTemp.GetComponent<BodyPartVariationPanel>();
-//		}
-		if(BodyPartPanelTemp == null){
-			Debug.Log ("Cannot find 'BodyPartVariationPanel'object");}
+		//		if(BodyPartPanelTemp != null){
+		//			bodyPartPanel = BodyPartPanelTemp.GetComponent<BodyPartVariationPanel>();
+		//		}
+		if (BodyPartPanelTemp == null) {
+			Debug.Log ("Cannot find 'BodyPartVariationPanel'object");
+		}
+
 
 		VisualSquareScript smallSquareInst;
 		gridDimensions = new Vector2(staticNumberOfBoxesX, staticNumberOfBoxesY);
@@ -89,19 +97,23 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 			}
 		}
 		completedStartup = true;
+//		print ("preview window manually started done");
+		yield return null;
 	}
 	public bool getcompletedStartup(){
 		return completedStartup;
 	}
 
 	public IEnumerator refreshSquares (VisualOnlyBPartGenericScript incomingVisualOfBpart) {
-
+//		print (incomingVisualOfBpart.getName());
 		StartCoroutine (clearSquares ());
 		if (!checkIfNameIsStored){	//if this is the first run through of a body part, it grabs the name of the body part for future reference to the window from the canvas
 			typeOfBodyPartOnDisplay = incomingVisualOfBpart.getType ();
-			partSelectionCanvas.previewWindowTransfer(gameObject.GetComponent<BodyPartPreviewWindowScript>());
+//			print (partSelectionCanvas.name);
+//			partSelectionCanvas.previewWindowTransfer(gameObject.GetComponent<BodyPartPreviewWindowScript>());
 			checkIfNameIsStored = true;
 		}
+//		print (incomingVisualOfBpart.getModuleSocketCount());
 		modulePanels = new ModulePickerScript[ incomingVisualOfBpart.getModuleSocketCount ().getTotalCount()];
 		numberOfModularSocketsShown = incomingVisualOfBpart.getModuleSocketCount ().getTotalCount();		//grabbing the count of sockets
 		Vector2 incomingGridDimensions = incomingVisualOfBpart.getDimensionsOfPart ();
@@ -112,7 +124,8 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		int totalCount = 0;
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getWeaponCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
-			modulePanels [totalCount].takePartSelectionCanvas (partSelectionCanvas, "weapon", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
+			StartCoroutine( modulePanels [totalCount].ManualStart ());
+			modulePanels [totalCount].takePreviewWindow ("weapon", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("weapon made" + i);
@@ -120,7 +133,8 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		}
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getUtilityCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
-			modulePanels [totalCount].takePartSelectionCanvas (partSelectionCanvas, "utility", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
+			StartCoroutine( modulePanels [totalCount].ManualStart ());
+			modulePanels [totalCount].takePreviewWindow ("utility", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("utility made" + i);
@@ -128,7 +142,8 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		}
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getBothCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
-			modulePanels [totalCount].takePartSelectionCanvas (partSelectionCanvas, "both", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
+			StartCoroutine( modulePanels [totalCount].ManualStart ());
+			modulePanels [totalCount].takePreviewWindow ("both", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("both made" + i);
@@ -170,7 +185,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 				if (modulePanels [i] != null) {
 					int tempID = modulePanels [i].getCurrentModuleSelectedIDnumber ();
 					DestroyObject (modulePanels [i].gameObject);
-					StartCoroutine(partSelectionCanvas.upwardsModuleDeselected(tempID));
+					StartCoroutine(partPickerPanel.upwardsModuleDeselected(tempID));
 
 
 				}
@@ -189,17 +204,17 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 	public IEnumerator upwardsModuleSelected(int incomingModulePickerIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
 //		print("incomingModulePickerIDnumber"+incomingModulePickerIDnumber);
 		int tempChosenNumber = modulePanels [incomingModulePickerIDnumber].getCurrentModuleSelectedIDnumber ();
-		StartCoroutine(partSelectionCanvas.upwardsModuleSelected (tempChosenNumber));
+		StartCoroutine(partPickerPanel.upwardsModuleSelected (tempChosenNumber));
 		yield return null;
 	}
 	public IEnumerator upwardsModuleDeselected(int incomingModulePickerIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
 //		print("incomingModulePickerIDnumber"+incomingModulePickerIDnumber);
 		int tempChosenNumber = modulePanels [incomingModulePickerIDnumber].getCurrentModuleSelectedIDnumber ();
-		StartCoroutine(partSelectionCanvas.upwardsModuleDeselected (tempChosenNumber));
+		StartCoroutine(partPickerPanel.upwardsModuleDeselected (tempChosenNumber));
 		yield return null;
 	}
 	public IEnumerator upwardsOLDModuleDeselected(int incomingModuleIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
-		StartCoroutine( partSelectionCanvas.upwardsModuleDeselected (incomingModuleIDnumber));
+		StartCoroutine( partPickerPanel.upwardsModuleDeselected (incomingModuleIDnumber));
 		yield return null;
 	}
 

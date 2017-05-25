@@ -21,8 +21,9 @@ public class XMLModuleLoaderScript : MonoBehaviour {
 	//int tempvar = 0;
 	//bool finishedLoading = false;
 
-	public string nameOfModule, moduleType;
-	public int cardNumber;
+
+	public string moduleType;
+	public int cardNumber, IDnum;
 
 	void Start ()
 	{
@@ -57,20 +58,22 @@ public class XMLModuleLoaderScript : MonoBehaviour {
 			//			Debug.Log (iteration.ToString ());
 			/*Determine if the <page number> attribute in the XML is equal to whatever our current iteration of the loop is. If it is, then we want to assign our variables to the value of the XML Element that we need.*/
 			//Debug.Log ("XML card loader: " +item.Name);
-			if(item.Parent.Attribute("name").Value.Trim ().ToString() == iteration.ToString ())		//for XMLMOduleLoaderScript, need to change this to match the actual name of eventual modules
+//			int tempIDNum = int.Parse (item.Parent.Attribute ("IDnum").Value.Trim ()); 
+//			print (tempIDNum);
+			if(item.Parent.Attribute("IDnum").Value == iteration.ToString ())
 			{
-				nameOfModule = item.Parent.Attribute ("name").Value.Trim (); 
-//				print ("nameofmodule: "+nameOfModule);
+				IDnum = int.Parse (item.Parent.Attribute ("IDnum").Value.Trim ()); 
+//				print ("nameofmodule: "+IDnum);
 				cardNumber = int.Parse(item.Parent.Element("cardNumber").Value.Trim ()); 
 				moduleType = item.Parent.Parent.Name.ToString(); 
 //				attackDamageOfCard = int.Parse (item.Parent.Element("attack").Value.Trim ()); 
 //				typeOfAttack = item.Parent.Element ("attackType").Value.Trim ();
 				/*Create a new Index in the List, which will be a new XMLData object and pass the previously assigned variables as arguments so they get assigned to the new object’s variables.*/
 				XMLModuleData tempXMLModule = new XMLModuleData();
-				tempXMLModule.MakeNewData (nameOfModule, cardNumber, moduleType);
+				tempXMLModule.MakeNewData (IDnum, cardNumber, moduleType);
 				data.Add (tempXMLModule);
 					
-//				print ("nameOfModule "+ nameOfModule + " cardNumber "+ cardNumber+ " moduleType "+moduleType);
+//				print ("IDnum "+ IDnum + " cardNumber "+ cardNumber+ " moduleType "+moduleType);
 				/*To test and make sure the data has been applied to properly, print out the musicClip name from the data list’s current index. This will let us know if the objects in the list have been created successfully and if their variables have been assigned the right values.*/
 				//				Debug.Log (data[iteration-1].nameOfCard);
 				//				Debug.Log (data[iteration-1].cardSpriteNum);
@@ -87,18 +90,18 @@ public class XMLModuleLoaderScript : MonoBehaviour {
 
 // This class is used to assign our XML Data to objects in a list so we can call on them later. 
 public class XMLModuleData {
-	public string nameOfModule, moduleType;
-	public int cardNumber;
+	public string moduleType;
+	public int IDnum, cardNumber;
 	// Create a constructor that will accept multiple arguments that can be assigned to our variables. 
-	public void MakeNewData(string incNameOfModule, int incCardNumber, string incModuleType)
+	public void MakeNewData(int incIDnumOfModule, int incCardNumber, string incModuleType)
 	{
-		nameOfModule = incNameOfModule;
+		IDnum = incIDnumOfModule;
 		cardNumber = incCardNumber;
 		moduleType = incModuleType;
 	}
 	public void CopyData(XMLModuleData incXMLModuleData)
 	{
-		nameOfModule = incXMLModuleData.nameOfModule;
+		IDnum = incXMLModuleData.IDnum;
 		cardNumber = incXMLModuleData.cardNumber;
 		moduleType = incXMLModuleData.moduleType;
 	}

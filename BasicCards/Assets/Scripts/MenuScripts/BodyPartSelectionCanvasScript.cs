@@ -11,7 +11,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public EventSystem eventSystem;	
 	public SceneTransferVariablesScript sceneTransferVariablesScript;
 
-	BodyPartVariationPanel[] listOfAllThePanels;
+	BodyPartPickerPanel[] listOfPickerPanels;
 	BodyPartDataHolder partData = null;
 	public VisualOnlyBPartGenericScript visualOnlyBodyPartObject;
 
@@ -20,21 +20,21 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	BPartXMLReaderScript bPartXMLReader;
 	XMLModuleLoaderScript XMLModuleLoader;
 //	public int what;
-	BPartWithModuleInfo headSelection = new BPartWithModuleInfo();
-	BPartWithModuleInfo armSelection = new BPartWithModuleInfo();
-	BPartWithModuleInfo torsoSelection = new BPartWithModuleInfo();
-	BPartWithModuleInfo shoulderSelection = new BPartWithModuleInfo();
-	BPartWithModuleInfo legSelection = new BPartWithModuleInfo();
+	TransferBodyPartInfo headSelection = new TransferBodyPartInfo();
+	TransferBodyPartInfo armSelection = new TransferBodyPartInfo();
+	TransferBodyPartInfo torsoSelection = new TransferBodyPartInfo();
+	TransferBodyPartInfo shoulderSelection = new TransferBodyPartInfo();
+	TransferBodyPartInfo legSelection = new TransferBodyPartInfo();
 	//PickedBodyPart[] listOfPickedBodyParts;
 	public XMLModuleData[] listOfWeaponModules;
 	public XMLModuleData[] listOfUtilityModules;
 
-	BodyPartPreviewWindowScript headWindow;
-	BodyPartPreviewWindowScript armWindow;
-	BodyPartPreviewWindowScript torsoWindow;
-	BodyPartPreviewWindowScript shoulderWindow;
-	BodyPartPreviewWindowScript legWindow;
-	BodyPartPreviewWindowScript[] allBPartWindows = new BodyPartPreviewWindowScript[5];		//5 is the number of type of parts, head, arm, torso, legs, shoulders;
+//	BodyPartPreviewWindowScript headWindow;
+//	BodyPartPreviewWindowScript armWindow;
+//	BodyPartPreviewWindowScript torsoWindow;
+//	BodyPartPreviewWindowScript shoulderWindow;
+//	BodyPartPreviewWindowScript legWindow;
+//	BodyPartPreviewWindowScript[] allBPartWindows = new BodyPartPreviewWindowScript[5];		//5 is the number of type of parts, head, arm, torso, legs, shoulders;
 
 	public List<int> alreadySelectedModules = new List<int>();
 
@@ -49,6 +49,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			SceneManager.LoadScene ("XMLLoaderScene");
 			return;
 		} else if (loaderScriptTemp != null) {
+			print ("Actual start");
 			tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
 
 			bPartXMLReader = loaderScriptTemp.GetComponent<BPartXMLReaderScript> ();
@@ -97,11 +98,12 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			}
 			nextButton.onClick.AddListener (checkToMoveToPlayScreen);
 			//VisualOnlyBPartGenericScript tempBodyPart;
-			listOfAllThePanels = gameObject.GetComponentsInChildren<BodyPartVariationPanel> ();
-			foreach (BodyPartVariationPanel panel in listOfAllThePanels) {
-				StartCoroutine (panel.ManualStart ());
-			}
 
+			listOfPickerPanels = gameObject.GetComponentsInChildren<BodyPartPickerPanel> ();
+//			print ("list of all the panels" +listOfPickerPanels.Length);
+			foreach (BodyPartPickerPanel panel in listOfPickerPanels) {
+				panel.ManualStart ();
+			}
 
 		}
 			
@@ -111,47 +113,54 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //	public void checkThing(int incomingint, int otherthing){
 //		thingsChecked = true;
 //	}
-	public VisualOnlyBPartGenericScript markSelectedBodyPart(string nameOfPart, int incomingSelection){		//almost the same as PlayerScript method populate body
-
+	public VisualOnlyBPartGenericScript markSelectedBodyPart(int incomingIDofPart){		//almost the same as PlayerScript method populate body
+//		print(incomingIDofPart);
+		partData = bPartXMLReader.getBodyDataByID (incomingIDofPart);
+//		print(partData.name);
+		string tempType = partData.typeOfpart;
 		//need to swap over the identifying variable from a string to the new class so it can carry the module info and choices. Maybe? needs to convey more info at some point
-
-		switch (nameOfPart) {
+//		print("incoming selection"+ incomingSelection);
+		switch (tempType) {
 		case("Head"):
-			headSelection.nameOfSelection = "head "+ intToStringNumber(incomingSelection); //intToStringNumber(
-			return makeBodyPart(headSelection.nameOfSelection);
+			headSelection.nameOfPart = partData.name; 
+			break;
 		case("Arm"):
-			armSelection.nameOfSelection = "arm "+ intToStringNumber(incomingSelection);
-			return makeBodyPart(armSelection.nameOfSelection);
+			armSelection.nameOfPart = partData.name;
+			break;
 		case("Torso"):
-			torsoSelection.nameOfSelection = "torso " + intToStringNumber(incomingSelection);
-			return makeBodyPart(torsoSelection.nameOfSelection);
+			torsoSelection.nameOfPart = partData.name;
+			break;
 		case("Shoulder"):
-			shoulderSelection.nameOfSelection = "shoulder "+ intToStringNumber(incomingSelection);
-			return makeBodyPart(shoulderSelection.nameOfSelection);
+			shoulderSelection.nameOfPart = partData.name;
+			break;
 		case("Leg"):
-			legSelection.nameOfSelection = "leg "+ intToStringNumber(incomingSelection);
-			return makeBodyPart(legSelection.nameOfSelection);
+			legSelection.nameOfPart = partData.name;
+			break;
 		default:
 			Debug.Log ("Unknown bodypart");
-			return makeBodyPart (legSelection.nameOfSelection);
+			break;
 		}
+		tempBodyPart.CreateNewPart (partData);
+		return tempBodyPart;	
 	}
-	public void markSelectedBodyPartAsNull(string nameOfPart){		//for deselecting the body part
-		switch (nameOfPart) {
+	public void markSelectedBodyPartAsNull(int incomingIDofPart){		//for deselecting the body part
+		partData = bPartXMLReader.getBodyDataByID (incomingIDofPart);
+		string tempType = partData.typeOfpart;
+		switch (tempType) {
 		case("Head"):
-			headSelection.nameOfSelection = null;
+			headSelection = new TransferBodyPartInfo();
 			break;
 		case("Arm"):
-			armSelection.nameOfSelection = null;
+			armSelection =  new TransferBodyPartInfo();
 			break;
 		case("Torso"):
-			torsoSelection.nameOfSelection = null;
+			torsoSelection =  new TransferBodyPartInfo();
 			break;
 		case("Shoulder"):
-			shoulderSelection.nameOfSelection = null;
+			shoulderSelection =  new TransferBodyPartInfo();
 			break;
 		case("Leg"):
-			legSelection.nameOfSelection = null;
+			legSelection =  new TransferBodyPartInfo();
 			break;
 		default:
 			Debug.Log ("Unknown bodypart");
@@ -159,33 +168,35 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		}
 	}
 	public bool checkIfBodyIsComplete(){
-		return (headSelection != null && armSelection != null && torsoSelection != null && shoulderSelection != null && legSelection != null);
+		return (headSelection.nameOfPart != null && armSelection.nameOfPart != null && torsoSelection.nameOfPart != null && shoulderSelection.nameOfPart != null && legSelection.nameOfPart != null
+		&& true);
 	}
 	public void onClick(){
 		print ("clicked");
 	}
 	public void checkToMoveToPlayScreen(){
-		if (checkIfBodyIsComplete()) {
+		if (checkIfBodyIsComplete() && (alreadySelectedModules.Count > 0)) {
 			AllPickedBodyParts allPickedBodyPartsTemp = new AllPickedBodyParts ();
-			allPickedBodyPartsTemp.setAllPickedBodyParts(headSelection.nameOfSelection, armSelection.nameOfSelection, torsoSelection.nameOfSelection, shoulderSelection.nameOfSelection, legSelection.nameOfSelection);
+			allPickedBodyPartsTemp.setAllPickedBodyParts(headSelection, armSelection, torsoSelection, shoulderSelection, legSelection);
 //			print (allPickedBodyPartsTemp.pickedHead);
 //			sceneTransferVariablesScript.bleh ();
+			sceneTransferVariablesScript.setModulesPicked(alreadySelectedModules);
 			sceneTransferVariablesScript.setPartsPicked(allPickedBodyPartsTemp);
 			SceneManager.LoadScene ("_Main");
 		} else {
-			Debug.Log ("Not all body parts have a selection");
+			Debug.Log ("You are missing some body parts or no modules are selected");
 		}
 	}
 
 
-	public VisualOnlyBPartGenericScript makeBodyPart(string nameOfpart){	//takes the clicked on part name, and finds it in the xmldata and creates a visual only body part to display
-		partData = bPartXMLReader.getBodyData (nameOfpart);
-
-		//VisualOnlyBPartGenericScript tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
-
-		tempBodyPart.CreateNewPart (partData);		// 
-		return tempBodyPart;
-	}
+//	public VisualOnlyBPartGenericScript markSelectedBodyPart(int incomingIDofPart){	//takes the clicked on part name, and finds it in the xmldata and creates a visual only body part to display
+//		partData = bPartXMLReader.getBodyDataByID (incomingIDofPart);
+//
+//		//VisualOnlyBPartGenericScript tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
+////		print("make body part partData: "+ nameOfpart);
+//		tempBodyPart.CreateNewPart (partData);		// 
+//		return tempBodyPart;
+//	}
 	public string intToStringNumber(int incomingNumber){
 		switch (incomingNumber) {
 		case(1):
@@ -219,46 +230,46 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			}
 			return listOfBothTypesOfModules;
 		}
+		print ("something went wrong with gettign the list of modules");
 		return null;
 	}
-	public void previewWindowTransfer(BodyPartPreviewWindowScript incomingBPartWindow){		//on startup each bpartpreviewwindow sends a reference to itself to the canvas
-		string tempNameString = incomingBPartWindow.getTypeOfBPartOnDisplay();
-		switch (tempNameString) {
-		case("Head"):
-			headWindow = incomingBPartWindow;
-			allBPartWindows [0] = headWindow;
-			break;
-		case("Arm"):
-			armWindow = incomingBPartWindow;
-			allBPartWindows [1] = armWindow;
-			break;
-		case("Torso"):
-			torsoWindow = incomingBPartWindow;
-			allBPartWindows [2] = torsoWindow;
-			break;
-		case("Shoulder"):
-			shoulderWindow = incomingBPartWindow;
-			allBPartWindows [3] = shoulderWindow;
-			break;
-		case("Leg"):
-			legWindow = incomingBPartWindow;
-			allBPartWindows [4] = legWindow;
-			break;
-		default:
-			Debug.Log ("preview window did not transfer correctly");
-			break;
-		}
-	}
-	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber){		//coming from
+	/////////////////////////////////////////////////////////////// 05-25-17
+//	public void previewWindowTransfer(BodyPartPreviewWindowScript incomingBPartWindow){		//on startup each bpartpreviewwindow sends a reference to itself to the canvas
+//		string tempNameString = incomingBPartWindow.getTypeOfBPartOnDisplay();
+//		switch (tempNameString) {
+//		case("Head"):
+//			headWindow = incomingBPartWindow;
+//			allBPartWindows [0] = headWindow;
+//			break;
+//		case("Arm"):
+//			armWindow = incomingBPartWindow;
+//			allBPartWindows [1] = armWindow;
+//			break;
+//		case("Torso"):
+//			torsoWindow = incomingBPartWindow;
+//			allBPartWindows [2] = torsoWindow;
+//			break;
+//		case("Shoulder"):
+//			shoulderWindow = incomingBPartWindow;
+//			allBPartWindows [3] = shoulderWindow;
+//			break;
+//		case("Leg"):
+//			legWindow = incomingBPartWindow;
+//			allBPartWindows [4] = legWindow;
+//			break;
+//		default:
+//			Debug.Log ("preview window did not transfer correctly");
+//			break;
+//		}
+//	}
+	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber, string incomingModuleBPart){		//coming from
 		alreadySelectedModules.Add (incomingModuleIDnumber);
-		foreach (BodyPartPreviewWindowScript BPartWindow in allBPartWindows) {		//the loop for setting all of the already active module picker's  buttons to turn off
-			StartCoroutine( BPartWindow.downwardsModuleSelected (incomingModuleIDnumber));
+		foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+			StartCoroutine( BPartPicker.downwardsModuleSelected (incomingModuleIDnumber));
 		}
 		yield return null;
 	}
 	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber){
-//		List<int> tempAlreadySelectedModules = new List<int> ();
-//		tempAlreadySelectedModules = alreadySelectedModules;
 		int tempCount = alreadySelectedModules.Count;
 		for (int i = 0; i < tempCount; i++) {
 			if (alreadySelectedModules[i] == incomingModuleIDnumber) {
@@ -268,8 +279,8 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			}
 		}
 
-		foreach (BodyPartPreviewWindowScript BPartWindow in allBPartWindows) {		//the loop for setting all of the already active module picker's  buttons to turn off
-			StartCoroutine(BPartWindow.downwardsModuleDeselected (incomingModuleIDnumber));
+		foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+			StartCoroutine(BPartPicker.downwardsModuleDeselected (incomingModuleIDnumber));
 //			print("trying to deselect");
 		}
 		yield return null;
@@ -278,52 +289,14 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public List<int> getModulesAlreadyInUse(){		//used for any new module pickers buttons to check to see if their module is turned off
 		return alreadySelectedModules;
 	}
-}
-public class BPartWithModuleInfo{
-	public string nameOfSelection{ get; set; }
-	int[] listOfSelectedModules;
-	public BPartWithModuleInfo(){
+	public List<BodyPartDataHolder> getAllBodyDataForType(string BpartType){
+		return bPartXMLReader.getAllBodyDataForType (BpartType);
 	}
 }
+//public class TransferBodyPartInfo{
+//	public string nameOfPart{ get; set; }
+//	int[] listOfSelectedModules;
+//	public TransferBodyPartInfo(){
+//	}
+//}
 
-//public class BodyPartNode{
-//	private bool exists;
-//	public BodyPartNode(){
-//		exists = false;
-//	}
-//	public bool getState(){
-//		return exists;
-//	}
-//
-//
-//	public void turnOn(){
-//		exists = true;
-//	}
-//	public void turnOff(){
-//		exists = false;
-//	}
-//}
-//public class PickedBodyPart{
-//	public string nameOfPartType{ get; set; }
-//	public int numberOfPart{ get; set; }
-//	public PickedBodyPart(int incomingNumberOfPart, string incomingNameOfPartType){
-//		nameOfPartType = incomingNameOfPartType;
-//		numberOfPart = incomingNumberOfPart;
-////		Debug.Log(nameOfPartType);
-////		Debug.Log(numberOfPart);
-//	}
-//}
-//public class AllPickedBodyParts{
-//	public int pickedHead{ get; private set; }
-//	public int pickedArm{ get; private  set; }
-//	public int pickedTorso{ get; private  set; }
-//	public int pickedShoulder{ get; private  set; }
-//	public int pickedLeg{ get; private  set; }
-//	public void setAllPickedBodyParts(int head, int arm, int torso, int shoulder, int leg){
-//		pickedHead = head;
-//		pickedArm = arm;
-//		pickedTorso = torso;
-//		pickedShoulder = shoulder;
-//		pickedLeg = leg;
-//	}
-//}

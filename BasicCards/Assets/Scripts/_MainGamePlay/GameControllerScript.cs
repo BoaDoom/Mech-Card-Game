@@ -65,17 +65,20 @@ public class GameControllerScript : MonoBehaviour {
 		shufflePlayerButton.onClick.AddListener(discardAllActivePlayerShuffle);
 //		MakeSquaresButton.onClick.AddListener(makeActiveSquares);
 		shuffleEnemyButton.onClick.AddListener(discardAllActiveEnemyShuffle);
-		if (sceneTransferVariablesScript == null) {			//this is here to default the body parts to slot 1 incase the game controller is ran before the part picker screen
-			SceneTransferVariablesScript sceneTransferVariablesScriptTempFiller = new SceneTransferVariablesScript ();
-			AllPickedBodyParts allPickedBodyPartsTempFiller = new AllPickedBodyParts ();
-			allPickedBodyPartsTempFiller.setAllPickedBodyParts ("Head One", "Arm One", "Torso One", "Shoulder One", "Leg One");
-			sceneTransferVariablesScriptTempFiller.setPartsPicked (allPickedBodyPartsTempFiller);
-			StartCoroutine (enemyController.ManualStart (sceneTransferVariablesScriptTempFiller.getAllPartsPicked ()));
-			StartCoroutine (playerController.ManualStart (sceneTransferVariablesScriptTempFiller.getAllPartsPicked ()));
-		} else {
+
+		///////////commenting out after implimenting more info transfer, need to fix once I start to work on main screen play
+//		if (sceneTransferVariablesScript == null) {			//this is here to default the body parts to slot 1 incase the game controller is ran before the part picker screen
+//			SceneTransferVariablesScript sceneTransferVariablesScriptTempFiller = new SceneTransferVariablesScript ();
+//			AllPickedBodyParts allPickedBodyPartsTempFiller = new AllPickedBodyParts ();
+//			allPickedBodyPartsTempFiller.setAllPickedBodyParts ("Head One", "Arm One", "Torso One", "Shoulder One", "Leg One");
+//			sceneTransferVariablesScriptTempFiller.setPartsPicked (allPickedBodyPartsTempFiller);
+//			StartCoroutine (enemyController.ManualStart (sceneTransferVariablesScriptTempFiller.getAllPartsPicked ()));
+//			StartCoroutine (playerController.ManualStart (sceneTransferVariablesScriptTempFiller.getAllPartsPicked ()));
+//		} else {
 			StartCoroutine (enemyController.ManualStart (sceneTransferVariablesScript.getAllPartsPicked ()));
 			StartCoroutine (playerController.ManualStart (sceneTransferVariablesScript.getAllPartsPicked ()));
-		}
+//		}
+		///////////////////////////////////
 
 	}
 //	public void Update(){

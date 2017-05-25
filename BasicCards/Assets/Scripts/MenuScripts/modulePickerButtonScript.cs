@@ -30,7 +30,7 @@ public class modulePickerButtonScript : Selectable{
 ////		print("Done text");
 //		completedStart = true;
 //	}
-	public IEnumerator ManualStart(string nameOfModule, int incomingModuleIDnumber){
+	public IEnumerator ManualStart(int IDnumOfModule	, int incomingModuleIDnumber){
 //		print ("manually started");
 		ModulePickerScript modulePickerScriptTemp = gameObject.GetComponentInParent<ModulePickerScript>();
 		if (modulePickerScriptTemp != null) {
@@ -49,9 +49,9 @@ public class modulePickerButtonScript : Selectable{
 		//		button.colors = cb;
 		//		print("Done text");
 		moduleIDnumber = incomingModuleIDnumber;
-//		print ("nameOfModule: "+ nameOfModule);
+//		print ("IDnumOfModule: "+ IDnumOfModule);
 //		print ("pre set text: "+ gameObject.GetComponent<Text>().text);
-		gameObject.GetComponent<Text>().text = "Module " +nameOfModule;
+		gameObject.GetComponent<Text>().text = "Module " +IDnumOfModule;
 //		print ("after set text: "+ gameObject.GetComponent<Text>().text);
 		completedStart = true;
 //		StartCoroutine( modulePickerScript.setModuleAsSelected (1));
