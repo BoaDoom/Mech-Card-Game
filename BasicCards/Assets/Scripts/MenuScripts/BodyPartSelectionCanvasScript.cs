@@ -249,13 +249,14 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			break;
 		}
 	}
-	public void upwardsModuleSelected(int incomingModuleIDnumber){		//coming from
+	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber){		//coming from
 		alreadySelectedModules.Add (incomingModuleIDnumber);
 		foreach (BodyPartPreviewWindowScript BPartWindow in allBPartWindows) {		//the loop for setting all of the already active module picker's  buttons to turn off
-			BPartWindow.downwardsModuleSelected (incomingModuleIDnumber);
+			StartCoroutine( BPartWindow.downwardsModuleSelected (incomingModuleIDnumber));
 		}
+		yield return null;
 	}
-	public void upwardsModuleDeselected(int incomingModuleIDnumber){
+	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber){
 //		List<int> tempAlreadySelectedModules = new List<int> ();
 //		tempAlreadySelectedModules = alreadySelectedModules;
 		int tempCount = alreadySelectedModules.Count;
@@ -268,9 +269,10 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		}
 
 		foreach (BodyPartPreviewWindowScript BPartWindow in allBPartWindows) {		//the loop for setting all of the already active module picker's  buttons to turn off
-			BPartWindow.downwardsModuleDeselected (incomingModuleIDnumber);
+			StartCoroutine(BPartWindow.downwardsModuleDeselected (incomingModuleIDnumber));
 //			print("trying to deselect");
 		}
+		yield return null;
 //		print ("outside?");
 	}
 	public List<int> getModulesAlreadyInUse(){		//used for any new module pickers buttons to check to see if their module is turned off

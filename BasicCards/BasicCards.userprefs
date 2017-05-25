@@ -1,12 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuScripts\BodyPartPreviewWindowScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuScripts\modulePickerButtonScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" Line="269" Column="1" />
-      <File FileName="Assets\Scripts\MenuScripts\BodyPartPreviewWindowScript.cs" Line="173" Column="58" />
       <File FileName="Assets\Scripts\BPartScripts\BPartGenericScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\XMLScripts\XMLModuleLoaderScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\XMLScripts\BPartXMLReaderScript.cs" Line="60" Column="13" />
+      <File FileName="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" Line="278" Column="41" />
+      <File FileName="Assets\Scripts\MenuScripts\BodyPartPreviewWindowScript.cs" Line="219" Column="45" />
+      <File FileName="Assets\Scripts\MenuScripts\ModulePickerScript.cs" Line="61" Column="49" />
+      <File FileName="Assets\Scripts\MenuScripts\modulePickerButtonScript.cs" Line="67" Column="197" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

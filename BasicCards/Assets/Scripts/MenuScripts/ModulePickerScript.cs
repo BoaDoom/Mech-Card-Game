@@ -58,7 +58,7 @@ public class ModulePickerScript : MonoBehaviour {
 		foreach(modulePickerButtonScript buttonText in listOfAllTheText){
 			foreach(int moduleIDinUse in listOfModulesInUse){
 				if (moduleIDinUse == buttonText.getModuleIDNumber ()) {
-					buttonText.disableButton ();
+					StartCoroutine(buttonText.disableButton ());
 				}
 			}
 		}
@@ -82,18 +82,18 @@ public class ModulePickerScript : MonoBehaviour {
 
 		foreach(modulePickerButtonScript moduleText in listOfAllTheText){		//turns off all the text buttons if they are not the currently selected option
 			if ((moduleText.getModuleIDNumber () != currentSelectedModuleIDnumber) && moduleText.selected) {
-				moduleText.turnOffSelectedColor ();
-				parentBodyPartWindow.upwardsOLDModuleDeselected (moduleText.getModuleIDNumber());	//turns off the selection of the module that was selected before this one
+				moduleText.markAsUnselected ();
+				StartCoroutine(parentBodyPartWindow.upwardsOLDModuleDeselected (moduleText.getModuleIDNumber()));	//turns off the selection of the module that was selected before this one
 			}
 
 		}
-		if (incomingModuleIDnumber <0){	//command comes through as -1 if the selection coming through is deselecting everything
-//			parentBodyPartWindow.markSelectedModuleAsNull(currentAssignedModulePickerIDnumber);
-//			partSelectionCanvas.markSelectedBodyPartAsNull(nameOfPartPanel);		**//this stores the number of the module selected somewhere, need to figure out best place to send module info to next screen so the correct--
-																					//--cards can be picked as well as have the body part that it's atatched to for destruction purposes
-			//StartCoroutine( bodyPartpreviewer.clearSquares());		**//needs to be replaced with the text that displays the module stats
-		}
-		parentBodyPartWindow.upwardsModuleSelected (currentAssignedModulePickerIDnumber);		//sending the signal up the chain that a button was selected
+//		if (incomingModuleIDnumber <0){	//command comes through as -1 if the selection coming through is deselecting everything
+////			parentBodyPartWindow.markSelectedModuleAsNull(currentAssignedModulePickerIDnumber);
+////			partSelectionCanvas.markSelectedBodyPartAsNull(nameOfPartPanel);		**//this stores the number of the module selected somewhere, need to figure out best place to send module info to next screen so the correct--
+//																					//--cards can be picked as well as have the body part that it's atatched to for destruction purposes
+//			//StartCoroutine( bodyPartpreviewer.clearSquares());		**//needs to be replaced with the text that displays the module stats
+//		}
+		StartCoroutine(parentBodyPartWindow.upwardsModuleSelected (currentAssignedModulePickerIDnumber));		//sending the signal up the chain that a button was selected
 //			currentVisualOfPart = partSelectionCanvas.markSelectedBodyPart(nameOfPartPanel, incomingModuleIDnumber);		//name of panel is built in to each version	
 //			currentVisualOfPart.GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>());
 			//StartCoroutine( bodyPartpreviewer.refreshSquares (currentVisualOfPart));		//sends the bodypart data to the preview square to populate the visual 	**//needs to be replaced with the text that displays the module stats
@@ -102,26 +102,28 @@ public class ModulePickerScript : MonoBehaviour {
 		yield return null;
 	}
 	public IEnumerator upwardsModuleDeselected(){
-		parentBodyPartWindow.upwardsModuleDeselected (currentAssignedModulePickerIDnumber);
+		StartCoroutine(parentBodyPartWindow.upwardsModuleDeselected (currentAssignedModulePickerIDnumber));
 		yield return null;
 	}
 
-	public void downwardsModuleSelected(int incomingModuleIDnumber){		//signal coming down the chain that a button was selected
+	public IEnumerator downwardsModuleSelected(int incomingModuleIDnumber){		//signal coming down the chain that a button was selected
 		foreach (modulePickerButtonScript moduleText in listOfAllTheText) {
 			if (moduleText.getModuleIDNumber () == incomingModuleIDnumber){
 				if (!moduleText.selected) {
-					moduleText.disableButton();
+					StartCoroutine (moduleText.disableButton());
 				}
 			}
 		}
+		yield return null;
 	}
-	public void downwardsModuleDeselected(int incomingModuleIDnumber){		//signal coming down the chain that a button was deselected
+	public IEnumerator downwardsModuleDeselected(int incomingModuleIDnumber){		//signal coming down the chain that a button was deselected
 		foreach (modulePickerButtonScript moduleText in listOfAllTheText) {
 			if (moduleText.getModuleIDNumber () == incomingModuleIDnumber){
-				moduleText.enableButton();
+				StartCoroutine(moduleText.enableButton());
 			}
 //			print ("turned back on module picker");
 		}
+		yield return null;
 //		print ("turned back on outside module picker");
 		//currentSelectedModuleIDnumber = -1;
 	}

@@ -65,14 +65,14 @@ public class modulePickerButtonScript : Selectable{
 //		print ("pointer down");
 		if (pressable) {
 			if ((modulePickerScript.getCurrentModuleSelectedIDnumber () == moduleIDnumber) && selected) { //toggles off the the body part color on deselection if the parent panel is storing the same number
-				selected = false;
+				markAsUnselected ();
 				StartCoroutine (modulePickerScript.upwardsModuleDeselected ());
-				turnOffSelectedColor ();
+
 			} else {
 //			print ("test onSelect");
-				selected = true;
+				markAsSelected ();
 				StartCoroutine (modulePickerScript.upwardsModuleSelected (moduleIDnumber));
-				turnOnActiveGreen ();
+
 			}
 		}
 	}
@@ -85,19 +85,21 @@ public class modulePickerButtonScript : Selectable{
 //		StartCoroutine (modulePickerScript.upwardsModuleDeselected (moduleIDnumber));
 //		print ("wtf");
 //	}
-	public void disableButton(){
-		print ("button disabled");
+	public IEnumerator disableButton(){
+//		print ("button disabled");
 		pressable = false;
 		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript>().colors;
 		cb.normalColor = Color.black;
 		gameObject.GetComponent<modulePickerButtonScript>().colors = cb;
+		yield return null;
 	}
-	public void enableButton(){
-		print ("button enabled");
+	public IEnumerator enableButton(){
+//		print ("button enabled");
 		pressable = true;
 		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript>().colors;
 		cb.normalColor = startNormalColor;
 		gameObject.GetComponent<modulePickerButtonScript>().colors = cb;
+		yield return null;
 	}
 
 	public int getBodyPartNumber(){
@@ -106,14 +108,14 @@ public class modulePickerButtonScript : Selectable{
 	public int getModuleIDNumber(){
 		return moduleIDnumber;
 	}
-	public void turnOffSelectedColor(){
-//		print ("Deseltected");
-
+	public void markAsUnselected(){
+		selected = false;
 		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript>().colors;
 		cb.normalColor = startNormalColor;
 		gameObject.GetComponent<modulePickerButtonScript>().colors = cb;
 	}
-	public void turnOnActiveGreen(){
+	public void markAsSelected(){
+		selected = true;
 		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript> ().colors;
 		cb.normalColor = Color.green;
 		gameObject.GetComponent<modulePickerButtonScript> ().colors = cb;

@@ -170,7 +170,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 				if (modulePanels [i] != null) {
 					int tempID = modulePanels [i].getCurrentModuleSelectedIDnumber ();
 					DestroyObject (modulePanels [i].gameObject);
-					partSelectionCanvas.upwardsModuleDeselected(tempID);
+					StartCoroutine(partSelectionCanvas.upwardsModuleDeselected(tempID));
 
 
 				}
@@ -186,34 +186,39 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 	public void markSelectedModuleAsNull(int incomingModulePickerIDnumber){
 		
 	}
-	public void upwardsModuleSelected(int incomingModulePickerIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
+	public IEnumerator upwardsModuleSelected(int incomingModulePickerIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
 //		print("incomingModulePickerIDnumber"+incomingModulePickerIDnumber);
 		int tempChosenNumber = modulePanels [incomingModulePickerIDnumber].getCurrentModuleSelectedIDnumber ();
-		partSelectionCanvas.upwardsModuleSelected (tempChosenNumber);
+		StartCoroutine(partSelectionCanvas.upwardsModuleSelected (tempChosenNumber));
+		yield return null;
 	}
-	public void upwardsModuleDeselected(int incomingModulePickerIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
+	public IEnumerator upwardsModuleDeselected(int incomingModulePickerIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
 //		print("incomingModulePickerIDnumber"+incomingModulePickerIDnumber);
 		int tempChosenNumber = modulePanels [incomingModulePickerIDnumber].getCurrentModuleSelectedIDnumber ();
-		partSelectionCanvas.upwardsModuleDeselected (tempChosenNumber);
+		StartCoroutine(partSelectionCanvas.upwardsModuleDeselected (tempChosenNumber));
+		yield return null;
 	}
-	public void upwardsOLDModuleDeselected(int incomingModuleIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
-		partSelectionCanvas.upwardsModuleDeselected (incomingModuleIDnumber);
+	public IEnumerator upwardsOLDModuleDeselected(int incomingModuleIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
+		StartCoroutine( partSelectionCanvas.upwardsModuleDeselected (incomingModuleIDnumber));
+		yield return null;
 	}
 
 
 //	upwardsOldModuleDeselected
-	public void downwardsModuleSelected(int incomingModuleIDnumber){		//signal coming from above from the canvas script that a module was chosen, sending it down to the module picker
+	public IEnumerator downwardsModuleSelected(int incomingModuleIDnumber){		//signal coming from above from the canvas script that a module was chosen, sending it down to the module picker
 		foreach(ModulePickerScript modulePicker in modulePanels){
 			if (modulePicker != null) {
-				modulePicker.downwardsModuleSelected (incomingModuleIDnumber);
+				StartCoroutine(modulePicker.downwardsModuleSelected (incomingModuleIDnumber));
 			}
 		}
+		yield return null;
 	}
-	public void downwardsModuleDeselected(int incomingModuleIDnumber){		//signal coming from above from the canvas script that a module was now freed up to be chosen, sending it down to the module picker
+	public IEnumerator downwardsModuleDeselected(int incomingModuleIDnumber){		//signal coming from above from the canvas script that a module was now freed up to be chosen, sending it down to the module picker
 		foreach (ModulePickerScript modulePicker in modulePanels) {
 			if (modulePicker != null) {
-				modulePicker.downwardsModuleDeselected (incomingModuleIDnumber);
+				StartCoroutine(modulePicker.downwardsModuleDeselected (incomingModuleIDnumber));
 			}
 		}
+		yield return null;
 	}
 }
