@@ -116,7 +116,7 @@ public class DeckScript : MonoBehaviour {
 //		int tempint = 0;
 		foreach (BPartGenericScript BPart in templistOfAllParts) {
 			int tempInt = 0;
-			print ("Count of modules " + BPart.getModules ().Length);
+//			print ("Count of modules " + BPart.getModules ().Length);
 			foreach (int module in BPart.getModules ()) {				//for each module listed in the array on the instantiated body part from the list, get the id from it and make a card
 				if (BPart.getModules () [tempInt] != 0) {
 					listOfDrawLWinfo.Add (new LWCardInfo (BPart.getModules () [tempInt], BPart));	//creates a new light weight card used for shuffling, making a reference back to the body part that generated it
@@ -154,10 +154,12 @@ public class DeckScript : MonoBehaviour {
 		instCard.CardAttributes = cardData[listOfDrawLWinfo[0].getLocationNumber()];
 		instCard.setFace(cardsFaces[(listOfDrawLWinfo[0].getLocationNumber())]);
 		instCard.setlWCardInfo (listOfDrawLWinfo [0]);
+		instCard.setBPartReference(listOfDrawLWinfo[0].getBPart());
 		listOfDrawLWinfo.RemoveAt(0);
 		string instAttackType = instCard.TypeOfAttack;			//matching the card's attack with the same name of attack from the database of weaponhitdata to get the matrix of what is hit
 		XMLWeaponHitData hitBoxDataForCard = weaponHitBoxData.Find (XMLWeaponHitData => XMLWeaponHitData.nameOfAttack == instAttackType);
 		instCard.setWeaponHitBox(hitBoxDataForCard);
+		instCard.checkIfBPartIsActive ();
 	}
 
 	private void relocateDrawnCards(){
@@ -172,6 +174,7 @@ public class DeckScript : MonoBehaviour {
 
 	public void updateCards(){								//is called when there are possible cards played and need to be resorted into the discard pile. Is called by shuffle(), discard() and from a cardbehaviour when it's played and used
 		for (int i = 0; i < drawnCards.Count; i++){ //CardScript drawnCard in drawnCards) {				//runs through all drawn cards
+			drawnCards[i].checkIfBPartIsActive();
 			if (!drawnCards[i].isActiveAndEnabled) {		//checks to see which ones are still active. Ontrigger2dCollision in CardBehavior deactivates cards when put into play area @void OnTriggerStay2D(Collider2D other)
 				LWCardInfo tempLWCardInfo = drawnCards[i].getlWCardInfo();	//strips the small stored info from the card for storage in the deck piles
 				discardedCards.Add(tempLWCardInfo);			//moves any non active cards to discarded pile

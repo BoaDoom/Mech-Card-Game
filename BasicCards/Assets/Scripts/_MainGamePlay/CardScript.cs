@@ -14,8 +14,10 @@ public class CardScript : MonoBehaviour {
 
 	private bool active;
 	private bool clickedOn;
+	private bool discardLocation;
 	private Sprite storedSprite;
 	private SpriteRenderer spriteRenderer;
+	public SpriteRenderer disabledCardSprite;
 	private int hitSquareOverflow;
 
 	private string controllerParentIDtag; //will either be EnemyController or PlayerController
@@ -25,6 +27,7 @@ public class CardScript : MonoBehaviour {
 	private LWCardInfo lWCardInfo;
 
 	private XMLWeaponHitData hitBoxDataForCard;
+	private BPartGenericScript BPartReference;
 
 	//private GameControllerScript gameController;
 
@@ -32,7 +35,11 @@ public class CardScript : MonoBehaviour {
 		deckScript = incomingDeckReference;
 		//ActiveSquareBehaviour[] hitSquares;
 		spriteRenderer = gameObject.GetComponent<SpriteRenderer> ();
+//		disabledCardSprite = gameObject.GetComponentInChildren<SpriteRenderer> ();
+//		print (disabledCardSprite);
+//		disabledCardSprite.enabled = false;
 		active = true;
+		discardLocation = false;
 		//cardInPlayArea = false;
 		clickedOn = false;
 		hitSquareOverflow = 0;
@@ -43,6 +50,9 @@ public class CardScript : MonoBehaviour {
 	}
 	public void setWeaponHitBox(XMLWeaponHitData hitBoxDataForCardImport){
 		hitBoxDataForCard = hitBoxDataForCardImport;
+	}
+	public void setBPartReference(BPartGenericScript incomingBPartReference){
+		BPartReference = incomingBPartReference;
 	}
 
 
@@ -92,12 +102,12 @@ public class CardScript : MonoBehaviour {
 	private void OnMouseUp(){
 		if (!clickedOn) {	//if the card isn't currently clicked on it signals that it is no longer about to be played
 			opponentPlayerController.cardClickedOff ();
-			//clicked = true;
-//			if (cardInPlayArea) {
-//				deactivate ();
-//				deckScript.updateCards ();		//lets the deck know that a card was played and to update the active cards
-//			}
+
 		}
+		if (discardLocation) {
+			deckScript.turnOffCurrentCard ();
+		}
+
 	}
 	void OnTriggerEnter2D(Collider2D other){
 		//print ("");
@@ -111,6 +121,9 @@ public class CardScript : MonoBehaviour {
 			}
 			hitSquareOverflow++;			//the sum of all the small squares the card has entered. If number is 0, its left play area and can becom active again
 		}
+		if (other.CompareTag ("DiscardLocation")) {
+			discardLocation = true;
+		}
 	}
 	void OnTriggerExit2D(Collider2D other){		//a running count of all the squares the card has passed over, so it knows when to show back up if it is taken off the play area
 		if (other.CompareTag("TargetSquare")){
@@ -119,6 +132,9 @@ public class CardScript : MonoBehaviour {
 				showCard ();
 //				cardInPlayArea = false;
 			}
+		}
+		if (other.CompareTag ("DiscardLocation")) {
+			discardLocation = false;
 		}
 	}
 
@@ -159,6 +175,14 @@ public class CardScript : MonoBehaviour {
 		}
 
 		controllerParentIDtag = incomingPlayerControllerIDTag;
+	}
+	public void checkIfBPartIsActive(){
+		if (BPartReference.destroyedCheck ()) {
+			//"do something to signal its destroyed"
+			print(disabledCardSprite.enabled+ " this card is dead, don't use it plz");
+			disabledCardSprite.enabled = true;
+
+		}
 	}
 	public string getPlayerID(){
 		return controllerParentIDtag;

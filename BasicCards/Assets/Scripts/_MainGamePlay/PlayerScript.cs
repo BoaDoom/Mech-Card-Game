@@ -209,7 +209,7 @@ public class PlayerScript : MonoBehaviour {
 			}
 		}
 		updateHealthDisplay ();
-
+		activeDeck.updateCards ();		//in place to refresh any cards that have been disabled because of their body parts being destroyed
 	}
 	public PlayAreaScript getPlayAreaOfPlayer(){
 		return playAreaScript;

@@ -28,6 +28,7 @@ public class BPartGenericScript : MonoBehaviour {
 	private float currentHealth;
 	private bool active;
 	private bool fullyDeactivated;
+	private bool stillAlive = true;
 
 	private bool underThreat = false;
 
@@ -48,6 +49,7 @@ public class BPartGenericScript : MonoBehaviour {
 //		print (incomingWeaponHitData.weaponDamage);
 			if (currentHealth <= 0) {
 				playerScript.outgoingBrokenPartNodes (internalGlobalCords);
+				stillAlive = false;
 			}
 	}
 	/// 
@@ -174,6 +176,7 @@ public class BPartGenericScript : MonoBehaviour {
 
 	public void resetHealthToFull(){
 		currentHealth = maxHealth;
+		stillAlive = true;
 	}
 	public void setInternalGlobalCords(){			//sets the specific global locations for each node
 //		print("dimensions of body part "+getDimensionsOfPart ());
@@ -230,7 +233,9 @@ public class BPartGenericScript : MonoBehaviour {
 		return (globalOriginPoint + getComplexAnchorPoint(requestedAnchorPointName).anchorPoint);
 	}
 
-
+	public bool destroyedCheck(){		//a check to see if the part still exists or is destroyed
+		return !stillAlive;
+	}
 	public string getName(){
 		return bPartName;
 	}
