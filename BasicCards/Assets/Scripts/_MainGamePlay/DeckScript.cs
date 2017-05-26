@@ -19,6 +19,7 @@ public class DeckScript : MonoBehaviour {
 	public List<XMLWeaponHitData> weaponHitBoxData;
 	public GameControllerScript gameController;
 	private PlayerScript playerScript;
+//	public SceneTransferVariablesScript sceneTransferVariables;
 	//public
 	private string controllerParentIDtag;
 
@@ -60,7 +61,12 @@ public class DeckScript : MonoBehaviour {
 		if(PlayerScriptTemp == null){
 			Debug.Log ("Cannot find 'playerScript'object");}
 		
-
+//		GameObject transferVariablesTemp = GameObject.FindWithTag ("SceneTransferVariables");
+//		if (transferVariablesTemp == null) {
+//			Debug.Log ("scene transfer variables cannot be found");
+//		} else {
+//			sceneTransferVariables = transferVariablesTemp;
+//		}
 		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");	
 		GameObject XMLCardLoaderObject = GameObject.FindWithTag("MainLoader");
 		if(XMLCardLoaderObject != null){
@@ -107,10 +113,17 @@ public class DeckScript : MonoBehaviour {
 		int bodyPartCount = templistOfAllParts.Count;
 
 //		print("bodyPartCount "+bodyPartCount);
-		int tempint = 0;
+//		int tempint = 0;
 		foreach (BPartGenericScript BPart in templistOfAllParts) {
-			listOfDrawLWinfo.Add (new LWCardInfo (BPart.getModules (), BPart));	//creates a new light weight card used for shuffling, making a reference back to the body part that generated it
-			tempint++;
+			int tempInt = 0;
+			print ("Count of modules " + BPart.getModules ().Length);
+			foreach (int module in BPart.getModules ()) {				//for each module listed in the array on the instantiated body part from the list, get the id from it and make a card
+				if (BPart.getModules () [tempInt] != 0) {
+					listOfDrawLWinfo.Add (new LWCardInfo (BPart.getModules () [tempInt], BPart));	//creates a new light weight card used for shuffling, making a reference back to the body part that generated it
+					print ("adding in card id num " + BPart.getModules () [tempInt]);
+				}
+				tempInt++;
+			}
 //			print("card added"+ tempint);
 
 			//eventually needs to be changed to run through all the current modules equiped on the body part, making cards for as many as needed.

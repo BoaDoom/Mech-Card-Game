@@ -20,6 +20,8 @@ public class BPartGenericScript : MonoBehaviour {
 	private Vector2 dimensions;		//dependent on the farthest location from the source (0,0) of the list of binaryDimensions
 	private bool leftSide;		//default is left side
 	private int cardLocationNumber;		//location of the card in the list of sprites/xml file, dependent on the component installed
+	private TransferBodyPartInfo transferBodyPartInfo;
+	public int[] moduleIDnum;
 //	private List<ModulePart> modulePartList = new List<ModulePart>();
 
 	//dependent and changable variables
@@ -81,41 +83,39 @@ public class BPartGenericScript : MonoBehaviour {
 	}
 
 	public void Start(){
-//		GameObject enemyControllerTemp = GameObject.FindWithTag ("EnemyController");
-//		if (enemyControllerTemp != null) {
-//			playerScript = enemyControllerTemp.GetComponent<PlayerScript> ();
-//		}
-//		if (enemyControllerTemp == null) {
-//			Debug.Log ("Cannot find 'deckController'object");
-//		}
+
 		playerScript = gameObject.GetComponentInParent<PlayerScript>();
 	}
 
-	public void CreateNewPart(BodyPartDataHolder incomingBodyPartData, string leftOrRight){		//used by bodypartmakerscript
-		//Debug.Log ("incomingbpart name:"+ incomingBodyPartData.name +" leftright " +leftOrRight);
-		bPartType = incomingBodyPartData.typeOfpart;				//arm,head,legs,shoulder, or torso
-		bPartName = incomingBodyPartData.name;
+	public void CreateNewPart(BodyPartDataHolder incomingBodyPartDataFromXML, TransferBodyPartInfo incomingTransferBodyPartInfo, string leftOrRight){		//used by bodypartmakerscript
+												//incoming body part data from xml is the info grabbed from storage about the body part, the transferbodypart info is the selected parts and modules
+												//from the initial menu screen
+		//Debug.Log ("incomingbpart name:"+ incomingBodyPartDataFromXML.name +" leftright " +leftOrRight);
+		bPartType = incomingBodyPartDataFromXML.typeOfpart;				//arm,head,legs,shoulder, or torso
+		bPartName = incomingBodyPartDataFromXML.name;
 
-		maxHealth = incomingBodyPartData.maxHealth;
+		transferBodyPartInfo = incomingTransferBodyPartInfo;
 
-		nodesOfBP = new BodyPartNode[incomingBodyPartData.bodyPartGrid.Length][];
+		maxHealth = incomingBodyPartDataFromXML.maxHealth;
+
+		nodesOfBP = new BodyPartNode[incomingBodyPartDataFromXML.bodyPartGrid.Length][];
 		if (leftOrRight == "left" || leftOrRight== "none") {
 			leftSide = true;		//default is left side
 		} else {
 			leftSide = false;
 		}
-		for(int i=0; i < incomingBodyPartData.bodyPartGrid.Length; i++){	//transfering the int[][] grid
-			int g = incomingBodyPartData.bodyPartGrid.Length - i-1;
+		for(int i=0; i < incomingBodyPartDataFromXML.bodyPartGrid.Length; i++){	//transfering the int[][] grid
+			int g = incomingBodyPartDataFromXML.bodyPartGrid.Length - i-1;
 			if (leftSide) {
-				nodesOfBP [i] = new BodyPartNode[incomingBodyPartData.bodyPartGrid[0].Length];
+				nodesOfBP [i] = new BodyPartNode[incomingBodyPartDataFromXML.bodyPartGrid[0].Length];
 			}
 			else{									//mirroring the body part for right hand pieces
-				nodesOfBP [g] = new BodyPartNode[incomingBodyPartData.bodyPartGrid[0].Length];
+				nodesOfBP [g] = new BodyPartNode[incomingBodyPartDataFromXML.bodyPartGrid[0].Length];
 			}
-			//nodesOfBP [i] = new BodyPartNode[incomingBodyPartData.bodyPartGrid[0].Length];
-			for(int j=0; j < incomingBodyPartData.bodyPartGrid[0].Length; j++){
+			//nodesOfBP [i] = new BodyPartNode[incomingBodyPartDataFromXML.bodyPartGrid[0].Length];
+			for(int j=0; j < incomingBodyPartDataFromXML.bodyPartGrid[0].Length; j++){
 				BodyPartNode bodyPartNode = new BodyPartNode ();
-				if (incomingBodyPartData.bodyPartGrid [i] [j] == 1) {
+				if (incomingBodyPartDataFromXML.bodyPartGrid [i] [j] == 1) {
 					bodyPartNode.turnOn ();
 				}
 				if (leftSide) {
@@ -128,46 +128,49 @@ public class BPartGenericScript : MonoBehaviour {
 		}
 		dimensions = new Vector2(nodesOfBP.Length, nodesOfBP[0].Length);		//dependent on the farthest location from the source (0,0) of the list of binaryDimensions
 
-		if (incomingBodyPartData.simpleAnchorPoints) {			//checking to see if there is one anchor point or more
+		if (incomingBodyPartDataFromXML.simpleAnchorPoints) {			//checking to see if there is one anchor point or more
 			if (leftSide){										//if left side (default design), then transfer anchor point normally
 				
-				anchorPoint = new Vector2 (incomingBodyPartData.anchor.x, incomingBodyPartData.anchor.y);			//the location in which all parts will be located and placed
+				anchorPoint = new Vector2 (incomingBodyPartDataFromXML.anchor.x, incomingBodyPartDataFromXML.anchor.y);			//the location in which all parts will be located and placed
 //				print("anchorPoint "+ anchorPoint);
 			}
 			else if(!leftSide){								//if right side, mirror the anchor point across the X axis
-				anchorPoint = new Vector2 (((dimensions.x) - (incomingBodyPartData.anchor.x+1)), incomingBodyPartData.anchor.y);
+				anchorPoint = new Vector2 (((dimensions.x) - (incomingBodyPartDataFromXML.anchor.x+1)), incomingBodyPartDataFromXML.anchor.y);
 			}
 		} 
 		else {
 			if (leftSide) {										//if left side (default design), then transfer anchor point normally
-				listOfComplexAnchorPoints = incomingBodyPartData.listOfComplexAnchorPoints;			//the location in which all parts will be located and placed
+				listOfComplexAnchorPoints = incomingBodyPartDataFromXML.listOfComplexAnchorPoints;			//the location in which all parts will be located and placed
 			} else 
 			if (!leftSide) {								//if right side, mirror the anchor point across the X axis
-				for (int i = 0; i < incomingBodyPartData.listOfComplexAnchorPoints.Count; i++) {
+				for (int i = 0; i < incomingBodyPartDataFromXML.listOfComplexAnchorPoints.Count; i++) {
 						listOfComplexAnchorPoints.Add (new ComplexAnchorPoints(
-							incomingBodyPartData.listOfComplexAnchorPoints[i].nameOfPoint,
-							new Vector2((dimensions.x-1) - (incomingBodyPartData.listOfComplexAnchorPoints[i].anchorPoint.x), incomingBodyPartData.listOfComplexAnchorPoints[i].anchorPoint.y),
-							incomingBodyPartData.listOfComplexAnchorPoints[i].male));
+							incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].nameOfPoint,
+							new Vector2((dimensions.x-1) - (incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].anchorPoint.x), incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].anchorPoint.y),
+							incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].male));
 					//the dimension.x+1 is to account for the origin of the points being at 1,1 rather than 0,0.
 				}
 			}
 		}
+	
+		moduleIDnum = new int[transferBodyPartInfo.moduleIDnum.Length];
+		moduleIDnum = transferBodyPartInfo.moduleIDnum;
 
-		currentHealth = incomingBodyPartData.maxHealth;
+		currentHealth = incomingBodyPartDataFromXML.maxHealth;
 		resetHealthToFull();
 		active = true;
 		fullyDeactivated = false;
-		setCardLocationNumbers (); 	//sets parts card location numbers, dictated and generated by the components inside of it
+//		setCardLocationNumbers (); 	//sets parts card location numbers, dictated and generated by the components inside of it
 		//Debug.Log("complex list for "+bPartName+ " : "+ listOfComplexAnchorPoints.Count);
 	}
 
-	public void setCardLocationNumbers(){
-		cardLocationNumber = 1;	//temp, eventually needs to be replaced by setting the components installed in the part, and the component object will already have the sprite and stats in it, the bodypart will hold these
+//	public void setCardLocationNumbers(){
+//		cardLocationNumber = 1;	//temp, eventually needs to be replaced by setting the components installed in the part, and the component object will already have the sprite and stats in it, the bodypart will hold these
 //		listOfModules.clear();
 //		foreach (ModuleInstalled module in incomingModules){		//modules' info will be stored in the body part, anything that happens with the card will just be a reference back to this stored info
 //			listOfModules.add (module);
 //		}
-	}
+//	}
 
 	public void resetHealthToFull(){
 		currentHealth = maxHealth;
@@ -280,8 +283,8 @@ public class BPartGenericScript : MonoBehaviour {
 	}
 
 
-	public int getModules(){
-		return cardLocationNumber;
+	public int[] getModules(){
+		return moduleIDnum;
 	}
 
 }

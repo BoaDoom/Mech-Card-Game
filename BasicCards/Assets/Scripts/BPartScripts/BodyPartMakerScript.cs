@@ -31,15 +31,15 @@ public class BodyPartMakerScript : MonoBehaviour {
 		yield return null;
 	}
 
-	public BPartGenericScript makeBodyPart(string nameOfpart, string leftOrRight){		//used by playerscript
+	public BPartGenericScript makeBodyPart(TransferBodyPartInfo incomingBodyPartInfo, string leftOrRight){		//used by playerscript
 //		Debug.Log ("check: " + nameOfpart + " " + leftOrRight);
 		//Debug.Log("name: "+ nameOfpart); 
 		//Debug.Log("leftor right: "+ leftOrRight);
 		//BodyPartDataHolder partData = new BodyPartDataHolder();
-		partData = bPartXMLReader.getBodyData (nameOfpart);
+		partData = bPartXMLReader.getBodyData (incomingBodyPartInfo.nameOfPart);
 		BPartGenericScript instaBodypart = Instantiate (bodyPartObject, Vector3.zero, bodyPartObject.GetComponent<Transform>().rotation);
 		//Debug.Log ("body data check: "+bPartXMLReader.getBodyData (nameOfpart).name);
-		instaBodypart.CreateNewPart (partData, leftOrRight);		//formatting is partData and 'Left' or 'Right'
+		instaBodypart.CreateNewPart (partData, incomingBodyPartInfo, leftOrRight);		//formatting is partData and 'Left' or 'Right'
 		//Debug.Log ("instantiated after: "+instaBodypart.getName());
 		return instaBodypart;
 	}

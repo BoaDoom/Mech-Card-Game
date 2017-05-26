@@ -25,7 +25,8 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	TransferBodyPartInfo torsoSelection = new TransferBodyPartInfo();
 	TransferBodyPartInfo shoulderSelection = new TransferBodyPartInfo();
 	TransferBodyPartInfo legSelection = new TransferBodyPartInfo();
-	//PickedBodyPart[] listOfPickedBodyParts;
+//	TransferBodyPartInfo[] listOfPickedBodyParts = new TransferBodyPartInfo[5];
+
 	public XMLModuleData[] listOfWeaponModules;
 	public XMLModuleData[] listOfUtilityModules;
 
@@ -180,7 +181,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			allPickedBodyPartsTemp.setAllPickedBodyParts(headSelection, armSelection, torsoSelection, shoulderSelection, legSelection);
 //			print (allPickedBodyPartsTemp.pickedHead);
 //			sceneTransferVariablesScript.bleh ();
-			sceneTransferVariablesScript.setModulesPicked(alreadySelectedModules);
+//			sceneTransferVariablesScript.setModulesPicked(alreadySelectedModules);
 			sceneTransferVariablesScript.setPartsPicked(allPickedBodyPartsTemp);
 			SceneManager.LoadScene ("_Main");
 		} else {
@@ -197,19 +198,19 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //		tempBodyPart.CreateNewPart (partData);		// 
 //		return tempBodyPart;
 //	}
-	public string intToStringNumber(int incomingNumber){
-		switch (incomingNumber) {
-		case(1):
-			return "one";
-		case(2):
-			return "two";
-		case(3):
-			return "three";
-		case(4):
-			return "four";
-		}
-		return null;
-	}
+//	public string intToStringNumber(int incomingNumber){
+//		switch (incomingNumber) {
+//		case(1):
+//			return "one";
+//		case(2):
+//			return "two";
+//		case(3):
+//			return "three";
+//		case(4):
+//			return "four";
+//		}
+//		return null;
+//	}
 	public XMLModuleData[] getListOfModules(string incomingRequestForList){
 //		XMLModuleData[] listOfAvailibleModules = new XMLModuleData()[];
 		if (incomingRequestForList == "Weapons"){
@@ -262,14 +263,55 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //			break;
 //		}
 //	}
-	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber, string incomingModuleBPart){		//coming from
+	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketLabel){		//coming from
 		alreadySelectedModules.Add (incomingModuleIDnumber);
+		switch (incomingModuleBPartName) {
+		case("Head"):
+			headSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+			break;
+		case("Arm"):
+			armSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+			break;
+		case("Torso"):
+			torsoSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+			break;
+		case("Shoulder"):
+			shoulderSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+			break;
+		case("Leg"):
+			legSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+			break;
+		default:
+			Debug.Log ("Unknown bodypart");
+			break;
+		}
 		foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
 			StartCoroutine( BPartPicker.downwardsModuleSelected (incomingModuleIDnumber));
 		}
 		yield return null;
 	}
-	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber){
+	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketLabel){
+		switch (incomingModuleBPartName) {
+		case("Head"):
+			headSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+			break;
+		case("Arm"):
+			armSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+			break;
+		case("Torso"):
+			torsoSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+			break;
+		case("Shoulder"):
+			shoulderSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+			break;
+		case("Leg"):
+			legSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+			break;
+		default:
+			Debug.Log ("Unknown bodypart");
+			break;
+		}
+
 		int tempCount = alreadySelectedModules.Count;
 		for (int i = 0; i < tempCount; i++) {
 			if (alreadySelectedModules[i] == incomingModuleIDnumber) {

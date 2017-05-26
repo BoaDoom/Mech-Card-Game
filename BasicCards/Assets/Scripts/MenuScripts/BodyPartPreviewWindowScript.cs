@@ -125,7 +125,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getWeaponCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
 			StartCoroutine( modulePanels [totalCount].ManualStart ());
-			modulePanels [totalCount].takePreviewWindow ("weapon", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
+			modulePanels [totalCount].takePreviewWindow ("weapon", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("weapon made" + i);
@@ -134,7 +134,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getUtilityCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
 			StartCoroutine( modulePanels [totalCount].ManualStart ());
-			modulePanels [totalCount].takePreviewWindow ("utility", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
+			modulePanels [totalCount].takePreviewWindow ("utility", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("utility made" + i);
@@ -143,7 +143,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getBothCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
 			StartCoroutine( modulePanels [totalCount].ManualStart ());
-			modulePanels [totalCount].takePreviewWindow ("both", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount);
+			modulePanels [totalCount].takePreviewWindow ("both", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("both made" + i);
@@ -183,9 +183,9 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 //				print("modulePanels deleted: "+i);
 				//ModulePickerScript tempToDestroy = modulePanels [0].gameObject;
 				if (modulePanels [i] != null) {
-					int tempID = modulePanels [i].getCurrentModuleSelectedIDnumber ();
+					int tempIDmoduleID = modulePanels [i].getCurrentModuleSelectedIDnumber ();
 					DestroyObject (modulePanels [i].gameObject);
-					StartCoroutine(partPickerPanel.upwardsModuleDeselected(tempID));
+					StartCoroutine(partPickerPanel.upwardsModuleDeselected(tempIDmoduleID, i));
 
 
 				}
@@ -201,20 +201,20 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 	public void markSelectedModuleAsNull(int incomingModulePickerIDnumber){
 		
 	}
-	public IEnumerator upwardsModuleSelected(int incomingModulePickerIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
+	public IEnumerator upwardsModuleSelected(int incomingModulePickerIDnumber, int incomingModuleSocketLabel){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
 //		print("incomingModulePickerIDnumber"+incomingModulePickerIDnumber);
 		int tempChosenNumber = modulePanels [incomingModulePickerIDnumber].getCurrentModuleSelectedIDnumber ();
-		StartCoroutine(partPickerPanel.upwardsModuleSelected (tempChosenNumber));
+		StartCoroutine(partPickerPanel.upwardsModuleSelected (tempChosenNumber, incomingModuleSocketLabel));
 		yield return null;
 	}
-	public IEnumerator upwardsModuleDeselected(int incomingModulePickerIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
+	public IEnumerator upwardsModuleDeselected(int incomingModulePickerIDnumber, int incomingModuleSocketLabel){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
 //		print("incomingModulePickerIDnumber"+incomingModulePickerIDnumber);
 		int tempChosenNumber = modulePanels [incomingModulePickerIDnumber].getCurrentModuleSelectedIDnumber ();
-		StartCoroutine(partPickerPanel.upwardsModuleDeselected (tempChosenNumber));
+		StartCoroutine(partPickerPanel.upwardsModuleDeselected (tempChosenNumber, incomingModuleSocketLabel));
 		yield return null;
 	}
-	public IEnumerator upwardsOLDModuleDeselected(int incomingModuleIDnumber){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
-		StartCoroutine( partPickerPanel.upwardsModuleDeselected (incomingModuleIDnumber));
+	public IEnumerator upwardsOLDModuleDeselected(int incomingModuleIDnumber, int incomingModuleSocketLabel){		//signal coming from the module picker that a certain module was chosen, sending it up to the canvas
+		StartCoroutine( partPickerPanel.upwardsModuleDeselected (incomingModuleIDnumber, incomingModuleSocketLabel));
 		yield return null;
 	}
 

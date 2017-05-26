@@ -170,22 +170,22 @@ public class PlayerScript : MonoBehaviour {
 
 		//		int rand = Random.Range(1,5);
 //		print("Body part picking test: " + allPickedBodyParts.pickedTorso);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedTorso.nameOfPart), "none"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedTorso), "none"));
 
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg.nameOfPart), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg.nameOfPart), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), "right"));
 
 		//		rand = Random.Range(1,5);				//random body part between one and four
 		//print(rand);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm.nameOfPart), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm.nameOfPart), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm), "right"));
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedHead.nameOfPart), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedHead), "left"));
 
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder.nameOfPart), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder.nameOfPart), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder), "right"));
 
 
 
@@ -306,6 +306,7 @@ public class PlayerScript : MonoBehaviour {
 	public bool getIfBodyPartsPopulated(){
 		return bodyPartsPopulated;
 	}
+//	public AllPickedBodyParts getAllPickedBodyParts
 
 }
 
