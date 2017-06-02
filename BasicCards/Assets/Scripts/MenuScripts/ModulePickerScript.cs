@@ -8,6 +8,7 @@ public class ModulePickerScript : MonoBehaviour {
 	public BodyPartSelectionCanvasScript partSelectionCanvas;
 	BodyPartPreviewWindowScript parentBodyPartWindow;
 
+	public bool ignoreLayout = true;
 	private string socketType;
 	int currentSelectedModuleIDnumber = -1;
 	int currentAssignedModulePickerIDnumber;
@@ -25,8 +26,8 @@ public class ModulePickerScript : MonoBehaviour {
 		}
 		yield return null;
 	}
-	public void takePreviewWindow(string incomingSocketType, BodyPartPreviewWindowScript incomingParentWindow, int incomingModulePickerIDnumber, int incomingSocketNumber){
-		parentBodyPartWindow = incomingParentWindow;
+	public IEnumerator takeModuleInfo(string incomingSocketType, int incomingModulePickerIDnumber, int incomingSocketNumber){
+//		parentBodyPartWindow = incomingParentWindow;
 		currentAssignedModulePickerIDnumber = incomingModulePickerIDnumber;
 		moduleSocketLabel = incomingSocketNumber;
 //		partSelectionCanvas = incomingPartSelectionCanvas;
@@ -39,7 +40,7 @@ public class ModulePickerScript : MonoBehaviour {
 			foreach (XMLModuleData modularData in weaponModules) {
 				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
 
-				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> (), false);
+				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
 				StartCoroutine( newButton1.ManualStart(modularData.IDnum, modularData.cardNumber));		//needs to start after assigning of parent because the button grabs it's parent to be able to send info back
 //				print("modulardata " + modularData.moduleType);
 			}
@@ -49,9 +50,10 @@ public class ModulePickerScript : MonoBehaviour {
 			foreach (XMLModuleData modularData in utilityModules) {
 				modulePickerButtonScript newButton1 = Instantiate (buttonPrefab, gameObject.GetComponent<Transform> ().position, gameObject.GetComponent<Transform> ().rotation);
 
-				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> (), false);
+				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
+//				newButton1.GetComponent<Transform> ().
 				StartCoroutine( newButton1.ManualStart(modularData.IDnum, modularData.cardNumber));		//needs to start after assigning of parent because the button grabs it's parent to be able to send info back
-				//				print("modulardata " + modularData.moduleType);
+//								print("modulardata " + modularData.moduleType);
 			}
 		}
 		if (incomingSocketType == "both") {
@@ -59,9 +61,9 @@ public class ModulePickerScript : MonoBehaviour {
 			foreach (XMLModuleData modularData in genericModules) {
 				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
 
-				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> (), false);
+				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
 				StartCoroutine( newButton1.ManualStart(modularData.IDnum, modularData.cardNumber));		//needs to start after assigning of parent because the button grabs it's parent to be able to send info back
-				//				print("modulardata " + modularData.moduleType);
+//								print("modulardata " + modularData.moduleType);
 			}
 		}
 		listOfAllTheText = gameObject.GetComponentsInChildren<modulePickerButtonScript> ();	
@@ -72,6 +74,7 @@ public class ModulePickerScript : MonoBehaviour {
 				}
 			}
 		}
+		yield return null;
 
 //		StartCoroutine (setPartSelected (1));
 //		modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
@@ -141,7 +144,7 @@ public class ModulePickerScript : MonoBehaviour {
 		return socketType;
 	}
 	// Update is called once per frame
-	void Update () {
-		
+	public void destroyCompletely(){
+		Destroy (gameObject);
 	}
 }

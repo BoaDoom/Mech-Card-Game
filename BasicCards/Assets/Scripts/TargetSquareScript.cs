@@ -14,6 +14,8 @@ public class TargetSquareScript : MonoBehaviour {
 	Sprite defaultSprite;
 	private string playerControllerIDTag;
 
+//	bool occupied = false;
+
 	Sprite trueUntarget;
 	Sprite trueTarget;
 //	private int startingIntValue;
@@ -22,6 +24,7 @@ public class TargetSquareScript : MonoBehaviour {
 
 	SpriteRenderer spriteRenderer;
 	PlayAreaScript playArea;
+//	PartPickerAreaScript partPickerAreaScript;
 	BPartGenericScript bodyPartReference;
 	//PlayAreaScript playAreaScript;
 
@@ -29,6 +32,15 @@ public class TargetSquareScript : MonoBehaviour {
 
 	public IEnumerator ManualStart(PlayAreaScript parentPlayAreaScript){
 		playArea = parentPlayAreaScript;
+		StartCoroutine (ManualStartTwo ());
+		yield return null;
+	}
+	public IEnumerator ManualStart(PartPickerAreaScript parentPartPickerAreaScript){
+//		partPickerAreaScript = parentPartPickerAreaScript;
+		StartCoroutine (ManualStartTwo ());
+		yield return null;
+	}
+	public IEnumerator ManualStartTwo(){
 		activeSquareState = new TargetSquareState();
 //		activeSquareState.setOccupiedState (true);
 //		print (activeSquareState.getOccupiedState());
@@ -44,14 +56,6 @@ public class TargetSquareScript : MonoBehaviour {
 		if(spriteRendererTemp == null){
 			Debug.Log ("Cannot find 'spriteRendererTemp'object");
 		}
-
-//		GameObject playAreaTemp = GameObject.FindWithTag ("PlayAreaController");
-//		if(playAreaTemp != null){
-//			playArea = playAreaTemp.GetComponent<PlayAreaScript>();
-//		}
-//		if(playAreaTemp == null){
-//			Debug.Log ("Cannot find 'playAreaImport'object");
-//		}
 		hardUntargetSquare ();
 		yield return null;
 	}
@@ -79,14 +83,19 @@ public class TargetSquareScript : MonoBehaviour {
 //	}
 		
 	void OnMouseEnter(){
-		playArea.squareHoveredOver (gridCordX, gridCordY);
-
+		if (playArea != null) {
+			playArea.squareHoveredOver (gridCordX, gridCordY);
+		}
 	}
 	void OnMouseExit(){
-		playArea.squareHoveredOff ();
+		if (playArea != null) {
+			playArea.squareHoveredOff ();
+		}
 	}
 	void OnMouseDown(){
-		playArea.squareClickedOn(gridCordX, gridCordY);
+		if (playArea != null) {
+			playArea.squareClickedOn (gridCordX, gridCordY);
+		}
 	}
 		
 	public void TargetSquare(){		//used by playarea to turn on and off targetting
@@ -150,6 +159,7 @@ public class TargetSquareScript : MonoBehaviour {
 		trueTarget = occupiedTargetedSprite;
 		trueUntarget = occupiedUntargetedSprite;
 		activeSquareState.setOccupiedState(true);
+//		occupied = true;
 		spriteRenderer.sprite = occupiedUntargetedSprite;
 	}
 	public void OccupiedSquare(){	//used by playerScript to turn on and off if the body part occupies the space. Alt method for when its just a preview window
@@ -159,6 +169,9 @@ public class TargetSquareScript : MonoBehaviour {
 	public void DeactivateSquare(){		//used by playarea to turn on and off if the enemy occupies the space
 		trueUntarget = defaultSprite;
 		trueTarget = targetMissedSprite;
+//		occupied = false;
+		bodyPartReference = null;
+		spriteRenderer.sprite = defaultSprite;
 		activeSquareState.setOccupiedState(false);
 	}
 

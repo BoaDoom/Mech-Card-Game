@@ -104,7 +104,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		return completedStartup;
 	}
 
-	public IEnumerator refreshSquares (VisualOnlyBPartGenericScript incomingVisualOfBpart) {
+	public IEnumerator refreshSquares (BPartGenericScript incomingVisualOfBpart) {
 //		print (incomingVisualOfBpart.getName());
 		StartCoroutine (clearSquares ());
 		if (!checkIfNameIsStored){	//if this is the first run through of a body part, it grabs the name of the body part for future reference to the window from the canvas
@@ -125,7 +125,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getWeaponCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
 			StartCoroutine( modulePanels [totalCount].ManualStart ());
-			modulePanels [totalCount].takePreviewWindow ("weapon", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
+//			modulePanels [totalCount].takePreviewWindow ("weapon", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("weapon made" + i);
@@ -134,7 +134,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getUtilityCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
 			StartCoroutine( modulePanels [totalCount].ManualStart ());
-			modulePanels [totalCount].takePreviewWindow ("utility", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
+//			modulePanels [totalCount].takePreviewWindow ("utility", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("utility made" + i);
@@ -143,7 +143,7 @@ public class BodyPartPreviewWindowScript: MonoBehaviour {
 		for (int i = 0; i <incomingVisualOfBpart.getModuleSocketCount().getBothCount(); i++){
 			modulePanels [totalCount] = Instantiate (ModulePickerPanel, Vector3.zero + new Vector3((1.25f + floatOffset*totalCount), 0.0f, 0.0f), transformOriginal.rotation);
 			StartCoroutine( modulePanels [totalCount].ManualStart ());
-			modulePanels [totalCount].takePreviewWindow ("both", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
+//			modulePanels [totalCount].takePreviewWindow ("both", gameObject.GetComponent<BodyPartPreviewWindowScript>(), totalCount, i);
 			modulePanels[totalCount].GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>(), false);
 			totalCount += 1;
 //			print ("both made" + i);

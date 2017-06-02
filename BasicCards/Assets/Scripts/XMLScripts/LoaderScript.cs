@@ -42,21 +42,25 @@ public class LoaderScript : MonoBehaviour {
 
 	}
 	IEnumerator Waiter(){
-		while (!XMLCardLoader.checkIfFinishedLoading() || !XMLWeaponHitLoader.checkIfFinishedLoading() || !XMLBPartLoader.checkIfFinishedLoading())
+//		print ("loading waiter script started");
+		while (!XMLCardLoader.checkIfFinishedLoading() || !XMLWeaponHitLoader.checkIfFinishedLoading() || !XMLBPartLoader.checkIfFinishedLoading() || !XMLModuleLoader.checkIfFinishedLoading())
 		{
 			//print ("First " +!XMLCardLoader.checkIfFinishedLoading() +" "+ !XMLWeaponHitLoader.checkIfFinishedLoading() +" "+ !XMLBPartLoader.checkIfFinishedLoading());
-			//print ("inside while loop");
+//			print ("inside while loop");
 			//finishedLoading = false;
 			yield return new WaitForEndOfFrame();
+//			yield return new WaitForSeconds(5);
+//			print ("done waiting");
 		}
 		//print (XMLCardLoader.checkIfFinishedLoading() +" "+ XMLWeaponHitLoader.checkIfFinishedLoading() +" "+ XMLBPartLoader.checkIfFinishedLoading());
 		//print ("outside while loop");
+//		print("Done with loading, starting new scene");
 		SceneManager.LoadScene("PartPicker"); //Only happens if coroutine is finished 
 		//SceneManager.LoadScene("_Main"); //Only happens if coroutine is finished 
 		//yield return WaitForEndOfFrame();
 		//yield return new WaitForSeconds(1);
 //		print(Time.time);
-
+		yield return null;
 	}
 	void Update ()
 	{

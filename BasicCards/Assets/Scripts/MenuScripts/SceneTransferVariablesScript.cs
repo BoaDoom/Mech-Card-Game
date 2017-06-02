@@ -30,32 +30,43 @@ public class SceneTransferVariablesScript : MonoBehaviour {
 	}
 }
 public class AllPickedBodyParts{
-	public TransferBodyPartInfo pickedHead;
-	public TransferBodyPartInfo pickedArm;
-	public TransferBodyPartInfo pickedTorso;
-	public TransferBodyPartInfo pickedShoulder;
-	public TransferBodyPartInfo pickedLeg;
-	public void setAllPickedBodyParts(TransferBodyPartInfo head, TransferBodyPartInfo arm, TransferBodyPartInfo torso, TransferBodyPartInfo shoulder, TransferBodyPartInfo leg){
+	public BodyPartDataHolder pickedHead;
+	public BodyPartDataHolder pickedLeftArm;
+	public BodyPartDataHolder pickedRightArm;
+	public BodyPartDataHolder pickedTorso;
+	public BodyPartDataHolder pickedLeftShoulder;
+	public BodyPartDataHolder pickedRightShoulder;
+	public BodyPartDataHolder pickedLeg;
+	public void setAllPickedBodyParts(BodyPartDataHolder head, BodyPartDataHolder arm, BodyPartDataHolder torso, BodyPartDataHolder shoulder, BodyPartDataHolder leg){
 		pickedHead = head;
-		pickedArm = arm;
+		pickedLeftArm = arm;
+		pickedRightArm = arm;
 		pickedTorso = torso;
-		pickedShoulder = shoulder;
+		pickedLeftShoulder = shoulder;
+		pickedRightShoulder = shoulder;
 		pickedLeg = leg;
 	}
 }
-public class TransferBodyPartInfo{
-	public string typeOfPart;
-	public string nameOfPart;
-	public int partIDnum;
-	public int[] moduleIDnum = new int[3];
-	public void setAllAtributesOfBPart(string incomingNameOfPart, int incomingPartIDnum, int[] incomingModuleIDnum){
-		int tempInt = 0;
-		foreach (int partID in moduleIDnum) {
-			moduleIDnum [tempInt] = incomingModuleIDnum [tempInt];
-			tempInt++;
-		}
-		partIDnum = incomingPartIDnum;
-		nameOfPart = incomingNameOfPart;
-	}
-}
+//public class TransferBodyPartInfo{
+//	public string typeOfPart;
+//	public string nameOfPart;
+//	public int partIDnum;
+//	public int[] moduleIDnum = new int[3];
+//	bool placeHolder;
+//	public void setAllAtributesOfBPart(string incomingNameOfPart, int incomingPartIDnum, int[] incomingModuleIDnum){
+//		int tempInt = 0;
+//		foreach (int partID in moduleIDnum) {
+//			moduleIDnum [tempInt] = incomingModuleIDnum [tempInt];
+//			tempInt++;
+//		}
+//		partIDnum = incomingPartIDnum;
+//		nameOfPart = incomingNameOfPart;
+//	}
+//	public void setAsPlaceHolder(bool incomingBool){
+//		placeHolder = incomingBool;
+//	}
+//	public bool getIfPlaceHolder(){
+//		return placeHolder;
+//	}
+//}
 

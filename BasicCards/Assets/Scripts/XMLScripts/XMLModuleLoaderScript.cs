@@ -81,6 +81,7 @@ public class XMLModuleLoaderScript : MonoBehaviour {
 			}
 		}
 		finishedLoading = true;
+//		print ("moduleXML finished");
 		yield return null;
 	}
 	public bool checkIfFinishedLoading(){

@@ -31,26 +31,26 @@ public class BodyPartMakerScript : MonoBehaviour {
 		yield return null;
 	}
 
-	public BPartGenericScript makeBodyPart(TransferBodyPartInfo incomingBodyPartInfo, string leftOrRight){		//used by playerscript
+	public BPartGenericScript makeBodyPart(BodyPartDataHolder incomingBodyPartInfo, int leftOrRight){		//used by playerscript
 //		Debug.Log ("check: " + nameOfpart + " " + leftOrRight);
 		//Debug.Log("name: "+ nameOfpart); 
 		//Debug.Log("leftor right: "+ leftOrRight);
 		//BodyPartDataHolder partData = new BodyPartDataHolder();
-		partData = bPartXMLReader.getBodyData (incomingBodyPartInfo.nameOfPart);
+		partData = bPartXMLReader.getBodyData (incomingBodyPartInfo.name);
 		BPartGenericScript instaBodypart = Instantiate (bodyPartObject, Vector3.zero, bodyPartObject.GetComponent<Transform>().rotation);
 		//Debug.Log ("body data check: "+bPartXMLReader.getBodyData (nameOfpart).name);
-		instaBodypart.CreateNewPart (partData, incomingBodyPartInfo, leftOrRight);		//formatting is partData and 'Left' or 'Right'
+		instaBodypart.CreateNewPart (partData, leftOrRight);		//formatting is partData and 'Left' or 'Right'
 		//Debug.Log ("instantiated after: "+instaBodypart.getName());
 		return instaBodypart;
 	}
 	public WholeBodyOfParts createWholeBody(WholeBodyOfParts incomingWholeBodyOfParts, Vector2 incomingDimensionsOfPlayArea){
-		for (int i=0; i < 5; i++) {
-//			Debug.Log (incomingWholeBodyOfParts.leftArm.getName());
-//			Debug.Log (incomingWholeBodyOfParts.rightArm.getName());
-//			Debug.Log (incomingWholeBodyOfParts.torso.getName());
-		}
+//		for (int i=0; i < 5; i++) {
+////			Debug.Log (incomingWholeBodyOfParts.leftArm.getName());
+////			Debug.Log (incomingWholeBodyOfParts.rightArm.getName());
+////			Debug.Log (incomingWholeBodyOfParts.torso.getName());
+//		}
 		if (incomingWholeBodyOfParts.bodyPartCheck ()) {
-
+//			print ("body part check: " + incomingWholeBodyOfParts.bodyPartCheck ());
 			//(int)Mathf.Round(
 			int halfwayLengthOfBoard = (int)Mathf.Round((incomingDimensionsOfPlayArea.x/2) -incomingWholeBodyOfParts.torso.getDimensionsOfPart().x/2);
 			//float halfwayLengthOfTorso = ;
@@ -108,46 +108,87 @@ public class WholeBodyOfParts{
 	public BPartGenericScript leftShoulder;
 	public BPartGenericScript rightShoulder;
 	public BPartGenericScript torso;
-	public List <BPartGenericScript> listOfAllParts = new List<BPartGenericScript> ();
+
+	public BPartGenericScript defaultLeftArm;
+	public BPartGenericScript defaultRightArm;
+	public BPartGenericScript defaultHead;
+	public BPartGenericScript defaultLeftLeg;
+	public BPartGenericScript defaultRightLeg;
+	public BPartGenericScript defaultLeftShoulder;
+	public BPartGenericScript defaultRightShoulder;
+	public BPartGenericScript defaultTorso;
+	public BPartGenericScript[] listOfAllParts = new BPartGenericScript[8];
 	public bool hasAnyBodyParts;
 
 	public void setBodyPart(BPartGenericScript incomingBodyPart){
 		//Debug.Log (incomingBodyPart.getType());
 		hasAnyBodyParts = true;
-		listOfAllParts.Add(incomingBodyPart);
+//		listOfAllParts.Add(incomingBodyPart);
 		switch (incomingBodyPart.getType()) {
 		case ("Arm"):
 			if (incomingBodyPart.getSide ()) {
 				leftArm = incomingBodyPart;
+				listOfAllParts [0] = incomingBodyPart;
+				if (defaultLeftArm == null) {
+					defaultLeftArm = incomingBodyPart;
+				}
 				//Debug.Log("left arm import check: " +leftArm.getName ());
 				break;
 			} else {
 				rightArm = incomingBodyPart;
+				listOfAllParts [1] = incomingBodyPart;
+				if (defaultRightArm == null) {
+					defaultRightArm = incomingBodyPart;
+				}
 				//Debug.Log("left arm import check: " +leftArm.getName ());
 				break;
 			}
 		case ("Head"):
 			head = incomingBodyPart;
+			listOfAllParts [2] = incomingBodyPart;
+			if (defaultHead == null) {
+				defaultHead = incomingBodyPart;
+			}
 			//Debug.Log("left arm import check: " +leftArm.getName ());
 			break;
 		case ("Leg"):
 			if (incomingBodyPart.getSide ()) {
 				leftLeg = incomingBodyPart;
+				listOfAllParts [3] = incomingBodyPart;
+				if (defaultLeftLeg == null) {
+					defaultLeftLeg = incomingBodyPart;
+				}
 				break;
 			} else {
 				rightLeg = incomingBodyPart;
+				listOfAllParts [4] = incomingBodyPart;
+				if (defaultRightLeg == null) {
+					defaultRightLeg = incomingBodyPart;
+				}
 				break;
 			}
 		case ("Shoulder"):
 			if (incomingBodyPart.getSide ()) {
 				leftShoulder = incomingBodyPart;
+				listOfAllParts [5] = incomingBodyPart;
+				if (defaultLeftShoulder == null) {
+					defaultLeftShoulder = incomingBodyPart;
+				}
 				break;
 			} else {
 				rightShoulder = incomingBodyPart;
+				listOfAllParts [6] = incomingBodyPart;
+				if (defaultRightShoulder == null) {
+					defaultRightShoulder = incomingBodyPart;
+				}
 				break;
 			}
 		case ("Torso"):
 			torso = incomingBodyPart;
+			listOfAllParts [7] = incomingBodyPart;
+			if (defaultTorso == null) {
+				defaultTorso = incomingBodyPart;
+			}
 			break;
 		}
 	}
@@ -179,15 +220,6 @@ public class WholeBodyOfParts{
 		}
 		return count;
 	}
-//	public List<BPartGenericScript> getBrokenParts(){
-//		List<BPartGenericScript> listOfBrokenParts = new List<BPartGenericScript> ();
-//		foreach (BPartGenericScript bPart in listOfAllParts) {
-//			if (bPart.getCurrentHealth () <= 0) {
-//				listOfBrokenParts.Add (bPart);
-//			}
-//		}
-//		return listOfBrokenParts;
-//	}
 	public bool bodyPartCheck(){
 		if (leftArm != null && rightArm != null && head != null && leftLeg != null && rightLeg != null && leftShoulder != null && rightShoulder != null && torso != null) {
 			return true;
@@ -207,7 +239,10 @@ public class WholeBodyOfParts{
 		leftShoulder = null;
 		rightShoulder = null;
 		torso = null;
-		listOfAllParts.Clear();
+//		listOfAllParts.Clear();
+		for(int i =0; i < 7; i++){		///magical 7 is the count of body parts
+			listOfAllParts[i] = null;
+		}
 	}
 }
 public class ModulePart{

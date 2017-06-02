@@ -147,7 +147,7 @@ public class PlayerScript : MonoBehaviour {
 		Vector3 tempPositionForHealth = healthBarStartingPosition;
 		float newHealth = 0;
 		//Debug.Log ("Number of body parts: " + wholeBodyOfParts.listOfAllParts.Count);
-		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Count; i++){
+		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Length; i++){
 			float currentHealth = wholeBodyOfParts.listOfAllParts [i].getCurrentHealth ();
 			newHealth += wholeBodyOfParts.listOfAllParts [i].getCurrentHealth ();
 			//Debug.Log (i+ " health: "+wholeBodyOfParts.listOfAllParts [i].getCurrentHealth ());
@@ -170,27 +170,27 @@ public class PlayerScript : MonoBehaviour {
 
 		//		int rand = Random.Range(1,5);
 //		print("Body part picking test: " + allPickedBodyParts.pickedTorso);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedTorso), "none"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedTorso), 0));
 
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), 1));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeg), 2));
 
 		//		rand = Random.Range(1,5);				//random body part between one and four
 		//print(rand);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedArm), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeftArm), 1));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedRightArm), 2));
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedHead), "left"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedHead), 0));
 
 		//		rand = Random.Range(1,5);
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder), "left"));
-		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedShoulder), "right"));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeftShoulder), 1));
+		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedRightShoulder), 2));
 
 
 
 		wholeBodyOfParts = BpartMaker.createWholeBody (wholeBodyOfParts, playAreaDimensions);		//setting internal location positions of each of the body parts in relation to eachother
-		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Count; i++){
+		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Length; i++){
 			healthMax += wholeBodyOfParts.listOfAllParts [i].getCurrentHealth ();		//makes health pool
 		}
 		foreach (BPartGenericScript bPart in wholeBodyOfParts.listOfAllParts) {
@@ -223,7 +223,7 @@ public class PlayerScript : MonoBehaviour {
 	public TargetSquareScript[][] populateCorrectPlayAreaSquares(TargetSquareScript[][] incomingSquareGrid){
 		//Debug.Log (wholeBodyOfParts.listOfAllParts.Count);
 		//print("grid x length: " +incomingSquareGrid[0].Length + " grid y length: "+incomingSquareGrid.Length);
-		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Count; i++){		//for every body part in the list
+		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Length; i++){		//for every body part in the list
 			for (int x=0; x<wholeBodyOfParts.listOfAllParts [i].getDimensionsOfPart ().x; x++){				//get the x dimensions and run through the grid of Y
 				for (int y=0; y<wholeBodyOfParts.listOfAllParts [i].getDimensionsOfPart ().y; y++){			//get the y dimensions and run through every colloum of parts
 					if (wholeBodyOfParts.listOfAllParts [i].getGridPoint(new Vector2(x, y))&& wholeBodyOfParts.listOfAllParts [i].getActive()){				//gets the body part point and asks the grid of bodypartnodes if they are on or off at the internal dimension of the part

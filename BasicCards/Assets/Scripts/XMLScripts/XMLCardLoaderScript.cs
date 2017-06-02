@@ -74,6 +74,7 @@ public class XMLCardLoaderScript : MonoBehaviour {
 			}
 		}
 		finishedLoading = true;
+//		print ("cardXML finished");
 		yield return null;
 	}
 	public bool checkIfFinishedLoading(){

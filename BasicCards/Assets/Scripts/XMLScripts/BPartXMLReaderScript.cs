@@ -11,7 +11,7 @@ using System.Linq;
 public class BPartXMLReaderScript : MonoBehaviour {
 	bool finishedLoading = false;
 
-	public BPartGenericScript bPartGenericPrefab;
+//	public BPartGenericScript bPartGenericPrefab;
 
 
 	XDocument xmlDoc; //create Xdocument. Will be used later to read XML file 
@@ -41,6 +41,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 
 	void Start ()
 	{
+//		print ("xml bodypart has started");
 		//DontDestroyOnLoad (gameObject); //Allows Loader to carry over into new scene 
 		LoadXML (); //Loads XML File. Code below. 
 		StartCoroutine(AssignData()); //Starts assigning XML data to data List. Code below
@@ -60,13 +61,16 @@ public class BPartXMLReaderScript : MonoBehaviour {
 	//this is our coroutine that will actually read and assign the XML data to our List 
 	IEnumerator AssignData()
 	{
+//		print ("reached assigned data");
 //		int t = 0;
 		/*foreach allows us to look at every Element of our XML file and do something with each one. Basically, this line is saying “for each element in the xml document, do something.*/ 
 		foreach (var partType in typeOfParts)
 		{
 			listOfParts = partType.Elements ();
+
 			foreach (var part in listOfParts) {
 				//moduleSlotCount = int.Parse (part.Element ("defaultModuleSlots").Value.Trim ());
+//				print(part.Attribute ("name").Value.Trim ());
 				if (BpartName != part.Attribute ("name").Value.Trim ()) {		//if the next element has a new name, select that parrent and assign all it's children to these values
 					BpartName = part.Attribute ("name").Value.Trim ();	
 					BpartIDnum = int.Parse (part.Element ("BPartIDnum").Value.Trim ());
@@ -151,6 +155,7 @@ public class BPartXMLReaderScript : MonoBehaviour {
 			}
 		}
 		finishedLoading = true;
+//		print ("BPartXML finished");
 		yield return null;
 	}
 	public bool checkIfFinishedLoading(){
@@ -187,6 +192,7 @@ public class BodyPartDataHolder{
 	public bool simpleAnchorPoints;
 
 	public ModuleSocketCount moduleSocketCount;
+	public int[] moduleIDnum;
 
 	public BodyPartDataHolder(string BpartName, int incIDnum, string incBpartName, int incMaxHealth, int[][] incomingBodyPartGrid, Vector2 AnchorPoint, ModuleSocketCount incModuleSocketCount){
 		BpartIDnum = incIDnum;
@@ -198,6 +204,7 @@ public class BodyPartDataHolder{
 		bodyPartGrid = new int[incomingBodyPartGrid.Length][];
 
 		moduleSocketCount = incModuleSocketCount;
+//		moduleIDnum = new int[3];
 
 		for(int i=0; i < incomingBodyPartGrid.Length; i++){	//transfering the int[][] grid
 			bodyPartGrid [i] = new int[incomingBodyPartGrid[0].Length];
@@ -217,13 +224,16 @@ public class BodyPartDataHolder{
 		bodyPartGrid = new int[incomingBodyPartGrid.Length][];
 
 		moduleSocketCount = incModuleSocketCount;
-
+//		moduleIDnum = new int[3];
 		for(int i=0; i < incomingBodyPartGrid.Length; i++){	//transfering the int[][] grid
 			bodyPartGrid [i] = new int[incomingBodyPartGrid[0].Length];
 			for(int j=0; j < incomingBodyPartGrid[0].Length; j++){
 				bodyPartGrid [i][j] = incomingBodyPartGrid[i][j];
 			}
 		}
+	}
+	public void setModuleIDnum(int[] incomingModuleIDNumbers){
+		moduleIDnum = incomingModuleIDNumbers;
 	}
 }
 public class ComplexAnchorPoints{
@@ -244,13 +254,15 @@ public class ModuleSocketCount{
 	public int weaponModuleSocketCount;
 	public int utilityModuleSocketCount;
 	public int genericModuleSocketCount;
+	public int totalModuleSocketCount;
 	public ModuleSocketCount(int incomingWeapon, int incomingUtility, int incomingGeneric){
 		weaponModuleSocketCount = incomingWeapon;
 		utilityModuleSocketCount = incomingUtility;
 		genericModuleSocketCount = incomingGeneric;
+		totalModuleSocketCount = incomingWeapon + incomingUtility + incomingGeneric;
 	}
 	public int getTotalCount(){
-		return weaponModuleSocketCount + utilityModuleSocketCount + genericModuleSocketCount;
+		return totalModuleSocketCount;
 	}
 	public int getWeaponCount(){
 		return weaponModuleSocketCount;

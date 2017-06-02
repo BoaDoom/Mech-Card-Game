@@ -18,10 +18,11 @@ public class BPartGenericScript : MonoBehaviour {
 	//dependent but static variables
 	private Vector2 globalOriginPoint;	//the anchor point location in the game hit area
 	private Vector2 dimensions;		//dependent on the farthest location from the source (0,0) of the list of binaryDimensions
-	private bool leftSide;		//default is left side
+	public bool leftSide;		//default is left side
 	private int cardLocationNumber;		//location of the card in the list of sprites/xml file, dependent on the component installed
-	private TransferBodyPartInfo transferBodyPartInfo;
+//	private BodyPartDataHolder transferBodyPartInfo;
 	public int[] moduleIDnum;
+	public ModuleSocketCount moduleSocketCount;
 //	private List<ModulePart> modulePartList = new List<ModulePart>();
 
 	//dependent and changable variables
@@ -29,6 +30,8 @@ public class BPartGenericScript : MonoBehaviour {
 	private bool active;
 	private bool fullyDeactivated;
 	private bool stillAlive = true;
+
+//	private bool visualStartupOnly;
 
 	private bool underThreat = false;
 
@@ -89,19 +92,26 @@ public class BPartGenericScript : MonoBehaviour {
 		playerScript = gameObject.GetComponentInParent<PlayerScript>();
 	}
 
-	public void CreateNewPart(BodyPartDataHolder incomingBodyPartDataFromXML, TransferBodyPartInfo incomingTransferBodyPartInfo, string leftOrRight){		//used by bodypartmakerscript
-												//incoming body part data from xml is the info grabbed from storage about the body part, the transferbodypart info is the selected parts and modules
-												//from the initial menu screen
-		//Debug.Log ("incomingbpart name:"+ incomingBodyPartDataFromXML.name +" leftright " +leftOrRight);
+	public void CreateNewPart(BodyPartDataHolder incomingBodyPartDataFromXML, int directionDesignation){		//used by bodypartmakerscript
 		bPartType = incomingBodyPartDataFromXML.typeOfpart;				//arm,head,legs,shoulder, or torso
 		bPartName = incomingBodyPartDataFromXML.name;
 
-		transferBodyPartInfo = incomingTransferBodyPartInfo;
+//		visualStartupOnly = false;
+
+		//transferBodyPartInfo = incomingTransferBodyPartInfo;
 
 		maxHealth = incomingBodyPartDataFromXML.maxHealth;
-
+		if (directionDesignation == 0) {
+			leftSide = true;
+		}
+		if (directionDesignation == 1) {
+			leftSide = true;
+		}
+		if (directionDesignation == 2) {
+			leftSide = false;
+		}
 		nodesOfBP = new BodyPartNode[incomingBodyPartDataFromXML.bodyPartGrid.Length][];
-		if (leftOrRight == "left" || leftOrRight== "none") {
+		if (directionDesignation == 0 || directionDesignation== 1) {
 			leftSide = true;		//default is left side
 		} else {
 			leftSide = false;
@@ -143,36 +153,39 @@ public class BPartGenericScript : MonoBehaviour {
 		else {
 			if (leftSide) {										//if left side (default design), then transfer anchor point normally
 				listOfComplexAnchorPoints = incomingBodyPartDataFromXML.listOfComplexAnchorPoints;			//the location in which all parts will be located and placed
-			} else 
-			if (!leftSide) {								//if right side, mirror the anchor point across the X axis
-				for (int i = 0; i < incomingBodyPartDataFromXML.listOfComplexAnchorPoints.Count; i++) {
+			} 
+			else if (!leftSide) {								//if right side, mirror the anchor point across the X axis
+				int tempCount = incomingBodyPartDataFromXML.listOfComplexAnchorPoints.Count;
+				for (int i = 0; i < tempCount; i++) {
+//					print ("complex anchor name "+incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].nameOfPoint);
+//						print("1 "+incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].nameOfPoint);
+//						print("2 "+new Vector2((dimensions.x-1) - (incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].anchorPoint.x), incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].anchorPoint.y));
+//						print("3 "+incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].male);
 						listOfComplexAnchorPoints.Add (new ComplexAnchorPoints(
 							incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].nameOfPoint,
 							new Vector2((dimensions.x-1) - (incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].anchorPoint.x), incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].anchorPoint.y),
 							incomingBodyPartDataFromXML.listOfComplexAnchorPoints[i].male));
-					//the dimension.x+1 is to account for the origin of the points being at 1,1 rather than 0,0.
+//					print (new ComplexAnchorPoints (
+//						incomingBodyPartDataFromXML.listOfComplexAnchorPoints [i].nameOfPoint,
+//						new Vector2 ((dimensions.x - 1) - (incomingBodyPartDataFromXML.listOfComplexAnchorPoints [i].anchorPoint.x), incomingBodyPartDataFromXML.listOfComplexAnchorPoints [i].anchorPoint.y),
+//						incomingBodyPartDataFromXML.listOfComplexAnchorPoints [i].male));
+//					the dimension.x+1 is to account for the origin of the points being at 1,1 rather than 0,0.
 				}
 			}
 		}
-	
-		moduleIDnum = new int[transferBodyPartInfo.moduleIDnum.Length];
-		moduleIDnum = transferBodyPartInfo.moduleIDnum;
-
+//		print ("incomoing bodypart datata moduleidnum length "+incomingBodyPartDataFromXML.moduleIDnum.Length);
+//		moduleIDnum = new int[incomingBodyPartDataFromXML.moduleIDnum.Length];
+//		moduleIDnum = incomingBodyPartDataFromXML.moduleIDnum;
+		moduleSocketCount = incomingBodyPartDataFromXML.moduleSocketCount;
 		currentHealth = incomingBodyPartDataFromXML.maxHealth;
 		resetHealthToFull();
 		active = true;
 		fullyDeactivated = false;
-//		setCardLocationNumbers (); 	//sets parts card location numbers, dictated and generated by the components inside of it
-		//Debug.Log("complex list for "+bPartName+ " : "+ listOfComplexAnchorPoints.Count);
 	}
 
-//	public void setCardLocationNumbers(){
-//		cardLocationNumber = 1;	//temp, eventually needs to be replaced by setting the components installed in the part, and the component object will already have the sprite and stats in it, the bodypart will hold these
-//		listOfModules.clear();
-//		foreach (ModuleInstalled module in incomingModules){		//modules' info will be stored in the body part, anything that happens with the card will just be a reference back to this stored info
-//			listOfModules.add (module);
-//		}
-//	}
+	public ModuleSocketCount getModuleSocketCount(){
+		return moduleSocketCount;
+	}
 
 	public void resetHealthToFull(){
 		currentHealth = maxHealth;
@@ -208,6 +221,8 @@ public class BPartGenericScript : MonoBehaviour {
 
 	public void setTorsoOriginPosition(Vector2 incomingTorsoOriginPoint){
 		//Debug.Log ("setting custom torso origin");
+//		print(listOfComplexAnchorPoints.Count);
+//		print(listOfComplexAnchorPoints.Find (ComplexAnchorPoints => ComplexAnchorPoints.nameOfPoint == "LeftLegPoint"));
 		globalOriginPoint = new Vector2 (incomingTorsoOriginPoint.x, incomingTorsoOriginPoint.y - (listOfComplexAnchorPoints.Find (ComplexAnchorPoints => ComplexAnchorPoints.nameOfPoint == "LeftLegPoint").anchorPoint.y));
 		setInternalGlobalCords ();
 		//print (getInternalGlobalCord(new Vector2(0.0f, 0.0f)));
@@ -291,7 +306,9 @@ public class BPartGenericScript : MonoBehaviour {
 	public int[] getModules(){
 		return moduleIDnum;
 	}
-
+	public void destroyCompletely(){
+		Destroy (gameObject);
+	}
 }
 
 public class BodyPartNode{

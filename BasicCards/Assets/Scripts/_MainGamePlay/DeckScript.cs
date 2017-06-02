@@ -109,8 +109,13 @@ public class DeckScript : MonoBehaviour {
 		}
 		//List <BPartGenericScript> listOfAllParts
 
-		List <BPartGenericScript> templistOfAllParts = playerScript.getWholeBodyOfParts ().listOfAllParts;
-		int bodyPartCount = templistOfAllParts.Count;
+		BPartGenericScript[] templistOfAllParts = new BPartGenericScript[playerScript.getWholeBodyOfParts ().listOfAllParts.Length];
+		int interatorTemp = 0;
+		foreach (BPartGenericScript Bpart in playerScript.getWholeBodyOfParts ().listOfAllParts) {
+			templistOfAllParts [interatorTemp] = playerScript.getWholeBodyOfParts ().listOfAllParts [interatorTemp];
+			interatorTemp++;
+		}
+//		int bodyPartCount = templistOfAllParts.Count;
 
 //		print("bodyPartCount "+bodyPartCount);
 //		int tempint = 0;
@@ -174,7 +179,7 @@ public class DeckScript : MonoBehaviour {
 
 	public void updateCards(){								//is called when there are possible cards played and need to be resorted into the discard pile. Is called by shuffle(), discard() and from a cardbehaviour when it's played and used
 		for (int i = 0; i < drawnCards.Count; i++){ //CardScript drawnCard in drawnCards) {				//runs through all drawn cards
-			drawnCards[i].checkIfBPartIsActive();
+			StartCoroutine( drawnCards[i].checkIfBPartIsActive());
 			if (!drawnCards[i].isActiveAndEnabled) {		//checks to see which ones are still active. Ontrigger2dCollision in CardBehavior deactivates cards when put into play area @void OnTriggerStay2D(Collider2D other)
 				LWCardInfo tempLWCardInfo = drawnCards[i].getlWCardInfo();	//strips the small stored info from the card for storage in the deck piles
 				discardedCards.Add(tempLWCardInfo);			//moves any non active cards to discarded pile

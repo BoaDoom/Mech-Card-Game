@@ -82,6 +82,7 @@ public class XMLWeaponHitLoaderScript : MonoBehaviour {
 			}
 		}
 		finishedLoading = true;
+//		print ("weaponXML finished");
 		yield return null;
 	}
 	public bool checkIfFinishedLoading(){

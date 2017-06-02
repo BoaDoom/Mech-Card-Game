@@ -12,19 +12,20 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public SceneTransferVariablesScript sceneTransferVariablesScript;
 
 	BodyPartPickerPanel[] listOfPickerPanels;
+	PartPickerAreaScript partPickerAreaScript;
 	BodyPartDataHolder partData = null;
-	public VisualOnlyBPartGenericScript visualOnlyBodyPartObject;
+	public BPartGenericScript bPartGenericScript;
 
-	VisualOnlyBPartGenericScript tempBodyPart;
+	BPartGenericScript tempBodyPart;
 
 	BPartXMLReaderScript bPartXMLReader;
 	XMLModuleLoaderScript XMLModuleLoader;
 //	public int what;
-	TransferBodyPartInfo headSelection = new TransferBodyPartInfo();
-	TransferBodyPartInfo armSelection = new TransferBodyPartInfo();
-	TransferBodyPartInfo torsoSelection = new TransferBodyPartInfo();
-	TransferBodyPartInfo shoulderSelection = new TransferBodyPartInfo();
-	TransferBodyPartInfo legSelection = new TransferBodyPartInfo();
+	BodyPartDataHolder headSelection;// = new BodyPartDataHolder();
+	BodyPartDataHolder armSelection;// = new BodyPartDataHolder();
+	BodyPartDataHolder torsoSelection;// = new BodyPartDataHolder();
+	BodyPartDataHolder shoulderSelection;// = new BodyPartDataHolder();
+	BodyPartDataHolder legSelection;// = new BodyPartDataHolder();
 //	TransferBodyPartInfo[] listOfPickedBodyParts = new TransferBodyPartInfo[5];
 
 	public XMLModuleData[] listOfWeaponModules;
@@ -43,15 +44,17 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public Button nextButton;
 //	bool thingsChecked;
 	public void Start(){
-
+//		print ("bodypicker canvas has started");
 		//grab XML data for modules and store it here for the ModulePickerScript to request and grab later
 		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");		//grabbing the object with the body part info taken from xml data	
 		if (loaderScriptTemp == null) {
+//			print ("loader doesn't exist yet");
 			SceneManager.LoadScene ("XMLLoaderScene");
 			return;
-		} else if (loaderScriptTemp != null) {
-			print ("Actual start");
-			tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
+		} 
+		else if (loaderScriptTemp != null) {
+//			print ("Actual start");
+//			tempBodyPart = Instantiate (bPartGenericScript, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
 
 			bPartXMLReader = loaderScriptTemp.GetComponent<BPartXMLReaderScript> ();
 			XMLModuleLoader = loaderScriptTemp.GetComponent<XMLModuleLoaderScript> ();
@@ -98,7 +101,9 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 				print ("Couldnt find event system");
 			}
 			nextButton.onClick.AddListener (checkToMoveToPlayScreen);
-			//VisualOnlyBPartGenericScript tempBodyPart;
+			//BPartGenericScript tempBodyPart;
+			partPickerAreaScript = gameObject.GetComponentInChildren<PartPickerAreaScript> ();
+			StartCoroutine (partPickerAreaScript.ManualStart ());
 
 			listOfPickerPanels = gameObject.GetComponentsInChildren<BodyPartPickerPanel> ();
 //			print ("list of all the panels" +listOfPickerPanels.Length);
@@ -114,54 +119,70 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //	public void checkThing(int incomingint, int otherthing){
 //		thingsChecked = true;
 //	}
-	public VisualOnlyBPartGenericScript markSelectedBodyPart(int incomingIDofPart){		//almost the same as PlayerScript method populate body
+	public BPartGenericScript markSelectedBodyPart(BodyPartDataHolder incomingPartData, int incomingDesignatedDirection){		//almost the same as PlayerScript method populate body
 //		print(incomingIDofPart);
-		partData = bPartXMLReader.getBodyDataByID (incomingIDofPart);
+		partData = incomingPartData;
 //		print(partData.name);
 		string tempType = partData.typeOfpart;
+
+		tempBodyPart = Instantiate (bPartGenericScript, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
+		tempBodyPart.CreateNewPart (partData,  incomingDesignatedDirection);
 		//need to swap over the identifying variable from a string to the new class so it can carry the module info and choices. Maybe? needs to convey more info at some point
 //		print("incoming selection"+ incomingSelection);
 		switch (tempType) {
 		case("Head"):
-			headSelection.nameOfPart = partData.name; 
-			break;
+			{
+				headSelection = partData; 
+				break;
+			}
 		case("Arm"):
-			armSelection.nameOfPart = partData.name;
-			break;
+			{
+				armSelection = partData;
+				break;
+			}
 		case("Torso"):
-			torsoSelection.nameOfPart = partData.name;
-			break;
+			{
+				torsoSelection = partData;
+				break;
+			}
 		case("Shoulder"):
-			shoulderSelection.nameOfPart = partData.name;
-			break;
+			{
+				shoulderSelection = partData;
+				break;
+			}
 		case("Leg"):
-			legSelection.nameOfPart = partData.name;
-			break;
+			{
+				legSelection = partData;
+				break;
+			}
 		default:
-			Debug.Log ("Unknown bodypart");
-			break;
+			{
+				Debug.Log ("Unknown bodypart");
+				break;
+			}
 		}
-		tempBodyPart.CreateNewPart (partData);
-		return tempBodyPart;	
+//		BodyPartDataHolder tempJunk = new BodyPartDataHolder();
+
+		return tempBodyPart;
 	}
 	public void markSelectedBodyPartAsNull(int incomingIDofPart){		//for deselecting the body part
 		partData = bPartXMLReader.getBodyDataByID (incomingIDofPart);
 		string tempType = partData.typeOfpart;
 		switch (tempType) {
 		case("Head"):
-			headSelection = new TransferBodyPartInfo();
+			headSelection = null;
 			break;
 		case("Arm"):
-			armSelection =  new TransferBodyPartInfo();
+			armSelection =  null;
 			break;
 		case("Torso"):
-			torsoSelection =  new TransferBodyPartInfo();
+			torsoSelection = null;
 			break;
 		case("Shoulder"):
-			shoulderSelection =  new TransferBodyPartInfo();
+			shoulderSelection =  null;
 			break;
 		case("Leg"):
-			legSelection =  new TransferBodyPartInfo();
+			legSelection =  null;
 			break;
 		default:
 			Debug.Log ("Unknown bodypart");
@@ -169,7 +190,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		}
 	}
 	public bool checkIfBodyIsComplete(){
-		return (headSelection.nameOfPart != null && armSelection.nameOfPart != null && torsoSelection.nameOfPart != null && shoulderSelection.nameOfPart != null && legSelection.nameOfPart != null
+		return (headSelection != null && armSelection != null && torsoSelection != null && shoulderSelection != null && legSelection != null
 		&& true);
 	}
 	public void onClick(){
@@ -190,27 +211,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	}
 
 
-//	public VisualOnlyBPartGenericScript markSelectedBodyPart(int incomingIDofPart){	//takes the clicked on part name, and finds it in the xmldata and creates a visual only body part to display
-//		partData = bPartXMLReader.getBodyDataByID (incomingIDofPart);
-//
-//		//VisualOnlyBPartGenericScript tempBodyPart = Instantiate (visualOnlyBodyPartObject, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
-////		print("make body part partData: "+ nameOfpart);
-//		tempBodyPart.CreateNewPart (partData);		// 
-//		return tempBodyPart;
-//	}
-//	public string intToStringNumber(int incomingNumber){
-//		switch (incomingNumber) {
-//		case(1):
-//			return "one";
-//		case(2):
-//			return "two";
-//		case(3):
-//			return "three";
-//		case(4):
-//			return "four";
-//		}
-//		return null;
-//	}
+
 	public XMLModuleData[] getListOfModules(string incomingRequestForList){
 //		XMLModuleData[] listOfAvailibleModules = new XMLModuleData()[];
 		if (incomingRequestForList == "Weapons"){
