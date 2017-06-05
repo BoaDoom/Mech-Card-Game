@@ -37,13 +37,13 @@ public class AllPickedBodyParts{
 	public BodyPartDataHolder pickedLeftShoulder;
 	public BodyPartDataHolder pickedRightShoulder;
 	public BodyPartDataHolder pickedLeg;
-	public void setAllPickedBodyParts(BodyPartDataHolder head, BodyPartDataHolder arm, BodyPartDataHolder torso, BodyPartDataHolder shoulder, BodyPartDataHolder leg){
+	public void setAllPickedBodyParts(BodyPartDataHolder head, BodyPartDataHolder leftarm, BodyPartDataHolder rightarm, BodyPartDataHolder torso, BodyPartDataHolder leftshoulder, BodyPartDataHolder rightshoulder, BodyPartDataHolder leg){
 		pickedHead = head;
-		pickedLeftArm = arm;
-		pickedRightArm = arm;
+		pickedLeftArm = leftarm;
+		pickedRightArm = rightarm;
 		pickedTorso = torso;
-		pickedLeftShoulder = shoulder;
-		pickedRightShoulder = shoulder;
+		pickedLeftShoulder = leftshoulder;
+		pickedRightShoulder = rightshoulder;
 		pickedLeg = leg;
 	}
 }

@@ -6,30 +6,32 @@ public class ModulePickerScript : MonoBehaviour {
 
 	public modulePickerButtonScript buttonPrefab;
 	public BodyPartSelectionCanvasScript partSelectionCanvas;
-	BodyPartPreviewWindowScript parentBodyPartWindow;
+//	BodyPartPreviewWindowScript parentBodyPartWindow;
 
 	public bool ignoreLayout = true;
 	private string socketType;
 	int currentSelectedModuleIDnumber = -1;
-	int currentAssignedModulePickerIDnumber;
-	int moduleSocketLabel; 		//the socket count for each limb is a max of 3, each module picker script has a label of which socket it is, 0,1 or 2
+//	int currentAssignedModulePickerIDnumber;
+	int moduleSocketCountInBP; 		//the socket count for each limb is a max of 3, each module picker script has a label of which socket it is, 0,1 or 2
+	BodyPartPickerPanel bodyPartPickerPanelParent;
 	XMLModuleData[] weaponModules;
 	XMLModuleData[] utilityModules;
 	XMLModuleData[] genericModules;
 
 	modulePickerButtonScript[] listOfAllTheText;
-	public IEnumerator ManualStart(){
+	public IEnumerator ManualStart(BodyPartPickerPanel incomingParentObject){
+		bodyPartPickerPanelParent = incomingParentObject;
 		GameObject canvasFinderTemp = GameObject.FindWithTag ("PartSelectionCanvas");
 		if (canvasFinderTemp != null) {
 			partSelectionCanvas = canvasFinderTemp.GetComponent<BodyPartSelectionCanvasScript> ();
-//			print ("canvas has been found");
 		}
+
 		yield return null;
 	}
-	public IEnumerator takeModuleInfo(string incomingSocketType, int incomingModulePickerIDnumber, int incomingSocketNumber){
+	public IEnumerator takeModuleInfo(string incomingSocketType,  int incomingSocketNumber){
 //		parentBodyPartWindow = incomingParentWindow;
-		currentAssignedModulePickerIDnumber = incomingModulePickerIDnumber;
-		moduleSocketLabel = incomingSocketNumber;
+//		currentAssignedModulePickerIDnumber = incomingModulePickerIDnumber;
+		moduleSocketCountInBP = incomingSocketNumber;
 //		partSelectionCanvas = incomingPartSelectionCanvas;
 		socketType = incomingSocketType;
 //		print (partSelectionCanvas.name);
@@ -88,36 +90,24 @@ public class ModulePickerScript : MonoBehaviour {
 	}
 
 	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber){		//sending the value to the greater UI canvas to get the info about the modules
-		//		foreach (VisualOnlyBPartGenericScript child in transform) {///////////////////////////
-		//			Destroy (child);
-		//		}
 		currentSelectedModuleIDnumber = incomingModuleIDnumber;		//setting current part selected number value
-
 		foreach(modulePickerButtonScript moduleText in listOfAllTheText){		//turns off all the text buttons if they are not the currently selected option
-			if ((moduleText.getModuleIDNumber () != currentSelectedModuleIDnumber) && moduleText.selected) {
-				moduleText.markAsUnselected ();
-				StartCoroutine(parentBodyPartWindow.upwardsOLDModuleDeselected (moduleText.getModuleIDNumber(), moduleSocketLabel));	//turns off the selection of the module that was selected before this one
+			if ((moduleText.selected)) {
+//				moduleText.markAsUnselected ();
+				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleDeselected (currentSelectedModuleIDnumber, moduleSocketCountInBP));	//turns off the selection of the module that was selected before this one
+//				StartCoroutine(downwardsModuleDeselected(moduleText.getModuleIDNumber()));
 			}
-
+			else if(moduleText.getModuleIDNumber () == currentSelectedModuleIDnumber){
+				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleSelected (currentSelectedModuleIDnumber, moduleSocketCountInBP));		//sending the signal up the chain that a button was selected
+			}
 		}
-//		if (incomingModuleIDnumber <0){	//command comes through as -1 if the selection coming through is deselecting everything
-////			parentBodyPartWindow.markSelectedModuleAsNull(currentAssignedModulePickerIDnumber);
-////			partSelectionCanvas.markSelectedBodyPartAsNull(nameOfPartPanel);		**//this stores the number of the module selected somewhere, need to figure out best place to send module info to next screen so the correct--
-//																					//--cards can be picked as well as have the body part that it's atatched to for destruction purposes
-//			//StartCoroutine( bodyPartpreviewer.clearSquares());		**//needs to be replaced with the text that displays the module stats
-//		}
-		StartCoroutine(parentBodyPartWindow.upwardsModuleSelected (currentAssignedModulePickerIDnumber, moduleSocketLabel));		//sending the signal up the chain that a button was selected
-//			currentVisualOfPart = partSelectionCanvas.markSelectedBodyPart(nameOfPartPanel, incomingModuleIDnumber);		//name of panel is built in to each version	
-//			currentVisualOfPart.GetComponent<Transform>().SetParent(gameObject.GetComponent<Transform>());
-			//StartCoroutine( bodyPartpreviewer.refreshSquares (currentVisualOfPart));		//sends the bodypart data to the preview square to populate the visual 	**//needs to be replaced with the text that displays the module stats
-
 
 		yield return null;
 	}
-	public IEnumerator upwardsModuleDeselected(){
-		StartCoroutine(parentBodyPartWindow.upwardsModuleDeselected (currentAssignedModulePickerIDnumber, moduleSocketLabel));
-		yield return null;
-	}
+//	public IEnumerator upwardsModuleDeselected(){
+//		
+//		yield return null;
+//	}
 
 	public IEnumerator downwardsModuleSelected(int incomingModuleIDnumber){		//signal coming down the chain that a button was selected
 		foreach (modulePickerButtonScript moduleText in listOfAllTheText) {
@@ -132,7 +122,9 @@ public class ModulePickerScript : MonoBehaviour {
 	public IEnumerator downwardsModuleDeselected(int incomingModuleIDnumber){		//signal coming down the chain that a button was deselected
 		foreach (modulePickerButtonScript moduleText in listOfAllTheText) {
 			if (moduleText.getModuleIDNumber () == incomingModuleIDnumber){
-				StartCoroutine(moduleText.enableButton());
+				if (!moduleText.pressable) {
+					StartCoroutine (moduleText.enableButton ());
+				}
 			}
 //			print ("turned back on module picker");
 		}

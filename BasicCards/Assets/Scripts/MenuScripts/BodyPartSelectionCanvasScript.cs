@@ -21,11 +21,13 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	BPartXMLReaderScript bPartXMLReader;
 	XMLModuleLoaderScript XMLModuleLoader;
 //	public int what;
-	BodyPartDataHolder headSelection;// = new BodyPartDataHolder();
-	BodyPartDataHolder armSelection;// = new BodyPartDataHolder();
-	BodyPartDataHolder torsoSelection;// = new BodyPartDataHolder();
-	BodyPartDataHolder shoulderSelection;// = new BodyPartDataHolder();
-	BodyPartDataHolder legSelection;// = new BodyPartDataHolder();
+	BodyPartDataHolder headSelection = new BodyPartDataHolder();
+	BodyPartDataHolder leftArmSelection = new BodyPartDataHolder();
+	BodyPartDataHolder rightArmSelection = new BodyPartDataHolder();
+	BodyPartDataHolder torsoSelection = new BodyPartDataHolder();
+	BodyPartDataHolder leftShoulderSelection = new BodyPartDataHolder();
+	BodyPartDataHolder rightShoulderSelection = new BodyPartDataHolder();
+	BodyPartDataHolder legSelection = new BodyPartDataHolder();
 //	TransferBodyPartInfo[] listOfPickedBodyParts = new TransferBodyPartInfo[5];
 
 	public XMLModuleData[] listOfWeaponModules;
@@ -124,20 +126,47 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		partData = incomingPartData;
 //		print(partData.name);
 		string tempType = partData.typeOfpart;
+		string leftOrRight = null;
+		switch (incomingDesignatedDirection) {
+		case(0):
+			{
+				leftOrRight = null;
+				break;
+			}
+		case(1):
+			{
+				leftOrRight = "left";
+				break;
+			}
+		case(2):
+			{
+				leftOrRight = "right";
+				break;
+			}
+		}
+		if (leftOrRight != null) {
+			tempType = tempType + " " + leftOrRight;
+		}
 
 		tempBodyPart = Instantiate (bPartGenericScript, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
 		tempBodyPart.CreateNewPart (partData,  incomingDesignatedDirection);
 		//need to swap over the identifying variable from a string to the new class so it can carry the module info and choices. Maybe? needs to convey more info at some point
 //		print("incoming selection"+ incomingSelection);
+		print(tempType);
 		switch (tempType) {
 		case("Head"):
 			{
 				headSelection = partData; 
 				break;
 			}
-		case("Arm"):
+		case("Arm left"):
 			{
-				armSelection = partData;
+				leftArmSelection = partData;
+				break;
+			}
+		case("Arm right"):
+			{
+				rightArmSelection = partData;
 				break;
 			}
 		case("Torso"):
@@ -145,9 +174,14 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 				torsoSelection = partData;
 				break;
 			}
-		case("Shoulder"):
+		case("Shoulder left"):
 			{
-				shoulderSelection = partData;
+				leftShoulderSelection = partData;
+				break;
+			}
+		case("Shoulder right"):
+			{
+				rightShoulderSelection = partData;
 				break;
 			}
 		case("Leg"):
@@ -165,21 +199,49 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 		return tempBodyPart;
 	}
-	public void markSelectedBodyPartAsNull(int incomingIDofPart){		//for deselecting the body part
+	public void markSelectedBodyPartAsNull(int incomingIDofPart, int incomingDesignatedDirection){		//for deselecting the body part
 		partData = bPartXMLReader.getBodyDataByID (incomingIDofPart);
+		//		print(partData.name);
 		string tempType = partData.typeOfpart;
+		string leftOrRight = null;
+		switch (incomingDesignatedDirection) {
+		case(0):
+			{
+				leftOrRight = null;
+				break;
+			}
+		case(1):
+			{
+				leftOrRight = "left";
+				break;
+			}
+		case(2):
+			{
+				leftOrRight = "right";
+				break;
+			}
+		}
+		if (leftOrRight != null) {
+			tempType = tempType + " " + leftOrRight;
+		}
 		switch (tempType) {
 		case("Head"):
 			headSelection = null;
 			break;
-		case("Arm"):
-			armSelection =  null;
+		case("Arm left"):
+			leftArmSelection =  null;
+			break;
+		case("Arm right"):
+			rightArmSelection =  null;
 			break;
 		case("Torso"):
 			torsoSelection = null;
 			break;
-		case("Shoulder"):
-			shoulderSelection =  null;
+		case("Shoulder left"):
+			leftShoulderSelection = null;
+			break;
+		case("Shoulder right"):
+			rightShoulderSelection =  null;
 			break;
 		case("Leg"):
 			legSelection =  null;
@@ -190,7 +252,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		}
 	}
 	public bool checkIfBodyIsComplete(){
-		return (headSelection != null && armSelection != null && torsoSelection != null && shoulderSelection != null && legSelection != null
+		return (headSelection != null && rightArmSelection != null && leftArmSelection != null && torsoSelection != null&&  leftShoulderSelection != null && rightShoulderSelection != null && legSelection != null
 		&& true);
 	}
 	public void onClick(){
@@ -199,7 +261,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public void checkToMoveToPlayScreen(){
 		if (checkIfBodyIsComplete() && (alreadySelectedModules.Count > 0)) {
 			AllPickedBodyParts allPickedBodyPartsTemp = new AllPickedBodyParts ();
-			allPickedBodyPartsTemp.setAllPickedBodyParts(headSelection, armSelection, torsoSelection, shoulderSelection, legSelection);
+			allPickedBodyPartsTemp.setAllPickedBodyParts(headSelection, leftArmSelection, rightArmSelection, torsoSelection, leftShoulderSelection, rightShoulderSelection, legSelection);
 //			print (allPickedBodyPartsTemp.pickedHead);
 //			sceneTransferVariablesScript.bleh ();
 //			sceneTransferVariablesScript.setModulesPicked(alreadySelectedModules);
@@ -264,23 +326,29 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //			break;
 //		}
 //	}
-	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketLabel){		//coming from
+	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketCountInBP){		//coming from
 		alreadySelectedModules.Add (incomingModuleIDnumber);
 		switch (incomingModuleBPartName) {
 		case("Head"):
-			headSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+			headSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
-		case("Arm"):
-			armSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+		case("LeftArm"):
+			leftArmSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
+			break;
+		case("RightArm"):
+			leftArmSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
 		case("Torso"):
-			torsoSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+			torsoSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
-		case("Shoulder"):
-			shoulderSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+		case("LeftShoulder"):
+			leftShoulderSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
+			break;
+		case("RightShoulder"):
+			rightShoulderSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
 		case("Leg"):
-			legSelection.moduleIDnum[incomingModuleSocketLabel] = incomingModuleIDnumber;
+			legSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
 		default:
 			Debug.Log ("Unknown bodypart");
@@ -291,25 +359,32 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		}
 		yield return null;
 	}
-	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketLabel){
+	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketCountInBP){
 		switch (incomingModuleBPartName) {
 		case("Head"):
-			headSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+//			print (headSelection.GetType());
+			headSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
 			break;
-		case("Arm"):
-			armSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+		case("LeftArm"):
+			leftArmSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
+			break;
+		case("RightArm"):
+			rightArmSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
 			break;
 		case("Torso"):
-			torsoSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+			torsoSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
 			break;
-		case("Shoulder"):
-			shoulderSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+		case("LeftShoulder"):
+			leftShoulderSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
+			break;
+		case("RightShoulder"):
+			rightShoulderSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
 			break;
 		case("Leg"):
-			legSelection.moduleIDnum[incomingModuleSocketLabel] = -1;
+			legSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
 			break;
 		default:
-			Debug.Log ("Unknown bodypart");
+			Debug.Log ("Unknown module");
 			break;
 		}
 

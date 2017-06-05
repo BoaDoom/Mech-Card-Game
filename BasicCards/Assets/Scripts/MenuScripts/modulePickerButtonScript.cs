@@ -30,7 +30,7 @@ public class modulePickerButtonScript : Selectable{
 ////		print("Done text");
 //		completedStart = true;
 //	}
-	public IEnumerator ManualStart(int IDnumOfModule	, int incomingModuleIDnumber){
+	public IEnumerator ManualStart(int IDnumOfModule, int incomingModuleIDnumber){
 //		print ("manually started");
 		ModulePickerScript modulePickerScriptTemp = gameObject.GetComponentInParent<ModulePickerScript>();
 		if (modulePickerScriptTemp != null) {
@@ -64,9 +64,9 @@ public class modulePickerButtonScript : Selectable{
 	public override void OnPointerDown(PointerEventData eventData){
 //		print ("pointer down");
 		if (pressable) {
-			if ((modulePickerScript.getCurrentModuleSelectedIDnumber () == moduleIDnumber) && selected) { //toggles off the the body part color on deselection if the parent panel is storing the same number
+			if (selected) { //toggles off the the module if it is already selected
 				markAsUnselected ();
-				StartCoroutine (modulePickerScript.upwardsModuleDeselected ());
+//				StartCoroutine (modulePickerScript.upwardsModuleDeselected ());
 
 			} else {
 //			print ("test onSelect");
