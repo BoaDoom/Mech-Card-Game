@@ -43,6 +43,7 @@ public class ModulePickerScript : MonoBehaviour {
 				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
 
 				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
+//				newButton1.GetComponent<Transform> ().localScale = Vector3.one;
 				StartCoroutine( newButton1.ManualStart(modularData.IDnum, modularData.cardNumber));		//needs to start after assigning of parent because the button grabs it's parent to be able to send info back
 //				print("modulardata " + modularData.moduleType);
 			}
@@ -53,6 +54,7 @@ public class ModulePickerScript : MonoBehaviour {
 				modulePickerButtonScript newButton1 = Instantiate (buttonPrefab, gameObject.GetComponent<Transform> ().position, gameObject.GetComponent<Transform> ().rotation);
 
 				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
+//				newButton1.GetComponent<Transform> ().localScale = Vector3.one;
 //				newButton1.GetComponent<Transform> ().
 				StartCoroutine( newButton1.ManualStart(modularData.IDnum, modularData.cardNumber));		//needs to start after assigning of parent because the button grabs it's parent to be able to send info back
 //								print("modulardata " + modularData.moduleType);
@@ -64,6 +66,7 @@ public class ModulePickerScript : MonoBehaviour {
 				modulePickerButtonScript newButton1 = Instantiate(buttonPrefab, gameObject.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().rotation);
 
 				newButton1.GetComponent<Transform> ().SetParent (gameObject.GetComponent<Transform> ());
+//				newButton1.GetComponent<Transform> ().localScale = Vector3.one;
 				StartCoroutine( newButton1.ManualStart(modularData.IDnum, modularData.cardNumber));		//needs to start after assigning of parent because the button grabs it's parent to be able to send info back
 //								print("modulardata " + modularData.moduleType);
 			}
@@ -92,22 +95,28 @@ public class ModulePickerScript : MonoBehaviour {
 	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber){		//sending the value to the greater UI canvas to get the info about the modules
 		currentSelectedModuleIDnumber = incomingModuleIDnumber;		//setting current part selected number value
 		foreach(modulePickerButtonScript moduleText in listOfAllTheText){		//turns off all the text buttons if they are not the currently selected option
-			if ((moduleText.selected)) {
+//			print("loops");
+			if (moduleText.selected && (incomingModuleIDnumber != moduleText.getModuleIDNumber())){
 //				moduleText.markAsUnselected ();
-				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleDeselected (currentSelectedModuleIDnumber, moduleSocketCountInBP));	//turns off the selection of the module that was selected before this one
-//				StartCoroutine(downwardsModuleDeselected(moduleText.getModuleIDNumber()));
+//				StartCoroutine( downwardsModuleDeselected(incomingModuleIDnumber));
+				StartCoroutine( upwardsModuleDeselected(incomingModuleIDnumber));
+			}
+			if (moduleText.selected && (incomingModuleIDnumber == moduleText.getModuleIDNumber())) {
+//				moduleText.markAsUnselected ();
+//				print("inside");
+				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleSelected (currentSelectedModuleIDnumber, moduleSocketCountInBP));	//turns off the selection of the module that was selected before this one
 			}
 			else if(moduleText.getModuleIDNumber () == currentSelectedModuleIDnumber){
-				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleSelected (currentSelectedModuleIDnumber, moduleSocketCountInBP));		//sending the signal up the chain that a button was selected
+				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleDeselected (currentSelectedModuleIDnumber, moduleSocketCountInBP));		//sending the signal up the chain that a button was selected
 			}
 		}
 
 		yield return null;
 	}
-//	public IEnumerator upwardsModuleDeselected(){
-//		
-//		yield return null;
-//	}
+	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber){
+		StartCoroutine(bodyPartPickerPanelParent.upwardsModuleDeselected (incomingModuleIDnumber, moduleSocketCountInBP));
+		yield return null;
+	}
 
 	public IEnumerator downwardsModuleSelected(int incomingModuleIDnumber){		//signal coming down the chain that a button was selected
 		foreach (modulePickerButtonScript moduleText in listOfAllTheText) {
@@ -122,9 +131,9 @@ public class ModulePickerScript : MonoBehaviour {
 	public IEnumerator downwardsModuleDeselected(int incomingModuleIDnumber){		//signal coming down the chain that a button was deselected
 		foreach (modulePickerButtonScript moduleText in listOfAllTheText) {
 			if (moduleText.getModuleIDNumber () == incomingModuleIDnumber){
-				if (!moduleText.pressable) {
-					StartCoroutine (moduleText.enableButton ());
-				}
+//				if (!moduleText.pressable) {
+				StartCoroutine (moduleText.enableButton ());
+//				}
 			}
 //			print ("turned back on module picker");
 		}

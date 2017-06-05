@@ -152,7 +152,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		tempBodyPart.CreateNewPart (partData,  incomingDesignatedDirection);
 		//need to swap over the identifying variable from a string to the new class so it can carry the module info and choices. Maybe? needs to convey more info at some point
 //		print("incoming selection"+ incomingSelection);
-		print(tempType);
+//		print(tempType);
 		switch (tempType) {
 		case("Head"):
 			{
@@ -330,7 +330,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		alreadySelectedModules.Add (incomingModuleIDnumber);
 		switch (incomingModuleBPartName) {
 		case("Head"):
-			headSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
+			headSelection.moduleIDnum [incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
 		case("LeftArm"):
 			leftArmSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
@@ -360,6 +360,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		yield return null;
 	}
 	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketCountInBP){
+//		print ("canvas upwards deselect");
 		switch (incomingModuleBPartName) {
 		case("Head"):
 //			print (headSelection.GetType());
@@ -399,7 +400,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 		foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
 			StartCoroutine(BPartPicker.downwardsModuleDeselected (incomingModuleIDnumber));
-//			print("trying to deselect");
+			print("trying to deselect "+incomingModuleIDnumber);
 		}
 		yield return null;
 //		print ("outside?");

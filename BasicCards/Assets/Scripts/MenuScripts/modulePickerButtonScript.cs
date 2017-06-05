@@ -66,12 +66,21 @@ public class modulePickerButtonScript : Selectable{
 		if (pressable) {
 			if (selected) { //toggles off the the module if it is already selected
 				markAsUnselected ();
-//				StartCoroutine (modulePickerScript.upwardsModuleDeselected ());
+//				selected = false;
+//				ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript>().colors;
+//				cb.normalColor = startNormalColor;
+//				gameObject.GetComponent<modulePickerButtonScript>().colors = cb;
+				StartCoroutine (modulePickerScript.upwardsModuleDeselected (moduleIDnumber));
 
-			} else {
+			} else if (!selected){
 //			print ("test onSelect");
 				markAsSelected ();
+//				selected = true;
+//				ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript> ().colors;
+//				cb.normalColor = Color.green;
+//				gameObject.GetComponent<modulePickerButtonScript> ().colors = cb;
 				StartCoroutine (modulePickerScript.upwardsModuleSelected (moduleIDnumber));
+//				print (moduleIDnumber);
 
 			}
 		}
