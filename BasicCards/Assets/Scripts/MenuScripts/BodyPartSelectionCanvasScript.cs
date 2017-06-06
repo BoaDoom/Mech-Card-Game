@@ -155,46 +155,90 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //		print(tempType);
 		switch (tempType) {
 		case("Head"):
-			{
-				headSelection = partData; 
-				break;
+			if (headSelection != null) {
+				foreach (int moduleID in headSelection.moduleIDnum) {
+					foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+						removeModuleFromList(moduleID);
+						StartCoroutine (BPartPicker.downwardsModuleDeselected (moduleID));
+						//					print ("trying do delete");
+					}
+				}
 			}
+			headSelection = partData; 
+			break;
 		case("Arm left"):
-			{
-				leftArmSelection = partData;
-				break;
+			if (leftArmSelection != null) {
+				foreach (int moduleID in leftArmSelection.moduleIDnum) {
+					foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+						removeModuleFromList(moduleID);
+						StartCoroutine (BPartPicker.downwardsModuleDeselected (moduleID));
+					}
+				}
 			}
+			leftArmSelection =  partData;
+			break;
 		case("Arm right"):
-			{
-				rightArmSelection = partData;
-				break;
+			if (rightArmSelection != null) {
+				foreach (int moduleID in rightArmSelection.moduleIDnum) {
+					foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+						removeModuleFromList(moduleID);
+						StartCoroutine (BPartPicker.downwardsModuleDeselected (moduleID));
+					}
+				}
 			}
+			rightArmSelection =  partData;
+			break;
 		case("Torso"):
-			{
-				torsoSelection = partData;
-				break;
+			if (torsoSelection != null) {
+				foreach (int moduleID in torsoSelection.moduleIDnum) {
+					foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+						removeModuleFromList(moduleID);
+						StartCoroutine (BPartPicker.downwardsModuleDeselected (moduleID));
+					}
+				}
 			}
+			torsoSelection = partData;
+			break;
 		case("Shoulder left"):
-			{
-				leftShoulderSelection = partData;
-				break;
+			if (leftShoulderSelection != null) {
+				foreach (int moduleID in leftShoulderSelection.moduleIDnum) {
+					foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+						removeModuleFromList(moduleID);
+						StartCoroutine (BPartPicker.downwardsModuleDeselected (moduleID));
+					}
+				}
 			}
+			leftShoulderSelection = partData;
+			break;
 		case("Shoulder right"):
-			{
-				rightShoulderSelection = partData;
-				break;
+			if (rightShoulderSelection != null) {
+				foreach (int moduleID in rightShoulderSelection.moduleIDnum) {
+					foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+						removeModuleFromList(moduleID);
+						StartCoroutine (BPartPicker.downwardsModuleDeselected (moduleID));
+					}
+				}
 			}
+			rightShoulderSelection =  partData;
+			break;
 		case("Leg"):
-			{
-				legSelection = partData;
-				break;
+			if (legSelection != null) {
+				foreach (int moduleID in legSelection.moduleIDnum) {
+					foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+						removeModuleFromList(moduleID);
+						StartCoroutine (BPartPicker.downwardsModuleDeselected (moduleID));
+					}
+				}
 			}
+			legSelection =  partData;
+			break;
 		default:
 			{
 				Debug.Log ("Unknown bodypart");
 				break;
 			}
 		}
+
 //		BodyPartDataHolder tempJunk = new BodyPartDataHolder();
 
 		return tempBodyPart;
@@ -229,21 +273,51 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			headSelection = null;
 			break;
 		case("Arm left"):
+//			foreach (int moduleID in leftArmSelection.moduleIDnum) {
+//				foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+//					StartCoroutine( BPartPicker.downwardsModuleDeselected (moduleID));
+//				}
+//			}
 			leftArmSelection =  null;
 			break;
 		case("Arm right"):
+//			foreach (int moduleID in rightArmSelection.moduleIDnum) {
+//				foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+//					StartCoroutine( BPartPicker.downwardsModuleDeselected (moduleID));
+//				}
+//			}
 			rightArmSelection =  null;
 			break;
 		case("Torso"):
+//			foreach (int moduleID in torsoSelection.moduleIDnum) {
+//				foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+//					StartCoroutine( BPartPicker.downwardsModuleDeselected (moduleID));
+//				}
+//			}
 			torsoSelection = null;
 			break;
 		case("Shoulder left"):
+//			foreach (int moduleID in leftShoulderSelection.moduleIDnum) {
+//				foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+//					StartCoroutine( BPartPicker.downwardsModuleDeselected (moduleID));
+//				}
+//			}
 			leftShoulderSelection = null;
 			break;
 		case("Shoulder right"):
+//			foreach (int moduleID in rightShoulderSelection.moduleIDnum) {
+//				foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+//					StartCoroutine( BPartPicker.downwardsModuleDeselected (moduleID));
+//				}
+//			}
 			rightShoulderSelection =  null;
 			break;
 		case("Leg"):
+//			foreach (int moduleID in legSelection.moduleIDnum) {
+//				foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
+//					StartCoroutine( BPartPicker.downwardsModuleDeselected (moduleID));
+//				}
+//			}
 			legSelection =  null;
 			break;
 		default:
@@ -266,6 +340,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //			sceneTransferVariablesScript.bleh ();
 //			sceneTransferVariablesScript.setModulesPicked(alreadySelectedModules);
 			sceneTransferVariablesScript.setPartsPicked(allPickedBodyPartsTemp);
+//			print (allPickedBodyPartsTemp.pickedHead.moduleIDnum [0]);
 			SceneManager.LoadScene ("_Main");
 		} else {
 			Debug.Log ("You are missing some body parts or no modules are selected");
@@ -328,6 +403,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //	}
 	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketCountInBP){		//coming from
 		alreadySelectedModules.Add (incomingModuleIDnumber);
+//		print (incomingModuleIDnumber);
 		switch (incomingModuleBPartName) {
 		case("Head"):
 			headSelection.moduleIDnum [incomingModuleSocketCountInBP] = incomingModuleIDnumber;
@@ -348,7 +424,8 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			rightShoulderSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
 		case("Leg"):
-			legSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
+			legSelection.moduleIDnum [incomingModuleSocketCountInBP] = incomingModuleIDnumber;
+//			print (incomingModuleIDnumber);
 			break;
 		default:
 			Debug.Log ("Unknown bodypart");
@@ -360,7 +437,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		yield return null;
 	}
 	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketCountInBP){
-//		print ("canvas upwards deselect");
+//		print (incomingModuleBPartName);
 		switch (incomingModuleBPartName) {
 		case("Head"):
 //			print (headSelection.GetType());
@@ -381,7 +458,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 		case("RightShoulder"):
 			rightShoulderSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
 			break;
-		case("Leg"):
+		case("Legs"):
 			legSelection.moduleIDnum[incomingModuleSocketCountInBP] = -1;
 			break;
 		default:
@@ -400,7 +477,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 		foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
 			StartCoroutine(BPartPicker.downwardsModuleDeselected (incomingModuleIDnumber));
-			print("trying to deselect "+incomingModuleIDnumber);
+//			print("trying to deselect "+incomingModuleIDnumber);
 		}
 		yield return null;
 //		print ("outside?");
@@ -410,6 +487,18 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	}
 	public List<BodyPartDataHolder> getAllBodyDataForType(string BpartType){
 		return bPartXMLReader.getAllBodyDataForType (BpartType);
+	}
+	public void removeModuleFromList(int incomingModuleID){
+		int tempCount = alreadySelectedModules.Count;
+		for (int i = 0; i < tempCount; i++) 
+		{
+			if (alreadySelectedModules[i] == incomingModuleID) 
+			{
+				alreadySelectedModules.Remove(incomingModuleID);
+				i--;
+				tempCount--;
+			}
+		}
 	}
 }
 //public class TransferBodyPartInfo{

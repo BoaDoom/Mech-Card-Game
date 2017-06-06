@@ -36,11 +36,14 @@ public class BodyPartMakerScript : MonoBehaviour {
 		//Debug.Log("name: "+ nameOfpart); 
 		//Debug.Log("leftor right: "+ leftOrRight);
 		//BodyPartDataHolder partData = new BodyPartDataHolder();
-		partData = bPartXMLReader.getBodyData (incomingBodyPartInfo.name);
+		partData = incomingBodyPartInfo; //bPartXMLReader.getBodyData (incomingBodyPartInfo.name);
+//		print("Bpmaker data transfer "+partData.moduleIDnum[0]);
 		BPartGenericScript instaBodypart = Instantiate (bodyPartObject, Vector3.zero, bodyPartObject.GetComponent<Transform>().rotation);
 		//Debug.Log ("body data check: "+bPartXMLReader.getBodyData (nameOfpart).name);
 		instaBodypart.CreateNewPart (partData, leftOrRight);		//formatting is partData and 'Left' or 'Right'
 		//Debug.Log ("instantiated after: "+instaBodypart.getName());
+//		print("Bpmaker bpart "+instaBodypart.moduleIDnum[0]);
+
 		return instaBodypart;
 	}
 	public WholeBodyOfParts createWholeBody(WholeBodyOfParts incomingWholeBodyOfParts, Vector2 incomingDimensionsOfPlayArea){

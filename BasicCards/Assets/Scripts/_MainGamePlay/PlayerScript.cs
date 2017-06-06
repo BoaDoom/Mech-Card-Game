@@ -46,6 +46,7 @@ public class PlayerScript : MonoBehaviour {
 
 
 	public IEnumerator ManualStart (AllPickedBodyParts incomingBodyPartPicks) {
+//		print (incomingBodyPartPicks.pickedHead.moduleIDnum [0]);
 		playerTickerStartTransformScale = new Vector3(playerTickerTimer.transform.localScale.x, playerTickerTimer.transform.localScale.y, playerTickerTimer.transform.localScale.y);
 		playerTickerStartTransformPosition = new Vector3(playerTickerTimer.transform.localPosition.x,playerTickerTimer.transform.localPosition.y, playerTickerTimer.transform.localPosition.z);
 //		tickerTimer = defaultTickerTime;
@@ -187,8 +188,8 @@ public class PlayerScript : MonoBehaviour {
 		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedLeftShoulder), 1));
 		wholeBodyOfParts.setBodyPart( BpartMaker.makeBodyPart ((allPickedBodyParts.pickedRightShoulder), 2));
 
-
-
+//		print ("allPickedBodyParts.pickedHead "+allPickedBodyParts.pickedHead.moduleIDnum [0]);
+//		print ("processed whole body "+wholeBodyOfParts.getBodyPart ("head").moduleIDnum [0]);
 		wholeBodyOfParts = BpartMaker.createWholeBody (wholeBodyOfParts, playAreaDimensions);		//setting internal location positions of each of the body parts in relation to eachother
 		for (int i=0; i<wholeBodyOfParts.listOfAllParts.Length; i++){
 			healthMax += wholeBodyOfParts.listOfAllParts [i].getCurrentHealth ();		//makes health pool

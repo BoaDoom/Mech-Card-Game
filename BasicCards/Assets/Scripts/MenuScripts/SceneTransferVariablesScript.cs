@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SceneTransferVariablesScript : MonoBehaviour {
 	AllPickedBodyParts allPickedBodyParts;
-	List<int> selectedModules;
+//	List<int> selectedModules;
 	void Start(){
 		allPickedBodyParts = new AllPickedBodyParts ();
 		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");		//grabbing the object with the body part info taken from xml data	
@@ -16,15 +16,15 @@ public class SceneTransferVariablesScript : MonoBehaviour {
 //		print ("set parts in scene transfer");
 		allPickedBodyParts = incomingParts;
 	}
-	public void setModulesPicked(List<int> incomingSelectedModules){
-		selectedModules = incomingSelectedModules;
-	}
+//	public void setModulesPicked(List<int> incomingSelectedModules){
+//		selectedModules = incomingSelectedModules;
+//	}
 	public AllPickedBodyParts getAllPartsPicked(){
 		return allPickedBodyParts;
 	}
-	public List<int> getAllModules(){
-		return selectedModules;
-	}
+//	public List<int> getAllModules(){
+//		return selectedModules;
+//	}
 	public void bleh(){
 		print ("bleh");
 	}

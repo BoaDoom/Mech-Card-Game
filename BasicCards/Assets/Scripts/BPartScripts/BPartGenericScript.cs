@@ -174,13 +174,19 @@ public class BPartGenericScript : MonoBehaviour {
 			}
 		}
 //		print ("incomoing bodypart datata moduleidnum length "+incomingBodyPartDataFromXML.moduleIDnum.Length);
-//		moduleIDnum = new int[incomingBodyPartDataFromXML.moduleIDnum.Length];
+		moduleIDnum = new int[incomingBodyPartDataFromXML.moduleIDnum.Length];
+		int tempint = 0;
+		foreach (int incomingModuleIDnumber in incomingBodyPartDataFromXML.moduleIDnum) {
+			moduleIDnum [tempint] = incomingModuleIDnumber;
+			tempint++;
+		}
 //		moduleIDnum = incomingBodyPartDataFromXML.moduleIDnum;
 		moduleSocketCount = incomingBodyPartDataFromXML.moduleSocketCount;
 		currentHealth = incomingBodyPartDataFromXML.maxHealth;
 		resetHealthToFull();
 		active = true;
 		fullyDeactivated = false;
+
 	}
 
 	public ModuleSocketCount getModuleSocketCount(){

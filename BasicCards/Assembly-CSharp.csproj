@@ -52,7 +52,6 @@
      <Compile Include="Assets\Scripts\BPartScripts\BodyPartMakerScript.cs" />
      <Compile Include="Assets\Scripts\DraggableScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\BodyPartPickerPanel.cs" />
-     <Compile Include="Assets\Scripts\MenuScripts\BodyPartPreviewWindowScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\BodyPartSelectionCanvasScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\ModulePickerScript.cs" />
      <Compile Include="Assets\Scripts\MenuScripts\SceneTransferVariablesScript.cs" />
@@ -73,6 +72,7 @@
      <Compile Include="Assets\Scripts\_MainGamePlay\PartPickerAreaScript.cs" />
      <Compile Include="Assets\Scripts\_MainGamePlay\PlayAreaScript.cs" />
      <Compile Include="Assets\Scripts\_MainGamePlay\PlayerScript.cs" />
+     <Compile Include="Assets\Scripts\z_Old\BodyPartPreviewWindowScript.cs" />
      <Compile Include="Assets\Scripts\z_Old\DraggableGrid.cs" />
      <Compile Include="Assets\Scripts\z_Old\EnemyScript.cs" />
      <Compile Include="Assets\Scripts\z_Old\XMLBodyLoaderScript.cs" />

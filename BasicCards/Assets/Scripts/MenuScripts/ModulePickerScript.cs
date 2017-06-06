@@ -99,16 +99,18 @@ public class ModulePickerScript : MonoBehaviour {
 			if (moduleText.selected && (incomingModuleIDnumber != moduleText.getModuleIDNumber())){
 //				moduleText.markAsUnselected ();
 //				StartCoroutine( downwardsModuleDeselected(incomingModuleIDnumber));
-				StartCoroutine( upwardsModuleDeselected(incomingModuleIDnumber));
+//				StartCoroutine( upwardsModuleDeselected(incomingModuleIDnumber));
+				moduleText.markAsUnselected();
+				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleDeselected (moduleText.getModuleIDNumber(), moduleSocketCountInBP));
 			}
 			if (moduleText.selected && (incomingModuleIDnumber == moduleText.getModuleIDNumber())) {
 //				moduleText.markAsUnselected ();
 //				print("inside");
 				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleSelected (currentSelectedModuleIDnumber, moduleSocketCountInBP));	//turns off the selection of the module that was selected before this one
 			}
-			else if(moduleText.getModuleIDNumber () == currentSelectedModuleIDnumber){
-				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleDeselected (currentSelectedModuleIDnumber, moduleSocketCountInBP));		//sending the signal up the chain that a button was selected
-			}
+//			else if(moduleText.getModuleIDNumber () == currentSelectedModuleIDnumber){
+//				StartCoroutine(bodyPartPickerPanelParent.upwardsModuleDeselected (currentSelectedModuleIDnumber, moduleSocketCountInBP));		//sending the signal up the chain that a button was selected
+//			}
 		}
 
 		yield return null;

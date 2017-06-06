@@ -37,7 +37,7 @@ public class CardScript : MonoBehaviour {
 		spriteRenderer = gameObject.GetComponent<SpriteRenderer> ();
 //		disabledCardSprite = gameObject.GetComponentInChildren<SpriteRenderer> ();
 //		print (disabledCardSprite);
-//		disabledCardSprite.enabled = false;
+		disabledCardSprite.enabled = false;
 		active = true;
 		discardLocation = false;
 		//cardInPlayArea = false;
@@ -181,6 +181,7 @@ public class CardScript : MonoBehaviour {
 			//"do something to signal its destroyed"
 			print(disabledCardSprite.enabled+ " this card is dead, don't use it plz");
 			disabledCardSprite.enabled = true;
+			print(disabledCardSprite.enabled+ " after test");
 
 		}
 		yield return null;
