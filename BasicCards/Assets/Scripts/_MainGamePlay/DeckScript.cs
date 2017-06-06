@@ -121,15 +121,15 @@ public class DeckScript : MonoBehaviour {
 //		print("bodyPartCount "+bodyPartCount);
 //		int tempint = 0;
 		foreach (BPartGenericScript BPart in templistOfAllParts) {
-			int tempInt = 0;
+//			int tempInt = 0;
 //			print ("Count of modules " + BPart.getModules ().Length);
 			foreach (int module in BPart.getModules ()) {				//for each module listed in the array on the instantiated body part from the list, get the id from it and make a card
 //				print(module);
-				if (BPart.getModules () [tempInt] >= 1 ) {
-					listOfDrawLWinfo.Add (new LWCardInfo (BPart.getModules () [tempInt], BPart));	//creates a new light weight card used for shuffling, making a reference back to the body part that generated it
-					print ("adding in card id num " + BPart.getModules () [tempInt] + " for "+ BPart.getName());
+				if( module >= 1 ) {
+					listOfDrawLWinfo.Add (new LWCardInfo (module, BPart));	//creates a new light weight card used for shuffling, making a reference back to the body part that generated it
+					print ("adding in card id num " + module + " for "+ BPart.getName());
 				}
-				tempInt++;
+//				tempInt++;
 			}
 //			print("card added"+ tempint);
 
