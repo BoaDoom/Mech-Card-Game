@@ -40,7 +40,9 @@ public class AllPickedBodyParts{
 	public void setAllPickedBodyParts(BodyPartDataHolder head, BodyPartDataHolder leftarm, BodyPartDataHolder rightarm, BodyPartDataHolder torso, BodyPartDataHolder leftshoulder, BodyPartDataHolder rightshoulder, BodyPartDataHolder leg){
 		pickedHead = head;
 		pickedLeftArm = leftarm;
+//		Debug.Log ("leftarm " + pickedLeftArm.moduleIDnum [0]);
 		pickedRightArm = rightarm;
+//		Debug.Log ("rightarm " + pickedRightArm.moduleIDnum [0]);
 		pickedTorso = torso;
 		pickedLeftShoulder = leftshoulder;
 		pickedRightShoulder = rightshoulder;

@@ -133,8 +133,8 @@ public class ModulePickerScript : MonoBehaviour {
 	public IEnumerator downwardsModuleDeselected(int incomingModuleIDnumber){		//signal coming down the chain that a button was deselected
 		foreach (modulePickerButtonScript moduleText in listOfAllTheText) {
 			if (moduleText.getModuleIDNumber () == incomingModuleIDnumber){
-//				if (!moduleText.pressable) {
-				StartCoroutine (moduleText.enableButton ());
+//				if (bodyPartPickerPanelParent.markedForChange || moduleText.pressable) {
+					StartCoroutine (moduleText.enableButton ());
 //				}
 			}
 //			print ("turned back on module picker");
@@ -147,7 +147,9 @@ public class ModulePickerScript : MonoBehaviour {
 		return socketType;
 	}
 	// Update is called once per frame
-	public void destroyCompletely(){
+	public IEnumerator destroyCompletely(){
+		StartCoroutine( upwardsModuleDeselected (currentSelectedModuleIDnumber));
 		Destroy (gameObject);
+		yield return null;
 	}
 }

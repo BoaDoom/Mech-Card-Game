@@ -234,6 +234,30 @@ public class BodyPartDataHolder{
 		}
 		return this;
 	}
+	public void makeACopy(BodyPartDataHolder incomingData){
+		BpartIDnum = incomingData.BpartIDnum;
+		simpleAnchorPoints = incomingData.simpleAnchorPoints;
+		name = incomingData.name;
+		typeOfpart = incomingData.typeOfpart;
+		maxHealth = incomingData.maxHealth;
+		if (simpleAnchorPoints)
+		{
+			anchor = incomingData.anchor;
+		}
+		else if (!simpleAnchorPoints){
+			listOfComplexAnchorPoints = incomingData.listOfComplexAnchorPoints;
+		}
+		bodyPartGrid = new int[incomingData.bodyPartGrid.Length][];
+
+		moduleSocketCount = incomingData.moduleSocketCount;
+		//		moduleIDnum = new int[3];
+		for(int i=0; i < incomingData.bodyPartGrid.Length; i++){	//transfering the int[][] grid
+			bodyPartGrid [i] = new int[incomingData.bodyPartGrid[0].Length];
+			for(int j=0; j < incomingData.bodyPartGrid[0].Length; j++){
+				bodyPartGrid [i][j] = incomingData.bodyPartGrid[i][j];
+			}
+		}
+	}
 	public void setModuleIDnum(int[] incomingModuleIDNumbers){
 		moduleIDnum = incomingModuleIDNumbers;
 	}
