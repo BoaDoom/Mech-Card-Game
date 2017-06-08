@@ -105,9 +105,9 @@ public class modulePickerButtonScript : Selectable{
 	public IEnumerator enableButton(){
 //		print ("button enabled");
 		pressable = true;
-		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript> ().colors;
+		ColorBlock cb = gameObject.GetComponent<modulePickerButtonScript>().colors;
 		cb.normalColor = startNormalColor;
-		gameObject.GetComponent<modulePickerButtonScript> ().colors = cb;
+		gameObject.GetComponent<modulePickerButtonScript>().colors = cb;
 		yield return null;
 	}
 

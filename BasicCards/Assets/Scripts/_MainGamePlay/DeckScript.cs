@@ -109,27 +109,25 @@ public class DeckScript : MonoBehaviour {
 		}
 		//List <BPartGenericScript> listOfAllParts
 
-//		BPartGenericScript[] templistOfAllParts = new BPartGenericScript[playerScript.getWholeBodyOfParts ().listOfAllParts.Length];
-//		int interatorTemp = 0;
-//		foreach (BPartGenericScript Bpart in playerScript.getWholeBodyOfParts ().listOfAllParts) {
-////			print (playerScript.getWholeBodyOfParts ().listOfAllParts [interatorTemp].getName());
-//			templistOfAllParts [interatorTemp] = playerScript.getWholeBodyOfParts ().listOfAllParts [interatorTemp];
-//			interatorTemp++;
-//
-//		}
-//		int bodyPartCount = templistOfAllParts.Length;
+		BPartGenericScript[] templistOfAllParts = new BPartGenericScript[playerScript.getWholeBodyOfParts ().listOfAllParts.Length];
+		int interatorTemp = 0;
+		foreach (BPartGenericScript Bpart in playerScript.getWholeBodyOfParts ().listOfAllParts) {
+			templistOfAllParts [interatorTemp] = playerScript.getWholeBodyOfParts ().listOfAllParts [interatorTemp];
+			interatorTemp++;
+//			print (interatorTemp);
+		}
+		int bodyPartCount = templistOfAllParts.Length;
 
 //		print("bodyPartCount "+bodyPartCount);
 //		int tempint = 0;
-		foreach (BPartGenericScript BPart in playerScript.getWholeBodyOfParts ().listOfAllParts) {
+		foreach (BPartGenericScript BPart in templistOfAllParts) {
 //			int tempInt = 0;
-//			print (BPart.getName ());
-//			print (BPart.getSide ());
+//			print ("Count of modules " + BPart.getModules ().Length);
 			foreach (int module in BPart.getModules ()) {				//for each module listed in the array on the instantiated body part from the list, get the id from it and make a card
 //				print(module);
 				if( module >= 1 ) {
 					listOfDrawLWinfo.Add (new LWCardInfo (module, BPart));	//creates a new light weight card used for shuffling, making a reference back to the body part that generated it
-//					print ("adding in card id num " + module + " for "+ BPart.getName());
+					print ("adding in card id num " + module + " for "+ BPart.getName());
 				}
 //				tempInt++;
 			}

@@ -13,7 +13,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 
 	BodyPartPickerPanel[] listOfPickerPanels;
 	PartPickerAreaScript partPickerAreaScript;
-//	BodyPartDataHolder partData = null;
+	BodyPartDataHolder partData = null;
 	public BPartGenericScript bPartGenericScript;
 
 	BPartGenericScript tempBodyPart;
@@ -123,9 +123,7 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //	}
 	public BPartGenericScript markSelectedBodyPart(BodyPartDataHolder incomingPartData, int incomingDesignatedDirection){		//almost the same as PlayerScript method populate body
 //		print(incomingIDofPart);
-//		print ("name "+ incomingPartData.name + "first moduleID "+ incomingPartData.moduleIDnum [0]);
-		BodyPartDataHolder partData = new BodyPartDataHolder();
-		partData.makeACopy( incomingPartData);
+		partData = incomingPartData;
 //		print(partData.name);
 		string tempType = partData.typeOfpart;
 		string leftOrRight = null;
@@ -150,7 +148,8 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			tempType = tempType + " " + leftOrRight;
 		}
 
-
+		tempBodyPart = Instantiate (bPartGenericScript, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
+		tempBodyPart.CreateNewPart (partData,  incomingDesignatedDirection);
 		//need to swap over the identifying variable from a string to the new class so it can carry the module info and choices. Maybe? needs to convey more info at some point
 //		print("incoming selection"+ incomingSelection);
 //		print(tempType);
@@ -176,27 +175,18 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 					}
 				}
 			}
-
 			leftArmSelection =  partData;
-//			print ("left arm selection "+leftArmSelection.moduleIDnum [0]);
-//			print ("right arm selection "+rightArmSelection.moduleIDnum [0]);
 			break;
 		case("Arm right"):
 			if (rightArmSelection != null) {
 				foreach (int moduleID in rightArmSelection.moduleIDnum) {
 					foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
-						removeModuleFromList (moduleID);
+						removeModuleFromList(moduleID);
 						StartCoroutine (BPartPicker.downwardsModuleDeselected (moduleID));
 					}
 				}
 			}
-			rightArmSelection = partData;
-//			print ("before right arm " + rightArmSelection.moduleIDnum [0]);
-//			print ("before left arm " + leftArmSelection.moduleIDnum [0]);
-			rightArmSelection.moduleIDnum [0] = 1;
-
-//			print ("after left arm " + leftArmSelection.moduleIDnum [0]);
-//			print ("after right arm " + rightArmSelection.moduleIDnum [0]);
+			rightArmSelection =  partData;
 			break;
 		case("Torso"):
 			if (torsoSelection != null) {
@@ -230,7 +220,6 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 				}
 			}
 			rightShoulderSelection =  partData;
-
 			break;
 		case("Leg"):
 			if (legSelection != null) {
@@ -245,19 +234,16 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 			break;
 		default:
 			{
-				Debug.Log ("Unknown bodypart in bodypartselection.markSelectedBodyPart");
+				Debug.Log ("Unknown bodypart");
 				break;
 			}
 		}
-//		print ("name "+ partData.name + "first moduleID "+ partData.moduleIDnum [0]);
+
 //		BodyPartDataHolder tempJunk = new BodyPartDataHolder();
-		tempBodyPart = Instantiate (bPartGenericScript, Vector3.zero, gameObject.GetComponent<Transform>().rotation);
-		tempBodyPart.CreateNewPart (partData,  incomingDesignatedDirection);
 
 		return tempBodyPart;
 	}
 	public void markSelectedBodyPartAsNull(int incomingIDofPart, int incomingDesignatedDirection){		//for deselecting the body part
-		BodyPartDataHolder partData = new BodyPartDataHolder();
 		partData = bPartXMLReader.getBodyDataByID (incomingIDofPart);
 		//		print(partData.name);
 		string tempType = partData.typeOfpart;
@@ -349,8 +335,6 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 	public void checkToMoveToPlayScreen(){
 		if (checkIfBodyIsComplete() && (alreadySelectedModules.Count > 0)) {
 			AllPickedBodyParts allPickedBodyPartsTemp = new AllPickedBodyParts ();
-//			print ("final left arm selection "+leftArmSelection.moduleIDnum [0]);
-//			print ("final right arm selection "+rightArmSelection.moduleIDnum [0]);
 			allPickedBodyPartsTemp.setAllPickedBodyParts(headSelection, leftArmSelection, rightArmSelection, torsoSelection, leftShoulderSelection, rightShoulderSelection, legSelection);
 //			print (allPickedBodyPartsTemp.pickedHead);
 //			sceneTransferVariablesScript.bleh ();
@@ -419,26 +403,16 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //	}
 	public IEnumerator upwardsModuleSelected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketCountInBP){		//coming from
 		alreadySelectedModules.Add (incomingModuleIDnumber);
-//		print ("before right arm " + rightArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
-//		print ("before left arm " + leftArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
-//		rightArmSelection.moduleIDnum [incomingModuleSocketCountInBP] = incomingModuleIDnumber;
-//
-//		print ("after left arm " + leftArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
-//		print ("after right arm " + rightArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
-//		print (incomingModuleIDnumber +" "+ incomingModuleBPartName +" "+ incomingModuleSocketCountInBP);
+//		print (incomingModuleIDnumber);
 		switch (incomingModuleBPartName) {
 		case("Head"):
 			headSelection.moduleIDnum [incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
 		case("LeftArm"):
-			leftArmSelection.moduleIDnum [incomingModuleSocketCountInBP] = incomingModuleIDnumber;
-//			print ("right arm " + rightArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
-//			print ("left arm " + leftArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
+			leftArmSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
 		case("RightArm"):
-			rightArmSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
-//			print ("right arm " + rightArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
-//			print ("left arm " + leftArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
+			leftArmSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
 			break;
 		case("Torso"):
 			torsoSelection.moduleIDnum[incomingModuleSocketCountInBP] = incomingModuleIDnumber;
@@ -454,16 +428,12 @@ public class BodyPartSelectionCanvasScript : MonoBehaviour {
 //			print (incomingModuleIDnumber);
 			break;
 		default:
-			Debug.Log (" upwardsModuleSelected Unknown bodypart");
+			Debug.Log ("Unknown bodypart");
 			break;
 		}
-//		print ("after left arm " + leftArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
-//		print ("after right arm " + rightArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
 		foreach (BodyPartPickerPanel BPartPicker in listOfPickerPanels) {		//the loop for setting all of the already active module picker's  buttons to turn off
 			StartCoroutine( BPartPicker.downwardsModuleSelected (incomingModuleIDnumber));
 		}
-//		print ("after left arm " + leftArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
-//		print ("after right arm " + rightArmSelection.moduleIDnum [incomingModuleSocketCountInBP]);
 		yield return null;
 	}
 	public IEnumerator upwardsModuleDeselected(int incomingModuleIDnumber, string incomingModuleBPartName, int incomingModuleSocketCountInBP){

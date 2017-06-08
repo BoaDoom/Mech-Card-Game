@@ -95,7 +95,7 @@ public class BPartGenericScript : MonoBehaviour {
 	public void CreateNewPart(BodyPartDataHolder incomingBodyPartDataFromXML, int directionDesignation){		//used by bodypartmakerscript
 		bPartType = incomingBodyPartDataFromXML.typeOfpart;				//arm,head,legs,shoulder, or torso
 		bPartName = incomingBodyPartDataFromXML.name;
-//		print ("bPartType " + directionDesignation + " bPartName " + bPartName);
+
 //		visualStartupOnly = false;
 
 		//transferBodyPartInfo = incomingTransferBodyPartInfo;
@@ -178,7 +178,6 @@ public class BPartGenericScript : MonoBehaviour {
 		int tempint = 0;
 		foreach (int incomingModuleIDnumber in incomingBodyPartDataFromXML.moduleIDnum) {
 			moduleIDnum [tempint] = incomingModuleIDnumber;
-//			print("module creation in Bpartgeneric "+ incomingModuleIDnumber);
 			tempint++;
 		}
 //		moduleIDnum = incomingBodyPartDataFromXML.moduleIDnum;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BodyPartMakerScript : MonoBehaviour {
-//	BPartXMLReaderScript bPartXMLReader;
+	BPartXMLReaderScript bPartXMLReader;
 	public BPartGenericScript bodyPartObject;
 	BodyPartDataHolder partData = null;
 	public Transform placeHolder;
@@ -12,11 +12,11 @@ public class BodyPartMakerScript : MonoBehaviour {
 	public IEnumerator ManualStart(){
 		GameObject loaderScriptTemp = GameObject.FindWithTag("MainLoader");	
 		GameObject LoaderMainTemp = GameObject.FindWithTag ("MainLoader");
-//		if (LoaderMainTemp != null) {
-//			bPartXMLReader = LoaderMainTemp.GetComponent<BPartXMLReaderScript> ();
-//			//Debug.Log ("GOT Bpart XML");
-//			//startupDone = true;
-//		}
+		if (LoaderMainTemp != null) {
+			bPartXMLReader = LoaderMainTemp.GetComponent<BPartXMLReaderScript> ();
+			//Debug.Log ("GOT Bpart XML");
+			//startupDone = true;
+		}
 		if (LoaderMainTemp == null && loaderScriptTemp != null) {
 			Debug.Log ("Cannot find 'MainLoader'object");
 		}
